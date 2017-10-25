@@ -35,8 +35,10 @@ public interface UserDao {
      * @return merged user object from database and user.
      * @throws ConstraintViolationException if any constraints on columns 
      * are violated.
+     * @throws IllegalArgumentException if user for updating is not in the database.
      */
-    User update(User user) throws ConstraintViolationException;
+    User update(User user) 
+            throws ConstraintViolationException, IllegalArgumentException;
 
     /**
      * Return the user entity with specific id.
