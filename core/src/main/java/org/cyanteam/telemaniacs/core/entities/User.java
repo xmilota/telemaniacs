@@ -53,7 +53,7 @@ public class User implements Serializable {
     List<Channel> favouriteChannels;
 
     @OneToMany(mappedBy = "user")
-    List<Transmissions> favouritePrograms;
+    List<Transmission> favouritePrograms;
     
     public User() {
         this.isAdmin = false;
@@ -83,7 +83,7 @@ public class User implements Serializable {
 
     public User(Long id, String username, String passwordHash, Sex sex, int age, 
                 String email, boolean isAdmin, List<Channel> favouriteChannels, 
-                List<Transmissions> favouritePrograms) {
+                List<Transmission> favouritePrograms) {
         this.id = id;
         this.username = username;
         this.passwordHash = passwordHash;
@@ -163,11 +163,11 @@ public class User implements Serializable {
         this.favouriteChannels = favouriteChannels;
     }
 
-    public List<Transmissions> getFavouritePrograms() {
+    public List<Transmission> getFavouritePrograms() {
         return favouritePrograms;
     }
 
-    public void setFavouritePrograms(List<Transmissions> favouritePrograms) {
+    public void setFavouritePrograms(List<Transmission> favouritePrograms) {
         this.favouritePrograms = favouritePrograms;
     }
     
