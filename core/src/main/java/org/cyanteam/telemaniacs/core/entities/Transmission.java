@@ -5,6 +5,7 @@ import org.cyanteam.telemaniacs.core.enums.Type;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -35,15 +36,8 @@ public class Transmission {
     @Enumerated
     private Type type;
 
-    private List<String> reviews;
-
-    public List<String> getReviews() {
-        return reviews;
-    }
-
-    public void setReviews(List<String> reviews) {
-        this.reviews = reviews;
-    }
+    @OneToMany(cascade = CascadeType.ALL)
+    private List<TransmissionOccurrence> occurrences;
 
     public void setId(Long id) {
         this.id = id;
@@ -102,6 +96,14 @@ public class Transmission {
         return type;
     }
 
+    public List<TransmissionOccurrence> getOccurrences() {
+        return Collections.unmodifiableList(occurrences);
+    }
+
+    public void setOccurrences(List<TransmissionOccurrence> occurrences) {
+        this.occurrences = occurrences;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -127,7 +129,6 @@ public class Transmission {
                 ", ageAvailability=" + ageAvailability +
                 ", language='" + language + '\'' +
                 ", type=" + type +
-                ", reviews=" + reviews +
                 '}';
     }
 }
