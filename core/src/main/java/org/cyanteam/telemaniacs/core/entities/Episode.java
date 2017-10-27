@@ -2,6 +2,7 @@ package org.cyanteam.telemaniacs.core.entities;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.time.LocalDateTime;
 import java.time.OffsetDateTime;
 
 /**
@@ -17,14 +18,19 @@ public class Episode {
 
     @NotNull
     @Column(nullable = false)
-    @ManyToOne(optional = false, cascade = CascadeType.ALL)
+    @ManyToOne(optional = false)
+    private Channel channel;
+
+    @NotNull
+    @Column(nullable = false)
+    @ManyToOne(optional = false)
     private Transmission transmission;
 
     private String name;
 
     @NotNull
     @Column(nullable = false)
-    private OffsetDateTime startDate;
+    private LocalDateTime startDate;
 
     private boolean isRerun;
 
