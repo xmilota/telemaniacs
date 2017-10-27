@@ -4,15 +4,18 @@ import org.cyanteam.telemaniacs.core.enums.ChannelType;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
 import java.util.Objects;
 
 /**
+ * Class representing one channel in system.
  *
  * @author Tomas Milota
  */
 @Entity
+@Table(name = "channels")
 public class Channel {
 
     @Id
@@ -24,7 +27,6 @@ public class Channel {
     private String name;
 
     @OneToMany(cascade = CascadeType.ALL)
-    @JoinColumn(name = "channel_id")
     private List<Episode> episodes;
 
     @Enumerated
@@ -49,7 +51,7 @@ public class Channel {
     }
 
     public List<Episode> getEpisodes() {
-        return episodes;
+        return Collections.unmodifiableList(episodes);
     }
 
     public void setEpisodes(List<Episode> episodes) {
@@ -77,7 +79,7 @@ public class Channel {
         if (this == o) {
             return true;
         }
-        if (o == null || getClass() != o.getClass()) {
+        if ( !(o instanceof Channel) ) {
             return false;
         }
 
