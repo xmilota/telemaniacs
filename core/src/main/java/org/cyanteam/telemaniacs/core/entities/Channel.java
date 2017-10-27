@@ -6,7 +6,6 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.util.Collections;
 import java.util.List;
-import java.util.Locale;
 import java.util.Objects;
 
 /**
@@ -27,7 +26,7 @@ public class Channel {
     private String name;
 
     @OneToMany(cascade = CascadeType.ALL)
-    private List<Episode> episodes;
+    private List<TransmissionOccurrence> transmissionOccurrences;
 
     @Enumerated
     private ChannelType channelType;
@@ -50,12 +49,12 @@ public class Channel {
         this.name = name;
     }
 
-    public List<Episode> getEpisodes() {
-        return Collections.unmodifiableList(episodes);
+    public List<TransmissionOccurrence> getTransmissionOccurrences() {
+        return Collections.unmodifiableList(transmissionOccurrences);
     }
 
-    public void setEpisodes(List<Episode> episodes) {
-        this.episodes = episodes;
+    public void setTransmissionOccurrences(List<TransmissionOccurrence> transmissionOccurrences) {
+        this.transmissionOccurrences = transmissionOccurrences;
     }
 
     public ChannelType getChannelType() {
