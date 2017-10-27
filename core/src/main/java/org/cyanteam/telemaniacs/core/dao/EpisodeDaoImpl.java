@@ -6,6 +6,10 @@ import org.springframework.stereotype.Repository;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
+/**
+ * Implementation of episode DAO
+ * @author Michael Le
+ */
 @Repository
 public class EpisodeDaoImpl implements EpisodeDao {
     @PersistenceContext
