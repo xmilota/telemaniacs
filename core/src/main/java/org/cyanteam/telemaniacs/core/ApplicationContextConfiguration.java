@@ -22,7 +22,7 @@ import javax.sql.DataSource;
 @ComponentScan("org.cyanteam.telemaniacs.core")
 @EnableJpaRepositories
 @EnableTransactionManagement
-public class ApplicationContext {
+public class ApplicationContextConfiguration {
     @Bean
     public JpaTransactionManager transactionManager() {
         return new JpaTransactionManager(entityManagerFactory().getObject());
@@ -31,20 +31,10 @@ public class ApplicationContext {
     @Bean
     public LocalContainerEntityManagerFactoryBean entityManagerFactory() {
         LocalContainerEntityManagerFactoryBean jpaFactoryBean = new LocalContainerEntityManagerFactoryBean();
-        jpaFactoryBean.setDataSource(db());
+        jpaFactoryBean.setDataSource(dataSource());
         jpaFactoryBean.setLoadTimeWeaver(instrumentationLoadTimeWeaver());
         jpaFactoryBean.setPersistenceProviderClass(HibernatePersistenceProvider.class);
         return jpaFactoryBean;
-    }
-
-    @Bean
-    public PersistenceExceptionTranslationPostProcessor postProcessor() {
-        return new PersistenceExceptionTranslationPostProcessor();
-    }
-
-    @Bean
-    public LocalValidatorFactoryBean localValidatorFactoryBean() {
-        return new LocalValidatorFactoryBean();
     }
 
     @Bean
@@ -53,12 +43,20 @@ public class ApplicationContext {
     }
 
     @Bean
-    public DataSource db(){
-        EmbeddedDatabaseBuilder builder = new EmbeddedDatabaseBuilder();
-        EmbeddedDatabase db = builder
+    public LocalValidatorFactoryBean localValidatorFactoryBean() {
+        return new LocalValidatorFactoryBean();
+    }
+
+    @Bean
+    public PersistenceExceptionTranslationPostProcessor postProcessor() {
+        return new PersistenceExceptionTranslationPostProcessor();
+    }
+
+    @Bean
+    public DataSource dataSource() {
+        return new EmbeddedDatabaseBuilder()
                 .setName("telemaniacs_test")
                 .setType(EmbeddedDatabaseType.DERBY)
                 .build();
-        return db;
     }
 }
