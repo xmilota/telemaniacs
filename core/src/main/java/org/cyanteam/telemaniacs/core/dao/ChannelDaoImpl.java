@@ -42,6 +42,9 @@ public class ChannelDaoImpl implements ChannelDao {
         if(channel == null) {
             throw new IllegalArgumentException("You are trying to update null channel.");
         }
+        if (findById(channel.getId()) == null) {
+            throw new IllegalArgumentException("Channel is not stored in the datebase.");
+        }
 
         entityManager.merge(channel);
     }

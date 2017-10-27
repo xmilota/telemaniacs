@@ -5,6 +5,8 @@ import org.cyanteam.telemaniacs.core.entities.Channel;
 import java.util.List;
 
 /**
+ * DAO for Channel
+ *
  * @author Tomas Milota
  */
 public interface ChannelDao {
