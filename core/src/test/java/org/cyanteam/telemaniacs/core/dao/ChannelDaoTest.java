@@ -87,7 +87,7 @@ public class ChannelDaoTest {
         Channel actualChannel = channelDao.findById(channel2.getId());        
         
         assertThat(channel2.getId()).isNotNull();
-        assertThat(actualChannel).isEqualTo(channel2);
+        assertThat(actualChannel).isEqualToComparingFieldByFieldRecursively(channel2);
     }
     
     @Test(expected= PersistenceException.class) 
@@ -142,7 +142,8 @@ public class ChannelDaoTest {
         channelDao.update(channel2);
         Channel actualChannel2 = channelDao.findById(channel2.getId());
         
-        assertThat(actualChannel2).isEqualTo(channel2);
+
+        assertThat(actualChannel2).isEqualToComparingFieldByFieldRecursively(channel2);
     }
     
     @Test(expected = ConstraintViolationException.class) 
@@ -183,7 +184,7 @@ public class ChannelDaoTest {
         
         Channel actualChannel = channelDao.findById(channel2.getId());
         
-        assertThat(actualChannel).isEqualTo(channel2);
+        assertThat(actualChannel).isEqualToComparingFieldByFieldRecursively(channel2);
     }
     
     @Test 
@@ -204,7 +205,7 @@ public class ChannelDaoTest {
         
         Channel actualChannel = channelDao.findByName(channel2.getName());
         
-        assertThat(actualChannel).isEqualTo(channel2);
+        assertThat(actualChannel).isEqualToComparingFieldByFieldRecursively(channel2);
     }
     
     @Test(expected = NoResultException.class)
