@@ -1,10 +1,10 @@
 package org.cyanteam.telemaniacs.core.dao;
 
+import java.util.Collections;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
-import javax.validation.ConstraintViolationException;
 
 import org.cyanteam.telemaniacs.core.entities.User;
 
@@ -19,12 +19,12 @@ public class UserDaoImpl implements UserDao {
     private EntityManager entityManager;
     
     @Override
-    public void create(User user) throws ConstraintViolationException {
+    public void create(User user) {
         entityManager.persist(user);
     }
 
     @Override
-    public void remove(User user) throws IllegalArgumentException {
+    public void remove(User user) {
         if(user == null){
             throw new IllegalArgumentException("You try to delete NULL user!");
         }
@@ -33,17 +33,17 @@ public class UserDaoImpl implements UserDao {
     }
 
     @Override
-    public User update(User user) 
-            throws ConstraintViolationException, IllegalArgumentException {
+    public void update(User user) {        
+        if(user == null) {
+            throw new IllegalArgumentException("You try to update NULL user!");
+        }
         
         if (findById(user.getId()) == null) {
             throw new IllegalArgumentException("Unknown user to update with "
                     + "id: " + user.getId() + "!");
         }
         
-        User mergedUser = entityManager.merge(user);
-        
-        return mergedUser;
+        entityManager.merge(user);
     }
 
     @Override
@@ -52,7 +52,7 @@ public class UserDaoImpl implements UserDao {
     }
 
     @Override
-    public User findByEmail(String email) throws IllegalArgumentException {
+    public User findByEmail(String email) {
         if(email == null) {
             throw new IllegalArgumentException("You try to find user by NULL email!"); 
         }
@@ -68,7 +68,7 @@ public class UserDaoImpl implements UserDao {
     }
 
     @Override
-    public User findByUsername(String username) throws IllegalArgumentException {
+    public User findByUsername(String username) {
         if(username == null) {
             throw new IllegalArgumentException("You try to find user by NULL username!"); 
         }
@@ -90,6 +90,6 @@ public class UserDaoImpl implements UserDao {
         
         allUsersQuery = entityManager.createQuery(queryString, User.class);
         
-        return allUsersQuery.getResultList();
+        return Collections.unmodifiableList(allUsersQuery.getResultList());
     }
 }
