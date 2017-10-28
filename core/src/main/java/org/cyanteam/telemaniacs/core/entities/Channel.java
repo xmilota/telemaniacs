@@ -14,7 +14,7 @@ import java.util.Objects;
  * @author Tomas Milota
  */
 @Entity
-@Table(name = "channels")
+@Table(name = "Channels")
 public class Channel {
 
     @Id
@@ -25,7 +25,7 @@ public class Channel {
     @Column(nullable = false, unique = true)
     private String name;
 
-    @OneToMany(cascade = CascadeType.ALL)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "channel")
     private List<TransmissionOccurrence> transmissionOccurrences;
 
     @Enumerated
