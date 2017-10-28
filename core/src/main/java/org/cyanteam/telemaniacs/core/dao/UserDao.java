@@ -17,7 +17,7 @@ public interface UserDao {
      * @throws ConstraintViolationException if any constraints on columns 
      * are violated.
      */
-    void create(User user) throws ConstraintViolationException;
+    void create(User user);
     
     /**
      * Remove user entity from database.
@@ -26,19 +26,17 @@ public interface UserDao {
      * @throws IllegalArgumentException if user for removing is not stored 
      * in the database or user is null. 
      */
-    void remove(User user) throws IllegalArgumentException;
+    void remove(User user);
 
     /**
      * Update persisted entity in the database.
      *
      * @param user represents persisted entity to be updated.
-     * @return merged user object from database and user.
      * @throws ConstraintViolationException if any constraints on columns 
      * are violated.
      * @throws IllegalArgumentException if user for updating is not in the database.
      */
-    User update(User user) 
-            throws ConstraintViolationException, IllegalArgumentException;
+    void update(User user);
 
     /**
      * Return the user entity with specific id.
@@ -55,7 +53,7 @@ public interface UserDao {
      * @return user from database with given email. 
      * @throws IllegalArgumentException if email is null. 
      */
-    User findByEmail(String email) throws IllegalArgumentException;
+    User findByEmail(String email);
     
     /**
      * Return user with given username.
@@ -64,7 +62,7 @@ public interface UserDao {
      * @return user from database with given username.
      * @throws IllegalArgumentException if username is null. 
      */
-    User findByUsername(String username) throws IllegalArgumentException;
+    User findByUsername(String username);
     
     /**
      * Return all Users in the database.

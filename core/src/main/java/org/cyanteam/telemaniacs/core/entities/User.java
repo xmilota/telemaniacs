@@ -1,11 +1,11 @@
 package org.cyanteam.telemaniacs.core.entities;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.*;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Pattern;
+import org.hibernate.validator.constraints.Email;
 
 import org.cyanteam.telemaniacs.core.enums.Sex;
 
@@ -25,6 +25,7 @@ public class User implements Serializable {
     private String username;
     
     @NotNull
+    @Column(nullable = false)
     private String passwordHash;
     
     @NotNull
@@ -32,11 +33,12 @@ public class User implements Serializable {
     private Sex sex;
     
     @NotNull
+    @Min(value = 0)
     private int age;
     
     @NotNull
     @Column(nullable = false, unique = true)
-    @Pattern(regexp=".+@.+\\....?")
+    @Email
     private String email;
     
     @NotNull
@@ -52,48 +54,8 @@ public class User implements Serializable {
     @JoinTable(name = "user_transmission",
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "transmission_id"))
-    List<Transmission> favouritePrograms;
+    List<Transmission> favouriteTransmissions;
     
-    public User() {
-        this.isAdmin = false;
-        this.favouriteChannels = new ArrayList<>();
-        this.favouritePrograms = new ArrayList<>();
-    }
-    
-    public User(Long id) {
-        this.id = id;
-        this.isAdmin = false;
-        this.favouriteChannels = new ArrayList<>();
-        this.favouritePrograms = new ArrayList<>();
-    }
-
-    public User(Long id, String username, String passwordHash, Sex sex, int age,
-                String email, boolean isAdmin) {
-        this.id = id;
-        this.username = username;
-        this.passwordHash = passwordHash;
-        this.sex = sex;
-        this.age = age;
-        this.email = email;
-        this.isAdmin = isAdmin;
-        this.favouriteChannels = new ArrayList<>();
-        this.favouritePrograms = new ArrayList<>();
-    }
-
-    public User(Long id, String username, String passwordHash, Sex sex, int age, 
-                String email, boolean isAdmin, List<Channel> favouriteChannels, 
-                List<Transmission> favouritePrograms) {
-        this.id = id;
-        this.username = username;
-        this.passwordHash = passwordHash;
-        this.sex = sex;
-        this.age = age;
-        this.email = email;
-        this.isAdmin = isAdmin;
-        this.favouriteChannels = favouriteChannels;
-        this.favouritePrograms = favouritePrograms;
-    }
-
     public Long getId() {
         return id;
     }
@@ -162,12 +124,12 @@ public class User implements Serializable {
         this.favouriteChannels = favouriteChannels;
     }
 
-    public List<Transmission> getFavouritePrograms() {
-        return favouritePrograms;
+    public List<Transmission> getFavouriteTransmissions() {
+        return favouriteTransmissions;
     }
 
-    public void setFavouritePrograms(List<Transmission> favouritePrograms) {
-        this.favouritePrograms = favouritePrograms;
+    public void setFavouriteTransmissions(List<Transmission> favouriteTransmissions) {
+        this.favouriteTransmissions = favouriteTransmissions;
     }
     
     @Override
@@ -218,6 +180,6 @@ public class User implements Serializable {
     public String toString() {
         return "User { " + username + ", age=" + age + ", email=" + email + 
                ", favouriteChannels=" + favouriteChannels + 
-               ", favouritePrograms=" + favouritePrograms + " }";
+               ", favouritePrograms=" + favouriteTransmissions + " }";
     }   
 }
