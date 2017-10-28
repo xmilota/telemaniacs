@@ -39,8 +39,9 @@ public class TransmissionDaoTest {
         transmissionDao.create(transmission2);
     }
 
-    public void create() {
-        // TODO
+    @Test(expected = IllegalArgumentException.class)
+    public void createNullArgument() {
+        transmissionDao.create(null);
     }
 
     private Transmission createTransmission(String name, String description,
