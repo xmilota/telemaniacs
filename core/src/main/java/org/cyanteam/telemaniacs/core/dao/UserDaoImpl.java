@@ -7,12 +7,14 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 
 import org.cyanteam.telemaniacs.core.entities.User;
+import org.springframework.stereotype.Repository;
 
 /**
  * Class accessing persistence context for CRUD operations for user class.
  * It implements UserDao interaface.
  * @author Miroslav Kubus
  */
+@Repository
 public class UserDaoImpl implements UserDao {
     
     @PersistenceContext
