@@ -22,7 +22,7 @@ public class TransmissionOccurrence {
     @ManyToOne(optional = false)
     private Transmission transmission;
 
-    private String name;
+    private String partName;
 
     @NotNull
     @Column(nullable = false)
@@ -54,12 +54,12 @@ public class TransmissionOccurrence {
         this.transmission = transmission;
     }
 
-    public String getName() {
-        return name;
+    public String getPartName() {
+        return partName;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setPartName(String partName) {
+        this.partName = partName;
     }
 
     public LocalDateTime getStartDate() {
@@ -95,14 +95,14 @@ public class TransmissionOccurrence {
                 : transmissionOccurrence.getTransmission() != null)
             return false;
 
-        if (getName() != null
-                ? !getName().equals(transmissionOccurrence.getName())
-                : transmissionOccurrence.getName() != null)
+        if (getPartName() != null
+                ? !getPartName().equals(transmissionOccurrence.getPartName())
+                : transmissionOccurrence.getPartName() != null)
             return false;
 
-        if (getName() != null
-                ? !getName().equals(transmissionOccurrence.getName())
-                : transmissionOccurrence.getName() != null)
+        if (getPartName() != null
+                ? !getPartName().equals(transmissionOccurrence.getPartName())
+                : transmissionOccurrence.getPartName() != null)
             return false;
 
         if (getStartDate() != null
@@ -118,7 +118,7 @@ public class TransmissionOccurrence {
         int result = 17;
         result = 31 * result + (getTransmission() != null ? getTransmission().hashCode() : 0);
         result = 31 * result + (getChannel() != null ? getChannel().hashCode() : 0);
-        result = 31 * result + (getName() != null ? getName().hashCode() : 0);
+        result = 31 * result + (getPartName() != null ? getPartName().hashCode() : 0);
         result = 31 * result + (getStartDate() != null ? getStartDate().hashCode() : 0);
         return result;
     }
@@ -129,7 +129,7 @@ public class TransmissionOccurrence {
                 "id=" + getId() + ", " +
                 "channel=" + getChannel() + ", " +
                 "transmission=" + getTransmission() + ", " +
-                "name='" + getName() + '\'' + ", " +
+                "name='" + getPartName() + '\'' + ", " +
                 "startDate=" + getStartDate() + ", " +
                 "isRerun=" + isRerun() + ", " +
                 '}';

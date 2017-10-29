@@ -36,7 +36,7 @@ public class Transmission {
     @Enumerated
     private Type type;
 
-    @OneToMany(cascade = CascadeType.ALL)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "transmission")
     private List<TransmissionOccurrence> occurrences;
 
     public void setId(Long id) {
