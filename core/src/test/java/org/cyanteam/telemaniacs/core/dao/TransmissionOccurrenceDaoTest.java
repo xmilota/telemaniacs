@@ -16,11 +16,13 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.PersistenceException;
 import javax.validation.ConstraintViolationException;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.List;
 
 import static org.assertj.core.api.Assertions.*;
 
@@ -61,7 +63,7 @@ public class TransmissionOccurrenceDaoTest {
 		transmissionDao.create(transmission1);
 
 		occurrence1 = new TransmissionOccurrence();
-		occurrence1.setName("Test occurence name 1");
+		occurrence1.setPartName("Test occurence name 1");
 		occurrence1.setStartDate(LocalDateTime.now());
 		occurrence1.setRerun(false);
 		occurrence1.setTransmission(transmission1);
@@ -69,8 +71,14 @@ public class TransmissionOccurrenceDaoTest {
 
 		transmissionOccurrenceDao.create(occurrence1);
 
+		prepareChannel2();
+		channelDao.create(channel2);
+
+		prepareTransmission2();
+		transmissionDao.create(transmission2);
+
 		occurrence2 = new TransmissionOccurrence();
-		occurrence2.setName("Test occurence name 2");
+		occurrence2.setPartName("Test occurence name 2");
 		occurrence2.setStartDate(LocalDateTime.now());
 		occurrence2.setRerun(true);
 		occurrence2.setTransmission(transmission2);
@@ -94,19 +102,103 @@ public class TransmissionOccurrenceDaoTest {
 
 	@Test(expected= PersistenceException.class)
 	public void createWithNonUniqueNameTest() {
-		occurrence2.setName(occurrence1.getName());
+		occurrence2.setPartName(occurrence1.getPartName());
 		transmissionOccurrenceDao.create(occurrence2);
 	}
 
 	@Test(expected= ConstraintViolationException.class)
 	public void createWithNullNameTest() {
-		occurrence2.setName(null);
+		occurrence2.setPartName(null);
 		transmissionOccurrenceDao.create(occurrence2);
 	}
 
 	@Test(expected= IllegalArgumentException.class)
 	public void createWithNullOccurrenceTest() {
 		transmissionOccurrenceDao.create(null);
+	}
+
+	@Test
+	public void removeTest() {
+		transmissionOccurrenceDao.create(occurrence2);
+		transmissionOccurrenceDao.remove(occurrence2);
+
+		assertThat(findAll())
+				.hasSize(1)
+				.containsOnly(occurrence1);
+	}
+
+	@Test(expected = IllegalArgumentException.class)
+	public void removeNonExistingTest() {
+		transmissionOccurrenceDao.remove(occurrence2);
+	}
+
+	@Test(expected = IllegalArgumentException.class)
+	public void removeNullTest() {
+		transmissionOccurrenceDao.remove(null);
+	}
+
+	@Test
+	public void updateTest() {
+		transmissionOccurrenceDao.create(occurrence2);
+		occurrence2.setPartName("Updated name");
+
+		transmissionOccurrenceDao.update(occurrence2);
+		TransmissionOccurrence acTransmission = transmissionOccurrenceDao.findById(occurrence2.getId());
+
+		assertThat(acTransmission).isEqualToComparingFieldByFieldRecursively(occurrence2);
+	}
+
+	@Test(expected = ConstraintViolationException.class)
+	public void updateWithNullNameTest() {
+		transmissionOccurrenceDao.create(occurrence2);
+		occurrence2.setPartName(null);
+
+		transmissionOccurrenceDao.update(occurrence2);
+		entityManager.flush();
+	}
+
+	@Test(expected = PersistenceException.class)
+	public void updateWithNonUniqueNameTest() {
+		transmissionOccurrenceDao.create(occurrence2);
+		occurrence2.setPartName(channel1.getName());
+
+		transmissionOccurrenceDao.update(occurrence2);
+		entityManager.flush();
+	}
+
+	@Test(expected = IllegalArgumentException.class)
+	public void updateWithSetIdTest() {
+		transmissionOccurrenceDao.create(occurrence2);
+		occurrence2.setId(Long.MAX_VALUE);
+
+		transmissionOccurrenceDao.update(occurrence2);
+		entityManager.flush();
+	}
+
+	@Test(expected = IllegalArgumentException.class)
+	public void updateNullTest() {
+		transmissionOccurrenceDao.update(null);
+	}
+
+	@Test
+	public void findByIdTest() {
+		transmissionOccurrenceDao.create(occurrence2);
+
+		TransmissionOccurrence acOccurance = transmissionOccurrenceDao.findById(occurrence2.getId());
+
+		assertThat(acOccurance).isEqualToComparingFieldByFieldRecursively(occurrence2);
+	}
+
+	@Test
+	public void findByIdNonExistingIdTest() {
+		TransmissionOccurrence acOccurrance = transmissionOccurrenceDao.findById(transmission1.getId() + Long.valueOf(10));
+
+		assertThat(acOccurrance).isNull();
+	}
+
+	@Test(expected = IllegalArgumentException.class)
+	public void findByIdNullIdTest() {
+		transmissionOccurrenceDao.findById(null);
 	}
 
 
@@ -149,5 +241,10 @@ public class TransmissionOccurrenceDaoTest {
 		transmission2.setOccurrences(new ArrayList<>());
 	}
 
+	private List<TransmissionOccurrence> findAll() {
+		return entityManager
+				.createQuery("SELECT t FROM TransmissionOccurrence t", TransmissionOccurrence.class)
+				.getResultList();
+	}
 
 }

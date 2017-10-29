@@ -17,7 +17,7 @@ import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 import javax.sql.DataSource;
 
 @Configuration
-@ComponentScan("org.cyanteam.telemaniacs.core")
+@ComponentScan(basePackages = "org.cyanteam.telemaniacs.core")
 @EnableJpaRepositories
 @EnableTransactionManagement
 public class ApplicationContextConfiguration {
