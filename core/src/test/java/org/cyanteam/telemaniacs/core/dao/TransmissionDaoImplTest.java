@@ -1,6 +1,5 @@
 package org.cyanteam.telemaniacs.core.dao;
 
-import com.sun.javaws.exceptions.InvalidArgumentException;
 import org.cyanteam.telemaniacs.core.ApplicationContextConfiguration;
 import org.cyanteam.telemaniacs.core.entities.*;
 import org.cyanteam.telemaniacs.core.enums.AgeAvailability;

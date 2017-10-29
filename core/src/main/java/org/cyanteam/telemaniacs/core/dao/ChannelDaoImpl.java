@@ -2,6 +2,7 @@ package org.cyanteam.telemaniacs.core.dao;
 
 import org.cyanteam.telemaniacs.core.entities.Channel;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -10,6 +11,7 @@ import java.util.List;
 /**
  * @author Tomas Milota
  */
+@Transactional
 @Repository
 public class ChannelDaoImpl implements ChannelDao {
 

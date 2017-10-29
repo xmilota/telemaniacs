@@ -2,6 +2,7 @@ package org.cyanteam.telemaniacs.core.dao;
 
 import org.cyanteam.telemaniacs.core.entities.Transmission;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -11,6 +12,7 @@ import javax.validation.ConstraintViolationException;
 /**
  * Created by tinko on 10/26/2017.
  */
+@Transactional
 @Repository
 public class TransmissionDaoImpl implements TransmissionDao {
 

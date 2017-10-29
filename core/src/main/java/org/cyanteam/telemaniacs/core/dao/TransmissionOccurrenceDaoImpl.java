@@ -2,6 +2,7 @@ package org.cyanteam.telemaniacs.core.dao;
 
 import org.cyanteam.telemaniacs.core.entities.TransmissionOccurrence;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -10,6 +11,7 @@ import javax.persistence.PersistenceContext;
  * Implementation of transmission occurrence DAO using database.
  * @author Michael Le
  */
+@Transactional
 @Repository
 public class TransmissionOccurrenceDaoImpl implements TransmissionOccurrenceDao {
     @PersistenceContext
