@@ -63,7 +63,7 @@ public class TransmissionOccurrenceDaoTest {
 		transmissionDao.create(transmission1);
 
 		occurrence1 = new TransmissionOccurrence();
-		occurrence1.setPartName("Test occurence name 1");
+		occurrence1.setPartName("Test occurrence name 1");
 		occurrence1.setStartDate(LocalDateTime.now());
 		occurrence1.setRerun(false);
 		occurrence1.setTransmission(transmission1);
@@ -78,7 +78,7 @@ public class TransmissionOccurrenceDaoTest {
 		transmissionDao.create(transmission2);
 
 		occurrence2 = new TransmissionOccurrence();
-		occurrence2.setPartName("Test occurence name 2");
+		occurrence2.setPartName("Test occurrence name 2");
 		occurrence2.setStartDate(LocalDateTime.now());
 		occurrence2.setRerun(true);
 		occurrence2.setTransmission(transmission2);
@@ -94,23 +94,18 @@ public class TransmissionOccurrenceDaoTest {
 		assertThat(occurrence2).isEqualToComparingFieldByField(acOccurence);
 	}
 
+	@Test(expected= ConstraintViolationException.class)
+	public void createWithNullTimeTest() {
+		occurrence2.setStartDate(null);
+		transmissionOccurrenceDao.create(occurrence2);
+	}
+
 	@Test(expected= PersistenceException.class)
 	public void createWithSetIdTest() {
 		occurrence2.setId(Long.MIN_VALUE);
 		transmissionOccurrenceDao.create(occurrence2);
 	}
 
-	@Test(expected= PersistenceException.class)
-	public void createWithNonUniqueNameTest() {
-		occurrence2.setPartName(occurrence1.getPartName());
-		transmissionOccurrenceDao.create(occurrence2);
-	}
-
-	@Test(expected= ConstraintViolationException.class)
-	public void createWithNullNameTest() {
-		occurrence2.setPartName(null);
-		transmissionOccurrenceDao.create(occurrence2);
-	}
 
 	@Test(expected= IllegalArgumentException.class)
 	public void createWithNullOccurrenceTest() {
@@ -149,22 +144,14 @@ public class TransmissionOccurrenceDaoTest {
 	}
 
 	@Test(expected = ConstraintViolationException.class)
-	public void updateWithNullNameTest() {
+	public void updateWithNullTimeTest() {
 		transmissionOccurrenceDao.create(occurrence2);
-		occurrence2.setPartName(null);
+		occurrence2.setStartDate(null);
 
 		transmissionOccurrenceDao.update(occurrence2);
 		entityManager.flush();
 	}
 
-	@Test(expected = PersistenceException.class)
-	public void updateWithNonUniqueNameTest() {
-		transmissionOccurrenceDao.create(occurrence2);
-		occurrence2.setPartName(channel1.getName());
-
-		transmissionOccurrenceDao.update(occurrence2);
-		entityManager.flush();
-	}
 
 	@Test(expected = IllegalArgumentException.class)
 	public void updateWithSetIdTest() {
