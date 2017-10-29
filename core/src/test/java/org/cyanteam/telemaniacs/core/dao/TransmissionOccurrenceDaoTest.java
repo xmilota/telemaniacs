@@ -8,6 +8,7 @@ import org.cyanteam.telemaniacs.core.enums.AgeAvailability;
 import org.cyanteam.telemaniacs.core.enums.ChannelType;
 import org.cyanteam.telemaniacs.core.enums.Type;
 import org.junit.Before;
+import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
@@ -16,8 +17,12 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.PersistenceException;
+import javax.validation.ConstraintViolationException;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+
+import static org.assertj.core.api.Assertions.*;
 
 /**
  * Created by tinko on 10/29/2017.
@@ -26,7 +31,7 @@ import java.util.ArrayList;
 @ContextConfiguration(classes = ApplicationContextConfiguration.class)
 @RunWith(SpringJUnit4ClassRunner.class)
 @Transactional
-public class TransmissionOccurenceDaoTest {
+public class TransmissionOccurrenceDaoTest {
 	@PersistenceContext
 	public EntityManager entityManager;
 
@@ -41,8 +46,8 @@ public class TransmissionOccurenceDaoTest {
 
 	private Channel channel1;
 	private Channel channel2;
-	private TransmissionOccurrence occurence1;
-	private TransmissionOccurrence occurence2;
+	private TransmissionOccurrence occurrence1;
+	private TransmissionOccurrence occurrence2;
 	private Transmission transmission1;
 	private Transmission transmission2;
 
@@ -55,25 +60,56 @@ public class TransmissionOccurenceDaoTest {
 		prepareTransmission1();
 		transmissionDao.create(transmission1);
 
-		occurence1 = new TransmissionOccurrence();
-		occurence1.setName("Test occurence name 1");
-		occurence1.setStartDate(LocalDateTime.now());
-		occurence1.setRerun(false);
-		occurence1.setTransmission(transmission1);
-		occurence1.setChannel(channel1);
+		occurrence1 = new TransmissionOccurrence();
+		occurrence1.setName("Test occurence name 1");
+		occurrence1.setStartDate(LocalDateTime.now());
+		occurrence1.setRerun(false);
+		occurrence1.setTransmission(transmission1);
+		occurrence1.setChannel(channel1);
 
-		transmissionOccurrenceDao.create(occurence1);
+		transmissionOccurrenceDao.create(occurrence1);
 
-		occurence2 = new TransmissionOccurrence();
-		occurence2.setName("Test occurence name 2");
-		occurence2.setStartDate(LocalDateTime.now());
-		occurence2.setRerun(true);
-		occurence2.setTransmission(transmission2);
-		occurence2.setChannel(channel2);
-
-		transmissionOccurrenceDao.create(occurence2);
-
+		occurrence2 = new TransmissionOccurrence();
+		occurrence2.setName("Test occurence name 2");
+		occurrence2.setStartDate(LocalDateTime.now());
+		occurrence2.setRerun(true);
+		occurrence2.setTransmission(transmission2);
+		occurrence2.setChannel(channel2);
 	}
+
+	@Test
+	public void createOccurence(){
+		transmissionOccurrenceDao.create(occurrence2);
+		TransmissionOccurrence acOccurence = transmissionOccurrenceDao.findById(occurrence2.getId());
+
+		assertThat(occurrence2.getId()).isNotNull();
+		assertThat(occurrence2).isEqualToComparingFieldByField(acOccurence);
+	}
+
+	@Test(expected= PersistenceException.class)
+	public void createWithSetIdTest() {
+		occurrence2.setId(Long.MIN_VALUE);
+		transmissionOccurrenceDao.create(occurrence2);
+	}
+
+	@Test(expected= PersistenceException.class)
+	public void createWithNonUniqueNameTest() {
+		occurrence2.setName(occurrence1.getName());
+		transmissionOccurrenceDao.create(occurrence2);
+	}
+
+	@Test(expected= ConstraintViolationException.class)
+	public void createWithNullNameTest() {
+		occurrence2.setName(null);
+		transmissionOccurrenceDao.create(occurrence2);
+	}
+
+	@Test(expected= IllegalArgumentException.class)
+	public void createWithNullOccurrenceTest() {
+		transmissionOccurrenceDao.create(null);
+	}
+
+
 
 	private void prepareChannel1(){
 		channel1 = new Channel();
