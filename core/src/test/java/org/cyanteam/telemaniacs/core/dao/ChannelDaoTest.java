@@ -242,7 +242,7 @@ public class ChannelDaoTest {
     
     private void prepareTransmissionOccurrence() {
         occurence1 = new TransmissionOccurrence();
-        occurence1.setName("Test episode");
+        occurence1.setPartName("Test episode");
         occurence1.setStartDate(LocalDateTime.now());
         occurence1.setRerun(false);
         occurence1.setTransmission(transmission1);
