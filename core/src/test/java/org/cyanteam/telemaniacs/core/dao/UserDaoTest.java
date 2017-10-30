@@ -12,6 +12,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.PersistenceException;
 import javax.validation.ConstraintViolationException;
@@ -217,9 +218,9 @@ public class UserDaoTest {
         assertThat(actualUser).isEqualToComparingFieldByFieldRecursively(user);
     }
 
-    @Test
+    @Test(expected = NoResultException.class)
     public void findUserByNonExistingName() {
-        assertThat(userDao.findByUsername("")).isNull();
+        userDao.findByUsername("");
     }
 
     @Test(expected = IllegalArgumentException.class)
@@ -235,10 +236,10 @@ public class UserDaoTest {
         assertThat(actualUser).isEqualToComparingFieldByFieldRecursively(user);
     }
 
-    @Test
+    @Test(expected = NoResultException.class)
     public void findUserByNonExistingEmail() {
         userDao.create(user);
-        assertThat(userDao.findByEmail("test")).isNull();
+        userDao.findByEmail("test");
     }
 
     @Test(expected = IllegalArgumentException.class)
