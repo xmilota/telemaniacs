@@ -33,10 +33,10 @@ public class Voting {
     
     private String comment;
     
-    @ManyToOne
+    @ManyToOne(optional = false)
     private User user;
     
-    @ManyToOne
+    @ManyToOne(optional = false)
     private Transmission transmission;
 
     public Long getId() {
