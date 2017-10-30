@@ -9,7 +9,7 @@ import java.util.Collections;
 import java.util.List;
 
 /**
- *
+ * Entity representing a transmission
  * @author Simona Tinkova
  */
 
@@ -137,7 +137,7 @@ public class Transmission {
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", description='" + description + '\'' +
-                ", lenght=" + length +
+                ", length=" + length +
                 ", ageAvailability=" + ageAvailability +
                 ", language='" + language + '\'' +
                 ", type=" + type +

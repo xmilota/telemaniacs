@@ -26,6 +26,7 @@ import java.util.List;
 import static org.assertj.core.api.Assertions.*;
 
 /**
+ * TransmissionOccurrence tests
  * @author Simona Tinkova
  */
 

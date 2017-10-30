@@ -6,7 +6,7 @@ import java.time.LocalDateTime;
 
 /**
  * Entity representing an occurrence of the transmission.
- * (may alse be a series episode, part of a movie etc.)
+ * (may also be a series episode, part of a movie etc.)
  * @author Michael Le
  */
 @Entity
@@ -100,11 +100,6 @@ public class TransmissionOccurrence {
                 : transmissionOccurrence.getPartName() != null)
             return false;
 
-        if (getPartName() != null
-                ? !getPartName().equals(transmissionOccurrence.getPartName())
-                : transmissionOccurrence.getPartName() != null)
-            return false;
-
         if (getStartDate() != null
                 ? !getStartDate().equals(transmissionOccurrence.getStartDate())
                 : transmissionOccurrence.getStartDate() != null)
@@ -125,7 +120,7 @@ public class TransmissionOccurrence {
 
     @Override
     public String toString() {
-        return "TransmissionOccurence {" +
+        return "TransmissionOccurrence {" +
                 "id=" + getId() + ", " +
                 "channel=" + getChannel() + ", " +
                 "transmission=" + getTransmission() + ", " +
