@@ -6,7 +6,7 @@ import org.cyanteam.telemaniacs.core.entities.Transmission;
 import javax.validation.ConstraintViolationException;
 
 /**
- * Created by tinko on 10/26/2017.
+ * @author Simona Tinkova
  */
 public interface TransmissionDao {
 	/**
@@ -36,7 +36,7 @@ public interface TransmissionDao {
 	 * are violated.
 	 * @throws IllegalArgumentException if transmission for updating is not in the database.
 	 */
-	Transmission update(Transmission transmission) throws ConstraintViolationException, IllegalArgumentException;
+	void update(Transmission transmission) throws ConstraintViolationException, IllegalArgumentException;
 
 	/**
 	 * Returns the transmission with the specific id.

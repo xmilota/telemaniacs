@@ -143,7 +143,7 @@ public class TransmissionDaoImplTest {
 
         transmission.setName("Ice Age 11");
         transmission.setDescription("The last episode");
-        transmission.setLenght(111);
+        transmission.setLength(111);
         transmission.setAgeAvailability(AgeAvailability.AGE12);
         transmission.setLanguage("RU");
         transmission.setType(Type.MOVIE);

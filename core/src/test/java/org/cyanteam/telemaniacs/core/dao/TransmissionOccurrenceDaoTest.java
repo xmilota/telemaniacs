@@ -16,7 +16,6 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
-import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.PersistenceException;
 import javax.validation.ConstraintViolationException;
@@ -27,7 +26,7 @@ import java.util.List;
 import static org.assertj.core.api.Assertions.*;
 
 /**
- * Created by tinko on 10/29/2017.
+ * @author Simona Tinkova
  */
 
 @ContextConfiguration(classes = ApplicationContextConfiguration.class)
@@ -211,7 +210,7 @@ public class TransmissionOccurrenceDaoTest {
 		transmission1.setAgeAvailability(AgeAvailability.AGE15);
 		transmission1.setDescription("Test transmission description 1");
 		transmission1.setLanguage("CZECH");
-		transmission1.setLenght(120);
+		transmission1.setLength(120);
 		transmission1.setName("Test transmission name 1");
 		transmission1.setType(Type.MOVIE);
 		transmission1.setOccurrences(new ArrayList<>());
@@ -222,7 +221,7 @@ public class TransmissionOccurrenceDaoTest {
 		transmission2.setAgeAvailability(AgeAvailability.AGE12);
 		transmission2.setDescription("Test transmission description 2");
 		transmission2.setLanguage("ENGLISH");
-		transmission2.setLenght(60);
+		transmission2.setLength(60);
 		transmission2.setName("Test transmission name 2");
 		transmission2.setType(Type.TV_SERIES);
 		transmission2.setOccurrences(new ArrayList<>());

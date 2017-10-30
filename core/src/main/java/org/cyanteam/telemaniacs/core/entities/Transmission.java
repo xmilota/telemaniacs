@@ -14,6 +14,7 @@ import java.util.List;
  */
 
 @Entity
+@Table(name = "Transmissions")
 public class Transmission {
 
     @Id
@@ -26,7 +27,7 @@ public class Transmission {
 
     private String description;
 
-    private int lenght;
+    private int length;
 
     @Enumerated
     private AgeAvailability ageAvailability;
@@ -54,8 +55,8 @@ public class Transmission {
         this.description = description;
     }
 
-    public void setLenght(int lenght) {
-        this.lenght = lenght;
+    public void setLength(int length) {
+        this.length = length;
     }
 
     public void setAgeAvailability(AgeAvailability ageAvailability) {
@@ -83,8 +84,8 @@ public class Transmission {
         return description;
     }
 
-    public int getLenght() {
-        return lenght;
+    public int getLength() {
+        return length;
     }
 
     public AgeAvailability getAgeAvailability() {
@@ -136,7 +137,7 @@ public class Transmission {
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", description='" + description + '\'' +
-                ", lenght=" + lenght +
+                ", lenght=" + length +
                 ", ageAvailability=" + ageAvailability +
                 ", language='" + language + '\'' +
                 ", type=" + type +
