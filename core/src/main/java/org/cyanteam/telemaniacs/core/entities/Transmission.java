@@ -39,6 +39,9 @@ public class Transmission {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "transmission")
     private List<TransmissionOccurrence> occurrences;
 
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "transmission")
+    private List<Voting> voting;
+
     public void setId(Long id) {
         this.id = id;
     }
@@ -102,6 +105,14 @@ public class Transmission {
 
     public void setOccurrences(List<TransmissionOccurrence> occurrences) {
         this.occurrences = occurrences;
+    }
+
+    public List<Voting> getVoting() {
+        return voting;
+    }
+
+    public void setVoting(List<Voting> voting) {
+        this.voting = voting;
     }
 
     @Override

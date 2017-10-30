@@ -48,13 +48,16 @@ public class User implements Serializable {
     @JoinTable(name = "user_channel",
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "channel_id"))
-    List<Channel> favouriteChannels;
+    private List<Channel> favouriteChannels;
 
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(name = "user_transmission",
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "transmission_id"))
-    List<Transmission> favouriteTransmissions;
+    private List<Transmission> favouriteTransmissions;
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
+    private List<Voting> voting;
     
     public Long getId() {
         return id;
@@ -131,7 +134,15 @@ public class User implements Serializable {
     public void setFavouriteTransmissions(List<Transmission> favouriteTransmissions) {
         this.favouriteTransmissions = favouriteTransmissions;
     }
-    
+
+    public List<Voting> getVoting() {
+        return voting;
+    }
+
+    public void setVoting(List<Voting> voting) {
+        this.voting = voting;
+    }
+
     @Override
     public int hashCode() {
         int hash = 7;
