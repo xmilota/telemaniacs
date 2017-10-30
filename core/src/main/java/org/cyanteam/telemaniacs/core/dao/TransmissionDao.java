@@ -6,7 +6,7 @@ import org.cyanteam.telemaniacs.core.entities.Transmission;
 import javax.validation.ConstraintViolationException;
 
 /**
- * Created by tinko on 10/26/2017.
+ * @author Simona Tinkova
  */
 public interface TransmissionDao {
 	/**

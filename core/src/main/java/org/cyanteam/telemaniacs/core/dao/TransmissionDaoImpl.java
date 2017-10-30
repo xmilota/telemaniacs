@@ -10,7 +10,7 @@ import javax.persistence.TypedQuery;
 import javax.validation.ConstraintViolationException;
 
 /**
- * Created by tinko on 10/26/2017.
+ * @author Simona Tinkova
  */
 @Transactional
 @Repository
@@ -20,7 +20,7 @@ public class TransmissionDaoImpl implements TransmissionDao {
 	private EntityManager entityManager;
 
 	@Override
-	public void create(Transmission transmission) throws ConstraintViolationException {
+	public void create(Transmission transmission) {
 		if (transmission == null){
 			throw new IllegalArgumentException("Transmission is null");
 		}
@@ -28,7 +28,7 @@ public class TransmissionDaoImpl implements TransmissionDao {
 	}
 
 	@Override
-	public void delete(Transmission transmission) throws IllegalArgumentException {
+	public void delete(Transmission transmission) {
 		if(transmission == null){
 			throw new IllegalArgumentException("You are trying to delete null transmission");
 		}
@@ -48,7 +48,7 @@ public class TransmissionDaoImpl implements TransmissionDao {
 		entityManager.merge(transmission);
 	}
 	@Override
-	public Transmission findById(Long id) throws IllegalArgumentException {
+	public Transmission findById(Long id) {
 		if (id == null){
 			throw new IllegalArgumentException("id is null");
 		}
@@ -56,7 +56,7 @@ public class TransmissionDaoImpl implements TransmissionDao {
 	}
 
 	@Override
-	public Transmission findByName(String name) throws IllegalArgumentException {
+	public Transmission findByName(String name) {
 		if(name == null) {
 			throw new IllegalArgumentException("You tried to find transmission with null name!");
 		}

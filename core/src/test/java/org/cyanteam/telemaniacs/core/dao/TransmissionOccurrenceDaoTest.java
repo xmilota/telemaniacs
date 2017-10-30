@@ -26,7 +26,7 @@ import java.util.List;
 import static org.assertj.core.api.Assertions.*;
 
 /**
- * Created by tinko on 10/29/2017.
+ * @author Simona Tinkova
  */
 
 @ContextConfiguration(classes = ApplicationContextConfiguration.class)
