@@ -78,7 +78,7 @@ public class TransmissionBuilder {
         transmission.setLanguage(language);
         transmission.setType(type);
         transmission.setOccurrences(occurrences);
-        // transmission.setVotings(votings);
+        transmission.setVoting(votings);
 
         return transmission;
     }
