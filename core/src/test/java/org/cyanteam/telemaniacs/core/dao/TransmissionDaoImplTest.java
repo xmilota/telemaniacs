@@ -109,15 +109,15 @@ public class TransmissionDaoImplTest {
         assertOccurrences(transmission, occurrence, false);
     }
 
-//    @Test
-//    public void createWithVotingTest() {
-//        Transmission transmission = TransmissionBuilder.sampleIceAgeBuilder().build();
-//        Voting voting = createSampleVoting(transmission);
-//        transmission.setVoting(createEntityList(voting));
-//        transmissionDao.create(transmission);
-//
-//        assertVotings(transmission, voting, false);
-//    }
+    @Test
+    public void createWithVotingTest() {
+        Transmission transmission = TransmissionBuilder.sampleIceAgeBuilder().build();
+        Voting voting = createSampleVoting(transmission);
+        transmission.setVoting(createEntityList(voting));
+        transmissionDao.create(transmission);
+
+        assertVotings(transmission, voting, false);
+    }
 
     @Test
     public void deleteTest() {
@@ -201,18 +201,18 @@ public class TransmissionDaoImplTest {
         assertOccurrences(transmission, occurrence, true);
     }
 
-//    @Test
-//    public void updateWithVotingTest() {
-//        Transmission transmission = TransmissionBuilder.sampleIceAgeBuilder().build();
-//        transmissionDao.create(transmission);
-//
-//        Voting voting = createSampleVoting(transmission);
-//        transmission.setVotings(createEntityList(voting));
-//        transmissionDao.update(transmission);
-//        entityManager.flush();
-//
-//        assertVotings(transmission, voting, true);
-//    }
+    @Test
+    public void updateWithVotingTest() {
+        Transmission transmission = TransmissionBuilder.sampleIceAgeBuilder().build();
+        transmissionDao.create(transmission);
+
+        Voting voting = createSampleVoting(transmission);
+        transmission.setVoting(createEntityList(voting));
+        transmissionDao.update(transmission);
+        entityManager.flush();
+
+        assertVotings(transmission, voting, true);
+    }
 
 
     private void assertSampleTransmissionsUnchanged() {
@@ -244,23 +244,23 @@ public class TransmissionDaoImplTest {
                 .isEqualToIgnoringGivenFields(occurrence, "id");
     }
 
-//    private void assertVotings(Transmission transmission, Voting voting, boolean skipId) {
-//        Transmission transmissionDatabase = transmissionDao.findById(transmission.getId());
-//        List<Voting> votingsDatabase = transmissionDatabase.getVotings();
-//        assertThat(votingsDatabase.size())
-//                .as("Number of related Votings")
-//                .isEqualTo(1);
-//
-//        Voting votingDatabase = votingsDatabase.get(0);
-//        if (!skipId) {
-//            assertThat(votingDatabase.getId())
-//                    .as("Correct Votings")
-//                    .isEqualTo(voting.getId());
-//        }
-//        assertThat(votingDatabase)
-//                .as("Correct Votings")
-//                .isEqualToIgnoringGivenFields(voting, "id");
-//    }
+    private void assertVotings(Transmission transmission, Voting voting, boolean skipId) {
+        Transmission transmissionDatabase = transmissionDao.findById(transmission.getId());
+        List<Voting> votingsDatabase = transmissionDatabase.getVoting();
+        assertThat(votingsDatabase.size())
+                .as("Number of related Votings")
+                .isEqualTo(1);
+
+        Voting votingDatabase = votingsDatabase.get(0);
+        if (!skipId) {
+            assertThat(votingDatabase.getId())
+                    .as("Correct Votings")
+                    .isEqualTo(voting.getId());
+        }
+        assertThat(votingDatabase)
+                .as("Correct Votings")
+                .isEqualToIgnoringGivenFields(voting, "id");
+    }
 
     @Test
     public void findByIdTest() {
