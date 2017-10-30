@@ -9,12 +9,14 @@ import javax.persistence.TypedQuery;
 
 import org.cyanteam.telemaniacs.core.entities.User;
 import org.cyanteam.telemaniacs.core.entities.Voting;
+import org.springframework.stereotype.Repository;
 
 /**
  * Class accessing persistence context for CRUD operations for voting class.
  * It implements VotingDao interaface.
  * @author Miroslav Kubus
  */
+@Repository
 public class VotingDaoImpl implements VotingDao {
     
     @PersistenceContext
