@@ -234,7 +234,7 @@ public class ChannelDaoTest {
         transmission1.setAgeAvailability(AgeAvailability.AGE12);
         transmission1.setDescription("Test description");
         transmission1.setLanguage("CZECH");
-        transmission1.setLenght(123);
+        transmission1.setLength(123);
         transmission1.setName("Test name");
         transmission1.setType(Type.MOVIE);
         transmission1.setOccurrences(new ArrayList<>());

@@ -73,7 +73,7 @@ public class TransmissionBuilder {
         transmission.setId(id);
         transmission.setName(name);
         transmission.setDescription(description);
-        transmission.setLenght(length);
+        transmission.setLength(length);
         transmission.setAgeAvailability(ageAvailability);
         transmission.setLanguage(language);
         transmission.setType(type);

@@ -5,5 +5,5 @@ package org.cyanteam.telemaniacs.core.enums;
  * Created by tinko on 10/26/2017.
  */
 public enum AgeAvailability {
-    AGE12, AGE15, AGE18
+    AGE12, AGE15, AGE18, UNRESTRICTED
 }

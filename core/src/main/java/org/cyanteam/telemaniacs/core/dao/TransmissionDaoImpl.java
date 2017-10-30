@@ -37,14 +37,16 @@ public class TransmissionDaoImpl implements TransmissionDao {
 	}
 
 	@Override
-	public Transmission update(Transmission transmission) throws ConstraintViolationException, IllegalArgumentException {
-		if (findById(transmission.getId()) == null) {
-			throw new IllegalArgumentException("Unknown transmission to update with "
-					+ "id: " + transmission.getId() + "!");
+	public void update(Transmission transmission) {
+		if(transmission == null) {
+			throw new IllegalArgumentException("You are trying to update null transmission.");
 		}
-		return entityManager.merge(transmission);
-	}
+		if (findById(transmission.getId()) == null) {
+			throw new IllegalArgumentException("Transmission is not stored in the datebase.");
+		}
 
+		entityManager.merge(transmission);
+	}
 	@Override
 	public Transmission findById(Long id) throws IllegalArgumentException {
 		if (id == null){

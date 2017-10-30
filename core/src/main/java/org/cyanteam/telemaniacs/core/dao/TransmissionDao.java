@@ -36,7 +36,7 @@ public interface TransmissionDao {
 	 * are violated.
 	 * @throws IllegalArgumentException if transmission for updating is not in the database.
 	 */
-	Transmission update(Transmission transmission) throws ConstraintViolationException, IllegalArgumentException;
+	void update(Transmission transmission) throws ConstraintViolationException, IllegalArgumentException;
 
 	/**
 	 * Returns the transmission with the specific id.
