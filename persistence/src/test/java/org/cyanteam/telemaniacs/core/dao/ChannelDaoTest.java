@@ -21,7 +21,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
 
-import org.cyanteam.telemaniacs.core.ApplicationContextConfiguration;
+import org.cyanteam.telemaniacs.core.PersistenceContextConfiguration;
 import org.cyanteam.telemaniacs.core.entities.Channel;
 import org.cyanteam.telemaniacs.core.entities.TransmissionOccurrence;
 import org.cyanteam.telemaniacs.core.entities.Transmission;
@@ -33,7 +33,7 @@ import org.cyanteam.telemaniacs.core.enums.Type;
  * Test class for ChannelDao.
  * @author Miroslav Kubus
  */
-@ContextConfiguration(classes = ApplicationContextConfiguration.class)
+@ContextConfiguration(classes = PersistenceContextConfiguration.class)
 @RunWith(SpringJUnit4ClassRunner.class)
 @Transactional
 public class ChannelDaoTest {

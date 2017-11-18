@@ -1,6 +1,6 @@
 package org.cyanteam.telemaniacs.core.dao;
 
-import org.cyanteam.telemaniacs.core.ApplicationContextConfiguration;
+import org.cyanteam.telemaniacs.core.PersistenceContextConfiguration;
 import org.cyanteam.telemaniacs.core.entities.Transmission;
 import org.cyanteam.telemaniacs.core.entities.User;
 import org.cyanteam.telemaniacs.core.entities.Voting;
@@ -26,7 +26,7 @@ import static org.assertj.core.api.Assertions.assertThat;
  *
  * @author Tomas Milota
  */
-@ContextConfiguration(classes = ApplicationContextConfiguration.class)
+@ContextConfiguration(classes = PersistenceContextConfiguration.class)
 @RunWith(SpringJUnit4ClassRunner.class)
 @Transactional
 public class VotingDaoTest {

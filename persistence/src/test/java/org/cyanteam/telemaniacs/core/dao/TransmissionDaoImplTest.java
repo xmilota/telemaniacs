@@ -1,6 +1,6 @@
 package org.cyanteam.telemaniacs.core.dao;
 
-import org.cyanteam.telemaniacs.core.ApplicationContextConfiguration;
+import org.cyanteam.telemaniacs.core.PersistenceContextConfiguration;
 import org.cyanteam.telemaniacs.core.entities.*;
 import org.cyanteam.telemaniacs.core.enums.AgeAvailability;
 import org.cyanteam.telemaniacs.core.enums.ChannelType;
@@ -28,7 +28,7 @@ import static org.assertj.core.api.Assertions.assertThat;
  * Tests for Transmission DAO implementation
  * @author Michael Le
  */
-@ContextConfiguration(classes = ApplicationContextConfiguration.class)
+@ContextConfiguration(classes = PersistenceContextConfiguration.class)
 @RunWith(SpringJUnit4ClassRunner.class)
 @Transactional
 public class TransmissionDaoImplTest {
