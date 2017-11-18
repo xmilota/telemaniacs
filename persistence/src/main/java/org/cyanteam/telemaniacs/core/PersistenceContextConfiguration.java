@@ -20,7 +20,7 @@ import javax.sql.DataSource;
 @ComponentScan(basePackages = "org.cyanteam.telemaniacs.core")
 @EnableJpaRepositories
 @EnableTransactionManagement
-public class ApplicationContextConfiguration {
+public class PersistenceContextConfiguration {
     @Bean
     public JpaTransactionManager transactionManager() {
         return new JpaTransactionManager(entityManagerFactory().getObject());

@@ -1,6 +1,6 @@
 package org.cyanteam.telemaniacs.core.dao;
 
-import org.cyanteam.telemaniacs.core.ApplicationContextConfiguration;
+import org.cyanteam.telemaniacs.core.PersistenceContextConfiguration;
 import org.cyanteam.telemaniacs.core.entities.Channel;
 import org.cyanteam.telemaniacs.core.entities.Transmission;
 import org.cyanteam.telemaniacs.core.entities.TransmissionOccurrence;
@@ -30,7 +30,7 @@ import static org.assertj.core.api.Assertions.*;
  * @author Simona Tinkova
  */
 
-@ContextConfiguration(classes = ApplicationContextConfiguration.class)
+@ContextConfiguration(classes = PersistenceContextConfiguration.class)
 @RunWith(SpringJUnit4ClassRunner.class)
 @Transactional
 public class TransmissionOccurrenceDaoTest {
