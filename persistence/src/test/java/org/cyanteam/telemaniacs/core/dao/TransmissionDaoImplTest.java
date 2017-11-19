@@ -5,7 +5,7 @@ import org.cyanteam.telemaniacs.core.entities.*;
 import org.cyanteam.telemaniacs.core.enums.AgeAvailability;
 import org.cyanteam.telemaniacs.core.enums.ChannelType;
 import org.cyanteam.telemaniacs.core.enums.Sex;
-import org.cyanteam.telemaniacs.core.enums.Type;
+import org.cyanteam.telemaniacs.core.enums.TransmissionType;
 import org.cyanteam.telemaniacs.core.helpers.TransmissionBuilder;
 import org.junit.Before;
 import org.junit.Test;
@@ -146,7 +146,7 @@ public class TransmissionDaoImplTest {
         transmission.setLength(111);
         transmission.setAgeAvailability(AgeAvailability.AGE12);
         transmission.setLanguage("RU");
-        transmission.setType(Type.MOVIE);
+        transmission.setTransmissionType(TransmissionType.MOVIE);
         transmissionDao.update(transmission);
 
         assertThat(countAll())

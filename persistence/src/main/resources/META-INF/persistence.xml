@@ -3,7 +3,7 @@
 <persistence xmlns="http://java.sun.com/xml/ns/persistence"
 			 version="1.0">
 
-	<persistence-unit name="default" transaction-type="RESOURCE_LOCAL">
+	<persistence-unit name="default" transaction-transmissionType="RESOURCE_LOCAL">
 		<provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
 		<properties>
 			<property name="hibernate.connection.url" value="jdbc:derby:memory:telemaniacs_test"/>

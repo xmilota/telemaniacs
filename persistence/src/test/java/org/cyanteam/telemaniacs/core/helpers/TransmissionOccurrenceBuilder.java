@@ -3,15 +3,8 @@ package org.cyanteam.telemaniacs.core.helpers;
 import org.cyanteam.telemaniacs.core.entities.Channel;
 import org.cyanteam.telemaniacs.core.entities.Transmission;
 import org.cyanteam.telemaniacs.core.entities.TransmissionOccurrence;
-import org.cyanteam.telemaniacs.core.entities.Voting;
-import org.cyanteam.telemaniacs.core.enums.AgeAvailability;
-import org.cyanteam.telemaniacs.core.enums.Type;
 
-import javax.persistence.Column;
-import javax.persistence.ManyToOne;
-import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
-import java.util.List;
 
 /**
  * Helper class for building TransmissionOccurrence (for test purposes)

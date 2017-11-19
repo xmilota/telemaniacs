@@ -27,7 +27,7 @@ import org.cyanteam.telemaniacs.core.entities.TransmissionOccurrence;
 import org.cyanteam.telemaniacs.core.entities.Transmission;
 import org.cyanteam.telemaniacs.core.enums.ChannelType;
 import org.cyanteam.telemaniacs.core.enums.AgeAvailability;
-import org.cyanteam.telemaniacs.core.enums.Type;
+import org.cyanteam.telemaniacs.core.enums.TransmissionType;
 
 /**
  * Test class for ChannelDao.
@@ -236,7 +236,7 @@ public class ChannelDaoTest {
         transmission1.setLanguage("CZECH");
         transmission1.setLength(123);
         transmission1.setName("Test name");
-        transmission1.setType(Type.MOVIE);
+        transmission1.setTransmissionType(TransmissionType.MOVIE);
         transmission1.setOccurrences(new ArrayList<>());
     }
     

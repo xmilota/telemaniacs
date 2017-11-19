@@ -1,7 +1,7 @@
 package org.cyanteam.telemaniacs.core.entities;
 
 import org.cyanteam.telemaniacs.core.enums.AgeAvailability;
-import org.cyanteam.telemaniacs.core.enums.Type;
+import org.cyanteam.telemaniacs.core.enums.TransmissionType;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -35,7 +35,7 @@ public class Transmission {
     private String language;
 
     @Enumerated
-    private Type type;
+    private TransmissionType transmissionType;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "transmission")
     private List<TransmissionOccurrence> occurrences;
@@ -67,8 +67,8 @@ public class Transmission {
         this.language = language;
     }
 
-    public void setType(Type type) {
-        this.type = type;
+    public void setTransmissionType(TransmissionType transmissionType) {
+        this.transmissionType = transmissionType;
     }
 
     public Long getId() {
@@ -96,8 +96,8 @@ public class Transmission {
         return language;
     }
 
-    public Type getType() {
-        return type;
+    public TransmissionType getTransmissionType() {
+        return transmissionType;
     }
 
     public List<TransmissionOccurrence> getOccurrences() {
@@ -140,7 +140,7 @@ public class Transmission {
                 ", length=" + length +
                 ", ageAvailability=" + ageAvailability +
                 ", language='" + language + '\'' +
-                ", type=" + type +
+                ", transmissionType=" + transmissionType +
                 '}';
     }
 }

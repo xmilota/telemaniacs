@@ -6,14 +6,13 @@ import org.cyanteam.telemaniacs.core.entities.Transmission;
 import org.cyanteam.telemaniacs.core.entities.TransmissionOccurrence;
 import org.cyanteam.telemaniacs.core.enums.AgeAvailability;
 import org.cyanteam.telemaniacs.core.enums.ChannelType;
-import org.cyanteam.telemaniacs.core.enums.Type;
+import org.cyanteam.telemaniacs.core.enums.TransmissionType;
 import org.cyanteam.telemaniacs.core.helpers.TransmissionBuilder;
 import org.cyanteam.telemaniacs.core.helpers.TransmissionOccurrenceBuilder;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cglib.core.Local;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
@@ -22,7 +21,6 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.PersistenceException;
 import javax.validation.ConstraintViolationException;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.*;
 
@@ -281,7 +279,7 @@ public class TransmissionOccurrenceDaoTest {
 		transmission1.setLanguage("CZECH");
 		transmission1.setLength(120);
 		transmission1.setName("Test transmission name 1");
-		transmission1.setType(Type.MOVIE);
+		transmission1.setTransmissionType(TransmissionType.MOVIE);
 		transmission1.setOccurrences(new ArrayList<>());
 	}
 
@@ -292,7 +290,7 @@ public class TransmissionOccurrenceDaoTest {
 		transmission2.setLanguage("ENGLISH");
 		transmission2.setLength(60);
 		transmission2.setName("Test transmission name 2");
-		transmission2.setType(Type.TV_SERIES);
+		transmission2.setTransmissionType(TransmissionType.TV_SERIES);
 		transmission2.setOccurrences(new ArrayList<>());
 	}
 
