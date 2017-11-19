@@ -5,12 +5,13 @@ import org.cyanteam.telemaniacs.core.entities.*;
 import org.cyanteam.telemaniacs.core.enums.AgeAvailability;
 import org.cyanteam.telemaniacs.core.enums.ChannelType;
 import org.cyanteam.telemaniacs.core.enums.Sex;
-import org.cyanteam.telemaniacs.core.enums.Type;
+import org.cyanteam.telemaniacs.core.enums.TransmissionType;
 import org.cyanteam.telemaniacs.core.helpers.TransmissionBuilder;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
@@ -88,7 +89,7 @@ public class TransmissionDaoImplTest {
                 .isEqualToComparingFieldByField(transmission);
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test(expected = DataAccessException.class)
     public void createNullArgumentTest() {
         transmissionDao.create(null);
     }
@@ -146,7 +147,7 @@ public class TransmissionDaoImplTest {
         transmission.setLength(111);
         transmission.setAgeAvailability(AgeAvailability.AGE12);
         transmission.setLanguage("RU");
-        transmission.setType(Type.MOVIE);
+        transmission.setTransmissionType(TransmissionType.MOVIE);
         transmissionDao.update(transmission);
 
         assertThat(countAll())

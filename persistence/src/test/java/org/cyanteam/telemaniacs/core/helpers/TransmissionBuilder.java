@@ -4,7 +4,7 @@ import org.cyanteam.telemaniacs.core.entities.Transmission;
 import org.cyanteam.telemaniacs.core.entities.TransmissionOccurrence;
 import org.cyanteam.telemaniacs.core.entities.Voting;
 import org.cyanteam.telemaniacs.core.enums.AgeAvailability;
-import org.cyanteam.telemaniacs.core.enums.Type;
+import org.cyanteam.telemaniacs.core.enums.TransmissionType;
 
 import java.util.List;
 
@@ -19,7 +19,7 @@ public class TransmissionBuilder {
     private int length;
     private AgeAvailability ageAvailability;
     private String language;
-    private Type type;
+    private TransmissionType transmissionType;
     private List<TransmissionOccurrence> occurrences;
     private List<Voting> votings;
 
@@ -53,8 +53,8 @@ public class TransmissionBuilder {
         return this;
     }
 
-    public TransmissionBuilder type(Type type) {
-        this.type = type;
+    public TransmissionBuilder type(TransmissionType transmissionType) {
+        this.transmissionType = transmissionType;
         return this;
     }
 
@@ -76,7 +76,7 @@ public class TransmissionBuilder {
         transmission.setLength(length);
         transmission.setAgeAvailability(ageAvailability);
         transmission.setLanguage(language);
-        transmission.setType(type);
+        transmission.setTransmissionType(transmissionType);
         transmission.setOccurrences(occurrences);
         transmission.setVoting(votings);
 
@@ -90,7 +90,7 @@ public class TransmissionBuilder {
                 .length(142)
                 .ageAvailability(AgeAvailability.AGE15)
                 .language("EN")
-                .type(Type.MOVIE);
+                .type(TransmissionType.MOVIE);
     }
 
     public static TransmissionBuilder sampleFootballBuilder() {
@@ -100,7 +100,7 @@ public class TransmissionBuilder {
                 .length(120)
                 .ageAvailability(AgeAvailability.AGE12)
                 .language("GR")
-                .type(Type.SPORT_EVENT);
+                .type(TransmissionType.SPORT_EVENT);
     }
 
     public static TransmissionBuilder sampleIceAgeBuilder() {
@@ -110,6 +110,6 @@ public class TransmissionBuilder {
                 .length(360)
                 .ageAvailability(AgeAvailability.AGE18)
                 .language("CZ")
-                .type(Type.DOCUMENTARY);
+                .type(TransmissionType.DOCUMENTARY);
     }
 }

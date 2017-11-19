@@ -6,11 +6,14 @@ import org.cyanteam.telemaniacs.core.entities.Transmission;
 import org.cyanteam.telemaniacs.core.entities.TransmissionOccurrence;
 import org.cyanteam.telemaniacs.core.enums.AgeAvailability;
 import org.cyanteam.telemaniacs.core.enums.ChannelType;
-import org.cyanteam.telemaniacs.core.enums.Type;
+import org.cyanteam.telemaniacs.core.enums.TransmissionType;
+import org.cyanteam.telemaniacs.core.helpers.TransmissionBuilder;
+import org.cyanteam.telemaniacs.core.helpers.TransmissionOccurrenceBuilder;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
@@ -20,8 +23,7 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.PersistenceException;
 import javax.validation.ConstraintViolationException;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 import static org.assertj.core.api.Assertions.*;
 
@@ -100,14 +102,14 @@ public class TransmissionOccurrenceDaoTest {
 		transmissionOccurrenceDao.create(occurrence2);
 	}
 
-	@Test(expected= PersistenceException.class)
+	@Test(expected= DataAccessException.class)
 	public void createWithSetIdTest() {
 		occurrence2.setId(Long.MIN_VALUE);
 		transmissionOccurrenceDao.create(occurrence2);
 	}
 
 
-	@Test(expected= IllegalArgumentException.class)
+	@Test(expected= DataAccessException.class)
 	public void createWithNullOccurrenceTest() {
 		transmissionOccurrenceDao.create(null);
 	}
@@ -122,12 +124,12 @@ public class TransmissionOccurrenceDaoTest {
 				.containsOnly(occurrence1);
 	}
 
-	@Test(expected = IllegalArgumentException.class)
+	@Test(expected = DataAccessException.class)
 	public void removeNonExistingTest() {
 		transmissionOccurrenceDao.remove(occurrence2);
 	}
 
-	@Test(expected = IllegalArgumentException.class)
+	@Test(expected = DataAccessException.class)
 	public void removeNullTest() {
 		transmissionOccurrenceDao.remove(null);
 	}
@@ -153,7 +155,7 @@ public class TransmissionOccurrenceDaoTest {
 	}
 
 
-	@Test(expected = IllegalArgumentException.class)
+	@Test(expected = DataAccessException.class)
 	public void updateWithSetIdTest() {
 		transmissionOccurrenceDao.create(occurrence2);
 		occurrence2.setId(Long.MAX_VALUE);
@@ -162,7 +164,7 @@ public class TransmissionOccurrenceDaoTest {
 		entityManager.flush();
 	}
 
-	@Test(expected = IllegalArgumentException.class)
+	@Test(expected = DataAccessException.class)
 	public void updateNullTest() {
 		transmissionOccurrenceDao.update(null);
 	}
@@ -183,9 +185,74 @@ public class TransmissionOccurrenceDaoTest {
 		assertThat(acOccurrance).isNull();
 	}
 
-	@Test(expected = IllegalArgumentException.class)
+	@Test(expected = DataAccessException.class)
 	public void findByIdNullIdTest() {
 		transmissionOccurrenceDao.findById(null);
+	}
+
+	@Test
+	public void findByChannelAndDateTest() {
+		Channel channel = prepareChannel3();
+		channelDao.create(channel);
+
+		Transmission transmission = TransmissionBuilder.sampleIceAgeBuilder().build();
+		transmissionDao.create(transmission);
+
+		TransmissionOccurrenceBuilder builder = new TransmissionOccurrenceBuilder()
+				.channel(channel)
+				.transmission(transmission);
+
+		TransmissionOccurrence occurrence1 = builder.startDate(2017, 11, 1, 1, 2, 3).build();
+		transmissionOccurrenceDao.create(occurrence1);
+
+		TransmissionOccurrence occurrence2 = builder.startDate(2017, 11, 2, 15, 16, 17).build();
+		transmissionOccurrenceDao.create(occurrence2);
+
+		TransmissionOccurrence occurrence3 = builder.startDate(2017, 11, 3, 1, 2, 3).build();
+		transmissionOccurrenceDao.create(occurrence3);
+
+		TransmissionOccurrence occurrence4 = builder.channel(channel1).build();
+		transmissionOccurrenceDao.create(occurrence4);
+
+		LocalDateTime start = LocalDateTime.of(2017, 11, 2, 14, 0, 0);
+		List<TransmissionOccurrence> occurrences = transmissionOccurrenceDao.findByChannelAndDate(channel, start);
+
+		assertThat(occurrences.size()).isEqualTo(2);
+		assertThat(occurrences).containsExactlyInAnyOrder(occurrence2, occurrence3);
+	}
+
+	@Test
+	public void findByTransmissionAndDateTest() {
+		Channel channel = prepareChannel3();
+		channelDao.create(channel);
+
+		Transmission transmission1 = TransmissionBuilder.sampleIceAgeBuilder().build();
+		transmissionDao.create(transmission1);
+
+		Transmission transmission2 = TransmissionBuilder.sampleShawshankBuilder().build();
+		transmissionDao.create(transmission2);
+
+		TransmissionOccurrenceBuilder builder = new TransmissionOccurrenceBuilder()
+				.channel(channel)
+				.transmission(transmission1);
+
+		TransmissionOccurrence occurrence1 = builder.startDate(2017, 11, 1, 1, 2, 3).build();
+		transmissionOccurrenceDao.create(occurrence1);
+
+		TransmissionOccurrence occurrence2 = builder.startDate(2017, 11, 2, 15, 16, 17).build();
+		transmissionOccurrenceDao.create(occurrence2);
+
+		TransmissionOccurrence occurrence3 = builder.startDate(2017, 11, 3, 1, 2, 3).build();
+		transmissionOccurrenceDao.create(occurrence3);
+
+		TransmissionOccurrence occurrence4 = builder.transmission(transmission2).build();
+		transmissionOccurrenceDao.create(occurrence4);
+
+		LocalDateTime start = LocalDateTime.of(2017, 11, 2, 14, 0, 0);
+		List<TransmissionOccurrence> occurrences = transmissionOccurrenceDao.findByTransmissionAndDate(transmission1, start);
+
+		assertThat(occurrences.size()).isEqualTo(2);
+		assertThat(occurrences).containsExactlyInAnyOrder(occurrence2, occurrence3);
 	}
 
 
@@ -213,7 +280,7 @@ public class TransmissionOccurrenceDaoTest {
 		transmission1.setLanguage("CZECH");
 		transmission1.setLength(120);
 		transmission1.setName("Test transmission name 1");
-		transmission1.setType(Type.MOVIE);
+		transmission1.setTransmissionType(TransmissionType.MOVIE);
 		transmission1.setOccurrences(new ArrayList<>());
 	}
 
@@ -224,7 +291,7 @@ public class TransmissionOccurrenceDaoTest {
 		transmission2.setLanguage("ENGLISH");
 		transmission2.setLength(60);
 		transmission2.setName("Test transmission name 2");
-		transmission2.setType(Type.TV_SERIES);
+		transmission2.setTransmissionType(TransmissionType.TV_SERIES);
 		transmission2.setOccurrences(new ArrayList<>());
 	}
 
@@ -234,4 +301,11 @@ public class TransmissionOccurrenceDaoTest {
 				.getResultList();
 	}
 
+	private Channel prepareChannel3() {
+		Channel channel = new Channel();
+		channel.setName("Third channel");
+		channel.setLanguage("CZ");
+		channel.setChannelType(ChannelType.DOCUMENTARY);
+		return channel;
+	}
 }

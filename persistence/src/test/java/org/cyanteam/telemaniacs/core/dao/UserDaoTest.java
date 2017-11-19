@@ -7,6 +7,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
@@ -66,14 +67,14 @@ public class UserDaoTest {
         assertThat(actualUser).isEqualToComparingFieldByFieldRecursively(user);
     }
 
-    @Test(expected = PersistenceException.class)
+    @Test(expected = DataAccessException.class)
     public void createUserWithNonUniqueName() {
         anotherUser.setUsername(user.getUsername());
         userDao.create(user);
         userDao.create(anotherUser);
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test(expected = DataAccessException.class)
     public void createNullUser() {
         userDao.create(null);
     }
@@ -122,7 +123,7 @@ public class UserDaoTest {
         em.flush();
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test(expected = DataAccessException.class)
     public void updateNullUser() {
         userDao.update(null);
     }
@@ -172,12 +173,12 @@ public class UserDaoTest {
         assertThat(userDao.findAll().size()).isEqualTo(0);
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test(expected = DataAccessException.class)
     public void remoteNullUser() {
         userDao.remove(null);
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test(expected = DataAccessException.class)
     public void remoteNonPersistedUser() {
         userDao.remove(user);
     }
@@ -205,7 +206,7 @@ public class UserDaoTest {
         assertThat(userDao.findById(1L)).isNull();
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test(expected = DataAccessException.class)
     public void findUserByNullId() {
         userDao.findById(null);
     }
@@ -218,12 +219,12 @@ public class UserDaoTest {
         assertThat(actualUser).isEqualToComparingFieldByFieldRecursively(user);
     }
 
-    @Test(expected = NoResultException.class)
+    @Test(expected = DataAccessException.class)
     public void findUserByNonExistingName() {
         userDao.findByUsername("");
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test(expected = DataAccessException.class)
     public void findUserByNullName() {
         userDao.findByUsername(null);
     }
@@ -236,13 +237,13 @@ public class UserDaoTest {
         assertThat(actualUser).isEqualToComparingFieldByFieldRecursively(user);
     }
 
-    @Test(expected = NoResultException.class)
+    @Test(expected = DataAccessException.class)
     public void findUserByNonExistingEmail() {
         userDao.create(user);
         userDao.findByEmail("test");
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test(expected = DataAccessException.class)
     public void findUserByNullEmail() {
         userDao.findByEmail(null);
     }

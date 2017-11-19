@@ -14,7 +14,7 @@ public interface ObjectMapperService {
      * @param <T> Destination type
      * @return Destination object
      */
-    public <T> T map(Object sourceObject, Class<T> destinationClass);
+    <T> T map(Object sourceObject, Class<T> destinationClass);
 
     /**
      * Get list source objects mapped to destination objects
@@ -23,5 +23,5 @@ public interface ObjectMapperService {
      * @param <T> Destination type
      * @return List of destination objects
      */
-    public <T> List<T> map(Collection<?> sourceObjects, Class<T> destinationClass);
+    <T> List<T> map(Collection<?> sourceObjects, Class<T> destinationClass);
 }

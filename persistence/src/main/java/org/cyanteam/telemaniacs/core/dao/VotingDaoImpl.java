@@ -5,8 +5,10 @@ import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 
+import org.cyanteam.telemaniacs.core.entities.Transmission;
 import org.cyanteam.telemaniacs.core.entities.User;
 import org.cyanteam.telemaniacs.core.entities.Voting;
 import org.springframework.stereotype.Repository;
@@ -68,6 +70,19 @@ public class VotingDaoImpl implements VotingDao {
                     .createQuery(queryString, Voting.class)
                     .setParameter("userId", user);
         
+        return Collections.unmodifiableList(query.getResultList());
+    }
+
+    @Override
+    public List<Voting> findByTransmission(Transmission transmission) {
+        if (transmission == null || transmission.getId() == null) {
+            throw new IllegalArgumentException("Invalid transmission.");
+        }
+
+        Query query = entityManager
+                .createQuery("SELECT v FROM Voting v WHERE v.transmission = :transmission", Voting.class)
+                .setParameter("transmission", transmission);
+
         return Collections.unmodifiableList(query.getResultList());
     }
 
