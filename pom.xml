@@ -99,7 +99,7 @@
 				<groupId>io.spring.platform</groupId>
 				<artifactId>platform-bom</artifactId>
 				<version>${spring.version}</version>
-				<transmissionType>pom</transmissionType>
+				<type>pom</type>
 				<scope>import</scope>
 			</dependency>
 		</dependencies>

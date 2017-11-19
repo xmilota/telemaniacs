@@ -10,6 +10,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
@@ -87,7 +88,7 @@ public class VotingDaoTest {
         assertThat(actualVoting).isEqualToComparingFieldByFieldRecursively(actualVoting);
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test(expected = DataAccessException.class)
     public void createNullVoting() {
         votingDao.create(null);
     }
@@ -116,13 +117,13 @@ public class VotingDaoTest {
         votingDao.create(voting);
     }
 
-    @Test(expected = PersistenceException.class)
+    @Test(expected = DataAccessException.class)
     public void createWithNullUser() {
         voting.setUser(null);
         votingDao.create(voting);
     }
 
-    @Test(expected = PersistenceException.class)
+    @Test(expected = DataAccessException.class)
     public void createWithNullTransmission() {
         voting.setTransmission(null);
         votingDao.create(voting);
@@ -139,7 +140,7 @@ public class VotingDaoTest {
         assertThat(actualVoting).isEqualToComparingFieldByFieldRecursively(voting);
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test(expected = DataAccessException.class)
     public void updateNullVoting() {
         votingDao.update(null);
     }
@@ -208,12 +209,12 @@ public class VotingDaoTest {
         assertThat(votingDao.findAll().size()).isEqualTo(0);
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test(expected = DataAccessException.class)
     public void removeNullVoting() {
         votingDao.remove(null);
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test(expected = DataAccessException.class)
     public void remoteNonPersistedVoting() {
         votingDao.remove(voting);
     }
@@ -242,7 +243,7 @@ public class VotingDaoTest {
         assertThat(votingDao.findById(1L)).isNull();
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test(expected = DataAccessException.class)
     public void findByNullId() {
         votingDao.findById(null);
     }
@@ -257,7 +258,7 @@ public class VotingDaoTest {
         assertThat(votingDao.findByUser(user)).containsExactlyInAnyOrder(voting, anotherVoting);
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test(expected = DataAccessException.class)
     public void findByNullUser() {
         votingDao.findByUser(null);
     }
@@ -280,7 +281,7 @@ public class VotingDaoTest {
         assertThat(votings.get(0)).isEqualToComparingFieldByField(iceAgeVoting);
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test(expected = DataAccessException.class)
     public void findByTransmissionNullTest() {
         votingDao.findByTransmission(null);
     }

@@ -13,6 +13,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
@@ -101,14 +102,14 @@ public class TransmissionOccurrenceDaoTest {
 		transmissionOccurrenceDao.create(occurrence2);
 	}
 
-	@Test(expected= PersistenceException.class)
+	@Test(expected= DataAccessException.class)
 	public void createWithSetIdTest() {
 		occurrence2.setId(Long.MIN_VALUE);
 		transmissionOccurrenceDao.create(occurrence2);
 	}
 
 
-	@Test(expected= IllegalArgumentException.class)
+	@Test(expected= DataAccessException.class)
 	public void createWithNullOccurrenceTest() {
 		transmissionOccurrenceDao.create(null);
 	}
@@ -123,12 +124,12 @@ public class TransmissionOccurrenceDaoTest {
 				.containsOnly(occurrence1);
 	}
 
-	@Test(expected = IllegalArgumentException.class)
+	@Test(expected = DataAccessException.class)
 	public void removeNonExistingTest() {
 		transmissionOccurrenceDao.remove(occurrence2);
 	}
 
-	@Test(expected = IllegalArgumentException.class)
+	@Test(expected = DataAccessException.class)
 	public void removeNullTest() {
 		transmissionOccurrenceDao.remove(null);
 	}
@@ -154,7 +155,7 @@ public class TransmissionOccurrenceDaoTest {
 	}
 
 
-	@Test(expected = IllegalArgumentException.class)
+	@Test(expected = DataAccessException.class)
 	public void updateWithSetIdTest() {
 		transmissionOccurrenceDao.create(occurrence2);
 		occurrence2.setId(Long.MAX_VALUE);
@@ -163,7 +164,7 @@ public class TransmissionOccurrenceDaoTest {
 		entityManager.flush();
 	}
 
-	@Test(expected = IllegalArgumentException.class)
+	@Test(expected = DataAccessException.class)
 	public void updateNullTest() {
 		transmissionOccurrenceDao.update(null);
 	}
@@ -184,7 +185,7 @@ public class TransmissionOccurrenceDaoTest {
 		assertThat(acOccurrance).isNull();
 	}
 
-	@Test(expected = IllegalArgumentException.class)
+	@Test(expected = DataAccessException.class)
 	public void findByIdNullIdTest() {
 		transmissionOccurrenceDao.findById(null);
 	}

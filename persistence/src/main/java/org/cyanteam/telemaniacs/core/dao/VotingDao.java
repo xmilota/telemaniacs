@@ -6,6 +6,7 @@ import javax.validation.ConstraintViolationException;
 import org.cyanteam.telemaniacs.core.entities.Transmission;
 import org.cyanteam.telemaniacs.core.entities.User;
 import org.cyanteam.telemaniacs.core.entities.Voting;
+import org.springframework.dao.DataAccessException;
 
 /**
  * Interface for CRUD operations for entity voting.
@@ -54,7 +55,7 @@ public interface VotingDao {
      *
      * @param user represents user of searched votings.
      * @return list of votings of specific user from database.
-     * @throws IllegalArgumentException if user is null. 
+     * @throws DataAccessException if user is null.
      */
     List<Voting> findByUser(User user);
 
@@ -63,7 +64,7 @@ public interface VotingDao {
      *
      * @param transmission Transmission
      * @return Votings of specified transmission
-     * @throws IllegalArgumentException if transmission is null or invalid
+     * @throws DataAccessException if transmission is null or invalid
      */
     List<Voting> findByTransmission(Transmission transmission);
     
