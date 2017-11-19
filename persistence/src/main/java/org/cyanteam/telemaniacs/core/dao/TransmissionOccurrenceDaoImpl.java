@@ -1,11 +1,17 @@
 package org.cyanteam.telemaniacs.core.dao;
 
+import org.cyanteam.telemaniacs.core.entities.Channel;
+import org.cyanteam.telemaniacs.core.entities.Transmission;
 import org.cyanteam.telemaniacs.core.entities.TransmissionOccurrence;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
+import java.time.LocalDateTime;
+import java.util.Collections;
+import java.util.List;
 
 /**
  * Implementation of transmission occurrence DAO using database.
@@ -46,6 +52,38 @@ public class TransmissionOccurrenceDaoImpl implements TransmissionOccurrenceDao 
         }
 
         entityManager.merge(transmissionOccurrence);
+    }
+
+    @Override
+    public List<TransmissionOccurrence> findByChannelAndDate(Channel channel, LocalDateTime start) {
+        if (channel == null) {
+            throw new IllegalArgumentException("Channel cannot be null");
+        }
+
+        String queryString =
+                "SELECT o FROM TransmissionOccurrence o " +
+                "WHERE o.channel = :channel AND o.startDate >= :start";
+        Query query = entityManager
+                .createQuery(queryString, TransmissionOccurrence.class)
+                .setParameter("channel", channel)
+                .setParameter("start", start);
+        return Collections.unmodifiableList(query.getResultList());
+    }
+
+    @Override
+    public List<TransmissionOccurrence> findByTransmissionAndDate(Transmission transmission, LocalDateTime start) {
+        if (transmission == null) {
+            throw new IllegalArgumentException("Transmission cannot be null");
+        }
+
+        String queryString =
+                "SELECT o FROM TransmissionOccurrence o " +
+                        "WHERE o.transmission = :transmission AND o.startDate >= :start";
+        Query query = entityManager
+                .createQuery(queryString, TransmissionOccurrence.class)
+                .setParameter("transmission", transmission)
+                .setParameter("start", start);
+        return Collections.unmodifiableList(query.getResultList());
     }
 
     @Override

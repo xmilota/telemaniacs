@@ -19,6 +19,8 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.PersistenceException;
 import javax.validation.ConstraintViolationException;
 
+import java.util.List;
+
 import static org.assertj.core.api.Assertions.assertThat;
 
 /**
@@ -258,6 +260,29 @@ public class VotingDaoTest {
     @Test(expected = IllegalArgumentException.class)
     public void findByNullUser() {
         votingDao.findByUser(null);
+    }
+
+    @Test
+    public void findByTransmissionTest() {
+        Transmission transmission = TransmissionBuilder.sampleIceAgeBuilder().build();
+        transmissionDao.create(transmission);
+
+        Voting iceAgeVoting = new Voting();
+        iceAgeVoting.setComment("some comment");
+        iceAgeVoting.setRank(4);
+        iceAgeVoting.setIpAddress("127.0.0.0");
+        iceAgeVoting.setUser(user);
+        iceAgeVoting.setTransmission(transmission);
+        votingDao.create(iceAgeVoting);
+
+        List<Voting> votings = votingDao.findByTransmission(transmission);
+        assertThat(votings.size()).isEqualTo(1);
+        assertThat(votings.get(0)).isEqualToComparingFieldByField(iceAgeVoting);
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void findByTransmissionNullTest() {
+        votingDao.findByTransmission(null);
     }
 
 }

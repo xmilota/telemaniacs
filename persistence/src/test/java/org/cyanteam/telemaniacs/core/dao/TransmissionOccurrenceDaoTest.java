@@ -7,10 +7,13 @@ import org.cyanteam.telemaniacs.core.entities.TransmissionOccurrence;
 import org.cyanteam.telemaniacs.core.enums.AgeAvailability;
 import org.cyanteam.telemaniacs.core.enums.ChannelType;
 import org.cyanteam.telemaniacs.core.enums.Type;
+import org.cyanteam.telemaniacs.core.helpers.TransmissionBuilder;
+import org.cyanteam.telemaniacs.core.helpers.TransmissionOccurrenceBuilder;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cglib.core.Local;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
@@ -19,9 +22,9 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.PersistenceException;
 import javax.validation.ConstraintViolationException;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 import static org.assertj.core.api.Assertions.*;
 
@@ -188,6 +191,71 @@ public class TransmissionOccurrenceDaoTest {
 		transmissionOccurrenceDao.findById(null);
 	}
 
+	@Test
+	public void findByChannelAndDateTest() {
+		Channel channel = prepareChannel3();
+		channelDao.create(channel);
+
+		Transmission transmission = TransmissionBuilder.sampleIceAgeBuilder().build();
+		transmissionDao.create(transmission);
+
+		TransmissionOccurrenceBuilder builder = new TransmissionOccurrenceBuilder()
+				.channel(channel)
+				.transmission(transmission);
+
+		TransmissionOccurrence occurrence1 = builder.startDate(2017, 11, 1, 1, 2, 3).build();
+		transmissionOccurrenceDao.create(occurrence1);
+
+		TransmissionOccurrence occurrence2 = builder.startDate(2017, 11, 2, 15, 16, 17).build();
+		transmissionOccurrenceDao.create(occurrence2);
+
+		TransmissionOccurrence occurrence3 = builder.startDate(2017, 11, 3, 1, 2, 3).build();
+		transmissionOccurrenceDao.create(occurrence3);
+
+		TransmissionOccurrence occurrence4 = builder.channel(channel1).build();
+		transmissionOccurrenceDao.create(occurrence4);
+
+		LocalDateTime start = LocalDateTime.of(2017, 11, 2, 14, 0, 0);
+		List<TransmissionOccurrence> occurrences = transmissionOccurrenceDao.findByChannelAndDate(channel, start);
+
+		assertThat(occurrences.size()).isEqualTo(2);
+		assertThat(occurrences).containsExactlyInAnyOrder(occurrence2, occurrence3);
+	}
+
+	@Test
+	public void findByTransmissionAndDateTest() {
+		Channel channel = prepareChannel3();
+		channelDao.create(channel);
+
+		Transmission transmission1 = TransmissionBuilder.sampleIceAgeBuilder().build();
+		transmissionDao.create(transmission1);
+
+		Transmission transmission2 = TransmissionBuilder.sampleShawshankBuilder().build();
+		transmissionDao.create(transmission2);
+
+		TransmissionOccurrenceBuilder builder = new TransmissionOccurrenceBuilder()
+				.channel(channel)
+				.transmission(transmission1);
+
+		TransmissionOccurrence occurrence1 = builder.startDate(2017, 11, 1, 1, 2, 3).build();
+		transmissionOccurrenceDao.create(occurrence1);
+
+		TransmissionOccurrence occurrence2 = builder.startDate(2017, 11, 2, 15, 16, 17).build();
+		transmissionOccurrenceDao.create(occurrence2);
+
+		TransmissionOccurrence occurrence3 = builder.startDate(2017, 11, 3, 1, 2, 3).build();
+		transmissionOccurrenceDao.create(occurrence3);
+
+		TransmissionOccurrence occurrence4 = builder.transmission(transmission2).build();
+		transmissionOccurrenceDao.create(occurrence4);
+
+		LocalDateTime start = LocalDateTime.of(2017, 11, 2, 14, 0, 0);
+		List<TransmissionOccurrence> occurrences = transmissionOccurrenceDao.findByTransmissionAndDate(transmission1, start);
+
+		assertThat(occurrences.size()).isEqualTo(2);
+		assertThat(occurrences).containsExactlyInAnyOrder(occurrence2, occurrence3);
+	}
+
 
 
 	private void prepareChannel1(){
@@ -234,4 +302,11 @@ public class TransmissionOccurrenceDaoTest {
 				.getResultList();
 	}
 
+	private Channel prepareChannel3() {
+		Channel channel = new Channel();
+		channel.setName("Third channel");
+		channel.setLanguage("CZ");
+		channel.setChannelType(ChannelType.DOCUMENTARY);
+		return channel;
+	}
 }
