@@ -1,6 +1,7 @@
 package org.cyanteam.telemaniacs.core.services;
 
 import java.util.List;
+
 import org.cyanteam.telemaniacs.core.entities.Transmission;
 import org.cyanteam.telemaniacs.core.entities.User;
 import org.cyanteam.telemaniacs.core.entities.Voting;
@@ -61,8 +62,7 @@ public interface VotingService {
      * @throws TvManagerDataAccessException in case of any error during service 
      */
     Voting getVotingById(Long id) throws TvManagerDataAccessException;
-    
-    
+        
     /**
      * Get all votings 
      * @return all votings

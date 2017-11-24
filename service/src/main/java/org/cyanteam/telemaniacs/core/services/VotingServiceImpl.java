@@ -4,6 +4,7 @@ import java.util.List;
 import javax.inject.Inject;
 import javax.persistence.EntityExistsException;
 import javax.persistence.TransactionRequiredException;
+
 import org.cyanteam.telemaniacs.core.dao.VotingDao;
 import org.cyanteam.telemaniacs.core.entities.Transmission;
 import org.cyanteam.telemaniacs.core.entities.User;
@@ -25,7 +26,7 @@ public class VotingServiceImpl implements VotingService {
             throw new IllegalArgumentException("Voting cannot be null!");
         }
         
-         try {
+        try {
             votingDao.create(voting);
         } catch (EntityExistsException | IllegalArgumentException | TransactionRequiredException e) {
             throw new TvManagerDataAccessException("Error while creating voting!");
