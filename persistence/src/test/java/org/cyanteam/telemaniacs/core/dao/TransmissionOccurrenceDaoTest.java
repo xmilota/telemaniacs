@@ -1,11 +1,14 @@
 package org.cyanteam.telemaniacs.core.dao;
 
+import org.assertj.core.util.Lists;
 import org.cyanteam.telemaniacs.core.PersistenceContextConfiguration;
 import org.cyanteam.telemaniacs.core.entities.Channel;
 import org.cyanteam.telemaniacs.core.entities.Transmission;
 import org.cyanteam.telemaniacs.core.entities.TransmissionOccurrence;
+import org.cyanteam.telemaniacs.core.entities.User;
 import org.cyanteam.telemaniacs.core.enums.AgeAvailability;
 import org.cyanteam.telemaniacs.core.enums.ChannelType;
+import org.cyanteam.telemaniacs.core.enums.Sex;
 import org.cyanteam.telemaniacs.core.enums.TransmissionType;
 import org.cyanteam.telemaniacs.core.helpers.TransmissionBuilder;
 import org.cyanteam.telemaniacs.core.helpers.TransmissionOccurrenceBuilder;
@@ -20,7 +23,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.persistence.PersistenceException;
 import javax.validation.ConstraintViolationException;
 import java.time.LocalDateTime;
 import java.util.*;
@@ -37,16 +39,19 @@ import static org.assertj.core.api.Assertions.*;
 @Transactional
 public class TransmissionOccurrenceDaoTest {
 	@PersistenceContext
-	public EntityManager entityManager;
+	private EntityManager entityManager;
 
 	@Autowired
-	public ChannelDao channelDao;
+	private ChannelDao channelDao;
 
 	@Autowired
-	public TransmissionOccurrenceDao transmissionOccurrenceDao;
+	private TransmissionOccurrenceDao transmissionOccurrenceDao;
 
 	@Autowired
-	public TransmissionDao transmissionDao;
+	private TransmissionDao transmissionDao;
+
+	@Autowired
+	private UserDao userDao;
 
 	private Channel channel1;
 	private Channel channel2;
@@ -255,7 +260,46 @@ public class TransmissionOccurrenceDaoTest {
 		assertThat(occurrences).containsExactlyInAnyOrder(occurrence2, occurrence3);
 	}
 
+	@Test
+	public void findByUserAndDateTest() {
+		Channel channel = prepareChannel3();
+		channelDao.create(channel);
 
+		Transmission transmission1 = TransmissionBuilder.sampleIceAgeBuilder().build();
+		transmissionDao.create(transmission1);
+
+		Transmission transmission2 = TransmissionBuilder.sampleShawshankBuilder().build();
+		transmissionDao.create(transmission2);
+
+		TransmissionOccurrenceBuilder builder = new TransmissionOccurrenceBuilder()
+				.channel(channel)
+				.transmission(transmission1);
+
+		TransmissionOccurrence occurrence1 = builder.startDate(2017, 11, 1, 1, 2, 3).build();
+		transmissionOccurrenceDao.create(occurrence1);
+
+		TransmissionOccurrence occurrence2 = builder
+				.transmission(transmission1)
+				.startDate(2017, 11, 2, 15, 16, 17)
+				.build();
+		transmissionOccurrenceDao.create(occurrence2);
+
+		TransmissionOccurrence occurrence3 = builder
+				.transmission(transmission2)
+				.startDate(2017, 11, 3, 1, 2, 3)
+				.build();
+		transmissionOccurrenceDao.create(occurrence3);
+
+		User user = prepareUser();
+		user.setFavouriteTransmissions(Lists.newArrayList(transmission1, transmission2));
+		userDao.create(user);
+
+		LocalDateTime start = LocalDateTime.of(2017, 11, 3, 0, 0);
+		List<TransmissionOccurrence> occurrences = transmissionOccurrenceDao.findByUserAndDate(user, start);
+
+		assertThat(occurrences).hasSize(1);
+		assertThat(occurrences).containsExactly(occurrence3);
+	}
 
 	private void prepareChannel1(){
 		channel1 = new Channel();
@@ -307,5 +351,15 @@ public class TransmissionOccurrenceDaoTest {
 		channel.setLanguage("CZ");
 		channel.setChannelType(ChannelType.DOCUMENTARY);
 		return channel;
+	}
+
+	private User prepareUser() {
+		User user = new User();
+		user.setUsername("user");
+		user.setEmail("user@mail.com");
+		user.setAge(20);
+		user.setSex(Sex.MALE);
+		user.setPasswordHash("passwordHash");
+		return user;
 	}
 }

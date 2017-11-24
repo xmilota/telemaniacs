@@ -3,6 +3,7 @@ package org.cyanteam.telemaniacs.core.dao;
 import org.cyanteam.telemaniacs.core.entities.Channel;
 import org.cyanteam.telemaniacs.core.entities.Transmission;
 import org.cyanteam.telemaniacs.core.entities.TransmissionOccurrence;
+import org.cyanteam.telemaniacs.core.entities.User;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -82,6 +83,24 @@ public class TransmissionOccurrenceDaoImpl implements TransmissionOccurrenceDao 
         Query query = entityManager
                 .createQuery(queryString, TransmissionOccurrence.class)
                 .setParameter("transmission", transmission)
+                .setParameter("start", start);
+        return Collections.unmodifiableList(query.getResultList());
+    }
+
+    @Override
+    public List<TransmissionOccurrence> findByUserAndDate(User user, LocalDateTime start) {
+        if (user == null) {
+            throw new IllegalArgumentException("User cannot be null");
+        }
+
+        String queryString =
+                "SELECT o FROM User u " +
+                        "LEFT JOIN u.favouriteTransmissions t " +
+                        "LEFT JOIN t.occurrences o " +
+                        "WHERE u = :user AND o.startDate >= :start";
+        Query query = entityManager
+                .createQuery(queryString, TransmissionOccurrence.class)
+                .setParameter("user", user)
                 .setParameter("start", start);
         return Collections.unmodifiableList(query.getResultList());
     }

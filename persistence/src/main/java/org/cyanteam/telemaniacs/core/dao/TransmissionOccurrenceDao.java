@@ -3,6 +3,7 @@ package org.cyanteam.telemaniacs.core.dao;
 import org.cyanteam.telemaniacs.core.entities.Channel;
 import org.cyanteam.telemaniacs.core.entities.Transmission;
 import org.cyanteam.telemaniacs.core.entities.TransmissionOccurrence;
+import org.cyanteam.telemaniacs.core.entities.User;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -51,6 +52,15 @@ public interface TransmissionOccurrenceDao {
      * @throws IllegalArgumentException if transmission is null
      */
     List<TransmissionOccurrence> findByTransmissionAndDate(Transmission transmission, LocalDateTime start);
+
+    /**
+     * Finds all transmissions by user and date
+     * @param user User
+     * @param start Start date time
+     * @return All transmissions on given user since start date
+     * @throws IllegalArgumentException if user is null
+     */
+    List<TransmissionOccurrence> findByUserAndDate(User user, LocalDateTime start);
 
     /**
      * Finds transmission occurrence by ID
