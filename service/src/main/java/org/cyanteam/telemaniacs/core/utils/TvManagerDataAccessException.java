@@ -1,18 +1,22 @@
 package org.cyanteam.telemaniacs.core.utils;
 
+import org.springframework.dao.DataAccessException;
+
 /**
- *
+ * Exception which covers all issues during data access operations
+ * in this application.
  * @author Miroslav Kubus
  */
-public class TvManagerDataAccessException extends Exception {
-
+public class TvManagerDataAccessException extends DataAccessException {
+    
     /**
-     * Creates a new instance of <code>TvManagerDataAccessException</code>
-     * without detail message.
+     * Constructs an instance of <code>TvManagerDataAccessException</code> with
+     * the default detail message.
      */
     public TvManagerDataAccessException() {
+        super("Exception during data access");
     }
-
+    
     /**
      * Constructs an instance of <code>TvManagerDataAccessException</code> with
      * the specified detail message.
