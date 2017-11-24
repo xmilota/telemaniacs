@@ -83,4 +83,26 @@ public class VotingServiceImpl implements VotingService {
             throw new TvManagerDataAccessException("Error while updating voting!");
         }
     }
+    
+    @Override
+    public List<Voting> getAllVotings() throws TvManagerDataAccessException {        
+        try {
+            return votingDao.findAll();
+        } catch (IllegalArgumentException e) {
+            throw new TvManagerDataAccessException("Error while updating voting!");
+        }
+    }
+    
+    @Override
+    public Voting getVotingById(Long id) throws TvManagerDataAccessException {
+        if(id == null) {
+            throw new IllegalArgumentException("ID cannot be null!");
+        }
+        
+        try {
+            return votingDao.findById(id);
+        } catch (IllegalArgumentException e) {
+            throw new TvManagerDataAccessException("Error while getting voting by Id!");
+        }
+    }
 }

@@ -53,4 +53,20 @@ public interface VotingService {
      * @throws TvManagerDataAccessException in case of any error during service 
      */
     List<Voting> getVotingByUser(User user) throws TvManagerDataAccessException;
+    
+    /**
+     * Get voting by id
+     * @param id of voting to be returned
+     * @return voting of given id
+     * @throws TvManagerDataAccessException in case of any error during service 
+     */
+    Voting getVotingById(Long id) throws TvManagerDataAccessException;
+    
+    
+    /**
+     * Get all votings 
+     * @return all votings
+     * @throws TvManagerDataAccessException in case of any error during service 
+     */
+    List<Voting> getAllVotings() throws TvManagerDataAccessException;
 }
