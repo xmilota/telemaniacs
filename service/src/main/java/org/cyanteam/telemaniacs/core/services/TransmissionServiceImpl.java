@@ -95,13 +95,13 @@ public class TransmissionServiceImpl implements TransmissionService {
     @Override
     public Double getAverageVoting(Transmission transmission) {
         List<Voting> votings = getVotings(transmission);
-        if (votings.size() == 0) {
+        if (votings == null || votings.size() == 0) {
             return null;
         }
 
         Collection<Integer> ranks = votings.stream()
                 .map(Voting::getRank)
                 .collect(Collectors.toList());
-        return statisticsService.Average(ranks);
+        return statisticsService.average(ranks);
     }
 }

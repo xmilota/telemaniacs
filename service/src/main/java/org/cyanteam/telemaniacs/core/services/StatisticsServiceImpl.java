@@ -7,12 +7,12 @@ import java.util.Collection;
 @Service
 public class StatisticsServiceImpl implements StatisticsService {
     @Override
-    public int Sum(Collection<Integer> items) {
+    public int sum(Collection<Integer> items) {
         return items.stream().mapToInt(Integer::intValue).sum();
     }
 
     @Override
-    public double Average(Collection<Integer> items) {
-        return (double) Sum(items) / items.size();
+    public double average(Collection<Integer> items) {
+        return (double) sum(items) / items.size();
     }
 }
