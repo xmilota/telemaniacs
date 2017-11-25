@@ -2,6 +2,7 @@ package org.cyanteam.telemaniacs.core.services;
 
 import org.cyanteam.telemaniacs.core.dao.ChannelDao;
 import org.cyanteam.telemaniacs.core.entities.Channel;
+import org.cyanteam.telemaniacs.core.enums.ChannelType;
 import org.cyanteam.telemaniacs.core.utils.TvManagerDataAccessException;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -61,6 +62,18 @@ public class ChannelServiceImpl implements ChannelService {
 	}
 
 	@Override
+	public Channel getChannelsByType(ChannelType type) {
+		if (type == null) {
+			throw new IllegalArgumentException("Channel type is null.");
+		}
+		try {
+			return channelDao.findByType(type);
+		} catch (Throwable e) {
+			throw new TvManagerDataAccessException("Cannot find channel with type  " + type, e);
+		}
+	}
+
+	@Override
 	public Channel update(Channel channel) throws TvManagerDataAccessException {
 		if (channel == null) {
 			throw new IllegalArgumentException("Channel is null.");
@@ -86,5 +99,6 @@ public class ChannelServiceImpl implements ChannelService {
 					+ " with id" + channel.getId(), e);
 		}
 	}
+
 
 }

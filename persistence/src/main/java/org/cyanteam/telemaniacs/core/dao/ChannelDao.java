@@ -1,6 +1,7 @@
 package org.cyanteam.telemaniacs.core.dao;
 
 import org.cyanteam.telemaniacs.core.entities.Channel;
+import org.cyanteam.telemaniacs.core.enums.ChannelType;
 
 import java.util.List;
 
@@ -60,5 +61,12 @@ public interface ChannelDao {
      * @return all stored channels
      */
     List<Channel> findAll();
+
+    /**
+     *
+     * @param type of the channel
+     * @return found entity
+     */
+    Channel findByType(ChannelType type);
 
 }

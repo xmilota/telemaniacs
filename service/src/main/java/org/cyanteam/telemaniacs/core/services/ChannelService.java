@@ -1,6 +1,7 @@
 package org.cyanteam.telemaniacs.core.services;
 
 import org.cyanteam.telemaniacs.core.entities.Channel;
+import org.cyanteam.telemaniacs.core.enums.ChannelType;
 
 import java.util.List;
 
@@ -57,4 +58,6 @@ public interface ChannelService {
 	 * @return all stored channels
 	 */
 	List<Channel> findAll();
+
+	Channel getChannelsByType(ChannelType type);
 }

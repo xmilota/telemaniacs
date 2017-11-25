@@ -1,6 +1,7 @@
 package org.cyanteam.telemaniacs.core.dao;
 
 import org.cyanteam.telemaniacs.core.entities.Transmission;
+import org.cyanteam.telemaniacs.core.enums.TransmissionType;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -64,6 +65,17 @@ public class TransmissionDaoImpl implements TransmissionDao {
 		return entityManager
 				.createQuery("SELECT u FROM Transmission u WHERE u.name = :name", Transmission.class)
 				.setParameter("name", name)
+				.getSingleResult();
+	}
+
+	@Override
+	public Transmission findByType(TransmissionType type) {
+		if(type == null) {
+			throw new IllegalArgumentException("You tried to find transmission with null type!");
+		}
+		return entityManager
+				.createQuery("SELECT u FROM Transmission u WHERE u.transmissionType = :type", Transmission.class)
+				.setParameter("type", type)
 				.getSingleResult();
 	}
 
