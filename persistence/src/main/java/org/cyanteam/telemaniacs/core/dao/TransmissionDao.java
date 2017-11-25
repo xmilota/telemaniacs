@@ -1,6 +1,5 @@
 package org.cyanteam.telemaniacs.core.dao;
 
-import org.cyanteam.telemaniacs.core.entities.Channel;
 import org.cyanteam.telemaniacs.core.entities.Transmission;
 
 import javax.validation.ConstraintViolationException;
@@ -17,7 +16,7 @@ public interface TransmissionDao {
 	 * @throws ConstraintViolationException if any constraints on columns
 	 * are violated.
 	 */
-	void create(Transmission transmission) throws ConstraintViolationException;
+	Transmission create(Transmission transmission) throws ConstraintViolationException;
 
 	/**
 	 * The transmission will be deleted from database.
@@ -26,7 +25,7 @@ public interface TransmissionDao {
 	 * @throws IllegalArgumentException if transmission for removing is not stored
 	 * in the database or transmission is null.
 	 */
-	void delete(Transmission transmission) throws IllegalArgumentException;
+	Transmission delete(Transmission transmission) throws IllegalArgumentException;
 
 	/**
 	 * The transmission will be updated in the database.
@@ -37,7 +36,7 @@ public interface TransmissionDao {
 	 * are violated.
 	 * @throws IllegalArgumentException if transmission for updating is not in the database.
 	 */
-	void update(Transmission transmission) throws ConstraintViolationException, IllegalArgumentException;
+	Transmission update(Transmission transmission) throws ConstraintViolationException, IllegalArgumentException;
 
 	/**
 	 * Returns the transmission with the specific id.

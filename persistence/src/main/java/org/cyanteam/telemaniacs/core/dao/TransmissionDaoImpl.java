@@ -6,8 +6,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.persistence.TypedQuery;
-import javax.validation.ConstraintViolationException;
 
 /**
  * @author Simona Tinkova
@@ -20,24 +18,26 @@ public class TransmissionDaoImpl implements TransmissionDao {
 	private EntityManager entityManager;
 
 	@Override
-	public void create(Transmission transmission) {
+	public Transmission create(Transmission transmission) {
 		if (transmission == null){
 			throw new IllegalArgumentException("Transmission is null");
 		}
 		entityManager.persist(transmission);
+		return transmission;
 	}
 
 	@Override
-	public void delete(Transmission transmission) {
+	public Transmission delete(Transmission transmission) {
 		if(transmission == null){
 			throw new IllegalArgumentException("You are trying to delete null transmission");
 		}
 
 		entityManager.remove(findById(transmission.getId()));
+		return transmission;
 	}
 
 	@Override
-	public void update(Transmission transmission) {
+	public Transmission update(Transmission transmission) {
 		if(transmission == null) {
 			throw new IllegalArgumentException("You are trying to update null transmission.");
 		}
@@ -46,6 +46,7 @@ public class TransmissionDaoImpl implements TransmissionDao {
 		}
 
 		entityManager.merge(transmission);
+		return transmission;
 	}
 	@Override
 	public Transmission findById(Long id) {
