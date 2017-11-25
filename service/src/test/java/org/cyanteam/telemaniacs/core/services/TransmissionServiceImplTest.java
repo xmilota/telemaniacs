@@ -29,17 +29,17 @@ public class StatisticsServiceImplTest {
     private List<Integer> items;
 
     @Before
-    public void setUp() {
+    public void SetUp() {
         items = IntStream.range(1, 11).boxed().collect(Collectors.toList());
     }
 
     @Test
-    public void sumTest() {
+    public void SumTest() {
         assertThat(statisticsService.Sum(items)).isEqualTo(55);
     }
 
     @Test
-    public void averageTest() {
+    public void AverageTest() {
         assertThat(statisticsService.Average(items)).isCloseTo(5.5d, within(0.001));
     }
 }

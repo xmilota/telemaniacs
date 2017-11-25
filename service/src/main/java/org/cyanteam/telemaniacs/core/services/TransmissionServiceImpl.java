@@ -102,6 +102,6 @@ public class TransmissionServiceImpl implements TransmissionService {
         Collection<Integer> ranks = votings.stream()
                 .map(Voting::getRank)
                 .collect(Collectors.toList());
-        return statisticsService.Average(ranks);
+        return statisticsService.average(ranks);
     }
 }
