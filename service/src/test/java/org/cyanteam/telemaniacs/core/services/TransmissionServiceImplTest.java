@@ -2,249 +2,193 @@ package org.cyanteam.telemaniacs.core.services;
 
 import org.cyanteam.telemaniacs.core.ServiceContextConfiguration;
 import org.cyanteam.telemaniacs.core.dao.TransmissionDao;
+import org.cyanteam.telemaniacs.core.dao.TransmissionOccurrenceDao;
+import org.cyanteam.telemaniacs.core.entities.Channel;
 import org.cyanteam.telemaniacs.core.entities.Transmission;
+import org.cyanteam.telemaniacs.core.entities.TransmissionOccurrence;
+import org.cyanteam.telemaniacs.core.entities.Voting;
+import org.cyanteam.telemaniacs.core.enums.TransmissionType;
 import org.cyanteam.telemaniacs.core.helpers.TransmissionBuilder;
-import org.hibernate.service.spi.ServiceException;
-import org.junit.BeforeClass;
+import org.cyanteam.telemaniacs.core.helpers.TransmissionOccurrenceBuilder;
+import org.cyanteam.telemaniacs.core.helpers.VotingBuilder;
+import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DataAccessException;
 import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
-import org.testng.annotations.BeforeMethod;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import java.util.HashMap;
-import java.util.Map;
+import javax.inject.Inject;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.Matchers.any;
-import static org.mockito.Matchers.anyLong;
+import static org.assertj.core.api.Assertions.within;
+import static org.cyanteam.telemaniacs.core.utils.ListUtils.createList;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 /**
- * @author Simona Tinkova
+ * Tests for transmission service
+ * @author Michael Le
  */
-
 @ContextConfiguration(classes = ServiceContextConfiguration.class)
-public class TransmissionServiceImplTest extends AbstractTestNGSpringContextTests {
-	@Mock
-	private TransmissionDao transmissionDao;
+@RunWith(SpringJUnit4ClassRunner.class)
+public class TransmissionServiceImplTest {
+    @Mock
+    private DateTimeService dateTimeService;
 
-	@Autowired
-	@InjectMocks
-	private TransmissionService transmissionService;
+    @Mock
+    private TransmissionDao transmissionDao;
 
-	private Transmission transmission1;
-	private Transmission transmission2;
-	private Transmission transmission3;
+    @Mock
+    private TransmissionOccurrenceDao transmissionOccurrenceDao;
 
-	private Long counter = 10L;
-	private Map<Long, Transmission> transmissions = new HashMap<>();
+    @Inject
+    @InjectMocks
+    private TransmissionService transmissionService;
 
-	@BeforeClass
-	public void beforeClass() throws ServiceException {
-		MockitoAnnotations.initMocks(this);
+    private LocalDateTime mockDateTime = LocalDateTime.of(2017, 1, 1, 0, 0, 0);
+    private Channel channel = new Channel();
 
-		when(transmissionDao.create(any(Transmission.class))).then(invoke -> {
-			Transmission mockedTransmission = invoke.getArgumentAt(0, Transmission.class);
-			if (mockedTransmission.getId() != null) {
-				throw new IllegalArgumentException("Transmission already exist");
-			}
-			if (mockedTransmission.getName() == null){
-				throw new IllegalArgumentException("Transmission name can't be null");
-			}
-			if (checkTransmissionsNameDuplicity(mockedTransmission.getName(), -1L)) {
-				throw new IllegalArgumentException("Transmission name already exist");
-			}
-			long index = counter;
-			mockedTransmission.setId(index);
-			transmissions.put(index, mockedTransmission);
-			counter++;
-			return mockedTransmission;
-		});
+    private Transmission transmission1; // Without ID
+    private Transmission transmission2;
+    private Transmission transmission3;
 
-		when(transmissionDao.update(any(Transmission.class))).then(invoke -> {
-			Transmission mockedTransmission = invoke.getArgumentAt(0, Transmission.class);
-			if (mockedTransmission.getId() == null) {
-				throw new IllegalArgumentException("Transmission was not created yet.");
-			}
-			if (mockedTransmission.getName() == null){
-				throw new IllegalArgumentException("Transmission name can't be null");
-			}
-			if (checkTransmissionsNameDuplicity(mockedTransmission.getName(), mockedTransmission.getId())) {
-				throw new IllegalArgumentException("Transmission name already exist");
-			}
-			transmissions.replace(mockedTransmission.getId(), mockedTransmission);
-			return mockedTransmission;
-		});
+    private TransmissionOccurrence occurrence1; // Without ID
+    private TransmissionOccurrence occurrence2;
+    private TransmissionOccurrence occurrence3;
 
-		when(transmissionDao.delete(any(Transmission.class))).then(invoke -> {
-			Transmission mockedTransmission = invoke.getArgumentAt(0, Transmission.class);
-			if (mockedTransmission.getId() == null) {
-				throw new IllegalArgumentException("Transmission is not in Database.");
-			}
-			transmissions.remove(mockedTransmission.getId(), mockedTransmission);
-			return mockedTransmission;
-		});
+    private Voting voting1;
+    private Voting voting2;
+    private Voting voting3;
 
+    @Before
+    public void setUp() {
+        MockitoAnnotations.initMocks(this);
+    }
 
-		when(transmissionDao.findById(anyLong())).then(invoke -> {
-			long index = invoke.getArgumentAt(0, Long.class);
-			return transmissions.get(index);
-		});
+    @Before
+    public void setUpTestData() {
+        channel.setName("Star Channel");
 
+        transmission1 = TransmissionBuilder.sampleIceAgeBuilder().build();
+        transmission2 = TransmissionBuilder.sampleShawshankBuilder().id(1L).build();
+        transmission3 = TransmissionBuilder.sampleShawshankBuilder().id(2L).name("The Shawshank Redemption 2").build();
 
-	}
+        TransmissionOccurrenceBuilder builder = new TransmissionOccurrenceBuilder()
+                .transmission(transmission2).channel(channel);
+        occurrence1 = builder.startDate(2017, 1, 1, 20, 0, 0).build();
+        occurrence2 = builder.id(1L).startDate(2017, 1, 2, 20, 0, 0).build();
+        occurrence3 = builder.id(2L).startDate(2017, 1, 3, 20, 0, 0).build();
+        transmission2.setOccurrences(createList(occurrence2, occurrence3));
 
+        voting1 = VotingBuilder.sampleLowVotingBuilder().build();
+        voting2 = VotingBuilder.sampleMediumVotingBuilder().build();
+        voting3 = VotingBuilder.sampleHighVotingBuilder().build();
+        transmission2.setVoting(createList(voting1, voting2, voting3));
+    }
 
-	@BeforeMethod
-	public void beforeTest() {
-		transmissions.clear();
-		transmission1 = TransmissionBuilder.sampleFootballBuilder().build();
-		transmission2 = TransmissionBuilder.sampleIceAgeBuilder().build();
-		transmission3 = TransmissionBuilder.sampleShawshankBuilder().build();
+    @Test
+    public void createTransmissionTest() {
+        transmissionService.createTransmission(transmission1);
+        verify(transmissionDao).create(transmission1);
+    }
 
-		transmission1.setId(1L);
-		transmission2.setId(2L);
-		transmission3.setId(3L);
+    @Test
+    public void updateTransmissionTest() {
+        transmissionService.updateTransmission(transmission2);
+        verify(transmissionDao).update(transmission2);
+    }
 
-		transmissions.put(1L, transmission1);
-		transmissions.put(2L, transmission2);
-		transmissions.put(3L, transmission3);
-	}
+    @Test
+    public void removeTransmissionTest() {
+        transmissionService.removeTransmission(transmission2);
+        verify(transmissionDao).delete(transmission2);
+    }
 
+    @Test
+    public void getTransmissionByName() {
+        String transmissionName = transmission2.getName();
+        when(transmissionDao.findByName(transmissionName)).thenReturn(transmission2);
 
-	@Test
-	public void createNewTransmission() throws DataAccessException {
-		int sizeBefore = transmissions.size();
-		Transmission transmission = TransmissionBuilder.sampleFootballBuilder().build();
-		transmissionService.createTransmission(transmission);
-		assertThat(transmissions.values()).hasSize(sizeBefore + 1)
-				.contains(transmission);
-	}
+        Transmission result = transmissionService.getTransmissionByName(transmissionName);
+        verify(transmissionDao).findByName(transmissionName);
+        assertThat(result).isEqualToComparingFieldByField(transmission2);
+    }
 
-	@Test(expected = IllegalArgumentException.class)
-	public void createNullTransmission() {
-		transmissionService.createTransmission(null);
-	}
+    @Test
+    public void getTransmissionByType() {
+        TransmissionType transmissionType = TransmissionType.MOVIE;
+        //when(transmissionDao.findByType(transmissionType)).thenReturn(createList(transmission2, transmission3));
 
+        List<Transmission> result = transmissionService.getTransmissionsByType(transmissionType);
+        //verify(transmissionDao).findByType(transmissionType);
+        assertThat(result).containsExactlyInAnyOrder(transmission2, transmission3);
+    }
 
-	@Test(expected = DataAccessException.class)
-	public void createTransmissionNullName(){
-		transmissionService.createTransmission(new Transmission());
-	}
+    @Test
+    public void addOccurrenceTest() {
+        transmissionService.addOccurrence(occurrence1);
+        verify(transmissionOccurrenceDao).create(occurrence1);
+    }
 
-	@Test(expected = DataAccessException.class)
-	public void createExistingTransmission() {
-		Transmission transmission = TransmissionBuilder.sampleFootballBuilder().build();
-		Transmission anotherTransmission = TransmissionBuilder.sampleIceAgeBuilder().build();
-		transmissionService.createTransmission(transmission);
-		transmissionService.createTransmission(anotherTransmission);
-	}
+    @Test
+    public void updateOccurrenceTest() {
+        transmissionService.updateOccurrence(occurrence2);
+        verify(transmissionOccurrenceDao).update(occurrence2);
+    }
 
-	@Test(expected = DataAccessException.class)
-	public void createTransmissionWithIdNotNull() {
-		Transmission transmission = TransmissionBuilder.sampleFootballBuilder().build();
-		transmission.setId(1L);
-		transmissionService.createTransmission(transmission);
-	}
+    @Test
+    public void removeOccurrenceTest() {
+        transmissionService.removeOccurrence(occurrence2);
+        verify(transmissionOccurrenceDao).remove(occurrence2);
+    }
 
-	@Test
-	public void updateTransmission() throws DataAccessException {
-		transmission1.setName("updated transmission");
-		transmissionService.updateTransmission(transmission1);
+    @Test
+    public void getOccurrencesTest() {
+        List<TransmissionOccurrence> occurrences = transmissionService.getOccurrences(transmission2);
+        assertThat(occurrences).containsExactlyInAnyOrder(occurrence2, occurrence3);
+    }
 
-		Transmission updated = transmissions.get(transmission1.getId());
+    @Test
+    public void getUpcomingOccurrencesTest() {
+        when(dateTimeService.getCurrent()).thenReturn(mockDateTime);
+        when(transmissionOccurrenceDao.findByTransmissionAndDate(transmission2, mockDateTime))
+                .thenReturn(createList(occurrence2, occurrence3));
 
-		assertThat(updated.getName()).isEqualTo("updated transmission");
-		assertThat(updated).isEqualToComparingFieldByField(transmission1);
-	}
-
-	@Test(expected = IllegalArgumentException.class)
-	public void updateNullTransmission() {
-		transmissionService.updateTransmission(null);
-	}
-
-	@Test(expected = DataAccessException.class)
-	public void updateTransmissionNullName(){
-		transmission1.setName(null);
-		transmissionService.updateTransmission(transmission1);
-	}
+        List<TransmissionOccurrence> result = transmissionService.getUpcomingOccurrences(transmission2);
+        verify(transmissionOccurrenceDao).findByTransmissionAndDate(transmission2, mockDateTime);
+        assertThat(result).containsExactlyInAnyOrder(occurrence2, occurrence3);
+    }
 
 
-	@Test(expected = DataAccessException.class)
-	public void updateTransmissionWithNullId() {
-		Transmission transmission = TransmissionBuilder.sampleFootballBuilder().build();
-		transmissionService.updateTransmission(transmission);
-	}
+    @Test
+    public void getVotingsTest() {
+        List<Voting> votings = transmissionService.getVotings(transmission2);
+        assertThat(votings).containsExactlyInAnyOrder(voting1, voting2, voting3);
+    }
 
-	@Test(expected = DataAccessException.class)
-	public void updateTransmissionWithDuplicateName() {
-		transmission1.setName(transmission2.getName());
-		transmissionService.updateTransmission(transmission1);
-	}
+    @Test
+    public void getAverageVotingTest() {
+        double expected = (double) (voting1.getRank() + voting2.getRank() + voting3.getRank()) / 3;
+        Double result = transmissionService.getAverageVoting(transmission2);
+        assertThat(result).isCloseTo(expected, within(0.001));
+    }
 
+    @Test
+    public void getAverageVotingEmptyTest() {
+        transmission3.setVoting(new ArrayList<>());
+        Double result = transmissionService.getAverageVoting(transmission3);
+        assertThat(result).isNull();
+    }
 
-	@Test
-	public void deleteTransmission() throws DataAccessException {
-		int sizeBefore = transmissions.values().size();
-		transmissionService.removeTransmission(transmission1);
-
-		assertThat(transmissions.values()).hasSize(sizeBefore - 1)
-				.doesNotContain(transmission1);
-	}
-
-	@Test(expected = IllegalArgumentException.class)
-	public void deleteNullTransmission() {
-		transmissionService.removeTransmission(null);
-	}
-
-
-	@Test(expected = DataAccessException.class)
-	public void deleteTransmissionWithNullId() {
-		Transmission transmission = TransmissionBuilder.sampleFootballBuilder().build();
-		transmissionService.removeTransmission(transmission);
-	}
-
-	@Test
-	public void deleteTransmissionNotInDB() throws DataAccessException {
-		int sizeBefore = transmissions.values().size();
-		Transmission transmission = TransmissionBuilder.sampleFootballBuilder().build();
-		transmission.setId(counter * 2L);
-		transmissionService.removeTransmission(transmission);
-
-		assertThat(transmissions.values()).hasSize(sizeBefore)
-				.doesNotContain(transmission);
-
-	}
-
-
-	@Test
-	public void findTransmissionById() throws DataAccessException {
-		assertThat(transmissionService.getTransmissionById(transmission1.getId()))
-				.isEqualToComparingFieldByField(transmission1);
-	}
-
-	@Test
-	public void findTransmissionByIdNotInDB() throws DataAccessException {
-		assertThat(transmissionService.getTransmissionById(10000L)).isNull();
-	}
-
-	@Test(expected = IllegalArgumentException.class)
-	public void findTransmissionByNullId() {
-		transmissionService.getTransmissionById(null);
-	}
-
-	private boolean checkTransmissionsNameDuplicity(String name, long id) {
-		for (Transmission m : transmissions.values()) {
-			if (m.getName().equals(name) && id != m.getId()) {
-				return true;
-			}
-		}
-		return false;
-	}
+    @Test
+    public void getAverageVotingNullTest() {
+        Double result = transmissionService.getAverageVoting(transmission3);
+        assertThat(result).isNull();
+    }
 }
-
