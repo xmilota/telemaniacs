@@ -1,6 +1,7 @@
 package org.cyanteam.telemaniacs.core.dao;
 
 import org.cyanteam.telemaniacs.core.entities.Transmission;
+import org.cyanteam.telemaniacs.core.enums.TransmissionType;
 
 import javax.validation.ConstraintViolationException;
 
@@ -56,4 +57,10 @@ public interface TransmissionDao {
 	 */
 	Transmission findByName(String name) throws IllegalArgumentException;
 
+	/**
+	 *
+	 * @param type of the transmission
+	 * @return tre transmission with the specific type
+	 */
+	Transmission findByType(TransmissionType type);
 }

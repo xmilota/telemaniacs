@@ -222,6 +222,22 @@ public class TransmissionServiceImplTest extends AbstractTestNGSpringContextTest
 	}
 
 
+	@Test
+	public void findTransmissionById() throws DataAccessException {
+		assertThat(transmissionService.getTransmissionById(transmission1.getId()))
+				.isEqualToComparingFieldByField(transmission1);
+	}
+
+	@Test
+	public void findTransmissionByIdNotInDB() throws DataAccessException {
+		assertThat(transmissionService.getTransmissionById(10000L)).isNull();
+	}
+
+	@Test(expected = IllegalArgumentException.class)
+	public void findTransmissionByNullId() {
+		transmissionService.getTransmissionById(null);
+	}
+
 	private boolean checkTransmissionsNameDuplicity(String name, long id) {
 		for (Transmission m : transmissions.values()) {
 			if (m.getName().equals(name) && id != m.getId()) {
