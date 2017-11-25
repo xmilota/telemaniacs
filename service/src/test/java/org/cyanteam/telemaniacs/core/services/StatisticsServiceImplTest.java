@@ -4,7 +4,6 @@ import org.cyanteam.telemaniacs.core.ServiceContextConfiguration;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.springframework.context.annotation.Bean;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
@@ -35,11 +34,11 @@ public class StatisticsServiceImplTest {
 
     @Test
     public void sumTest() {
-        assertThat(statisticsService.Sum(items)).isEqualTo(55);
+        assertThat(statisticsService.sum(items)).isEqualTo(55);
     }
 
     @Test
     public void averageTest() {
-        assertThat(statisticsService.Average(items)).isCloseTo(5.5d, within(0.001));
+        assertThat(statisticsService.average(items)).isCloseTo(5.5d, within(0.001));
     }
 }
