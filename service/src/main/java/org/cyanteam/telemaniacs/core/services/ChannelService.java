@@ -5,7 +5,7 @@ import org.cyanteam.telemaniacs.core.entities.Channel;
 import java.util.List;
 
 /**
- * Created by Simona Tinkova
+ * @author Simona Tinkova
  */
 public interface ChannelService {
 	/**

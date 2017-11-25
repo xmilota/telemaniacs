@@ -7,7 +7,7 @@ import javax.inject.Inject;
 import java.util.List;
 
 /**
- * Created by Simona Tinkova
+ * @author Simona Tinkova
  */
 public class ChannelServiceImpl implements ChannelService {
 	@Inject
