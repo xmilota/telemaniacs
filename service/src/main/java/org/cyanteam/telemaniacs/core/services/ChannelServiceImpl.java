@@ -1,45 +1,90 @@
 package org.cyanteam.telemaniacs.core.services;
 
-import org.cyanteam.telemaniacs.core.dto.ChannelDao;
+import org.cyanteam.telemaniacs.core.dao.ChannelDao;
 import org.cyanteam.telemaniacs.core.entities.Channel;
+import org.cyanteam.telemaniacs.core.utils.TvManagerDataAccessException;
+import org.springframework.beans.factory.annotation.Autowired;
 
-import javax.inject.Inject;
 import java.util.List;
 
 /**
  * @author Simona Tinkova
  */
 public class ChannelServiceImpl implements ChannelService {
-	@Inject
+	@Autowired
 	private ChannelDao channelDao;
 
 	@Override
-	public void create(Channel channel) {
-		channelDao.create(channel);
+	public Channel create(Channel channel) throws TvManagerDataAccessException {
+		if (channel == null) {
+			throw new IllegalArgumentException("Channel is null.");
+		}
+		try {
+			channelDao.create(channel);
+			return channel;
+		} catch (Throwable e) {
+			throw new TvManagerDataAccessException("Cannot create channel named " + channel.getName() + " with id" + channel.getId(), e);
+		}
 	}
 
 	@Override
-	public void remove(Channel channel) {
-		channelDao.remove(channel);
+	public Channel findById(Long id) throws TvManagerDataAccessException {
+		if (id == null) {
+			throw new IllegalArgumentException("Channel id is null.");
+		}
+		try {
+			return channelDao.findById(id);
+		} catch (Throwable e) {
+			throw new TvManagerDataAccessException("Cannot find channel with id  " + id, e);
+		}
 	}
 
 	@Override
-	public void update(Channel channel) {
-		channelDao.update(channel);
+	public Channel findByName(String name) throws TvManagerDataAccessException {
+		if ((name == null) || (name.isEmpty())) {
+			throw new IllegalArgumentException("Channel name is empty or null.");
+		}
+		try {
+			return channelDao.findByName(name);
+		} catch (Throwable e) {
+			throw new TvManagerDataAccessException("Cannot find channel named  " + name, e);
+		}
 	}
 
 	@Override
-	public Channel findById(Long id) {
-		return channelDao.findById(id);
+	public List<Channel> findAll() throws TvManagerDataAccessException {
+		try {
+			return channelDao.findAll();
+		} catch (Throwable e) {
+			throw new TvManagerDataAccessException("Could not receive list of channels", e);
+		}
 	}
 
 	@Override
-	public Channel findByName(String name) {
-		return channelDao.findByName(name);
+	public Channel update(Channel channel) throws TvManagerDataAccessException {
+		if (channel == null) {
+			throw new IllegalArgumentException("Channel is null.");
+		}
+		try {
+			channelDao.update(channel);
+			return channel;
+		} catch (Throwable e) {
+			throw new TvManagerDataAccessException("Cannot update channel named " + channel.getName()
+					+ " with id" + channel.getId(), e);
+		}
 	}
 
 	@Override
-	public List<Channel> findAll() {
-		return channelDao.findAll();
+	public void remove(Channel channel) throws TvManagerDataAccessException {
+		if (channel == null) {
+			throw new IllegalArgumentException("Channel is null.");
+		}
+		try {
+			channelDao.remove(channel);
+		} catch (Throwable e) {
+			throw new TvManagerDataAccessException("Cannot deleteAll channel named " + channel.getName()
+					+ " with id" + channel.getId(), e);
+		}
 	}
+
 }

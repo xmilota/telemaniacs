@@ -2,7 +2,6 @@ package org.cyanteam.telemaniacs.core.dto;
 
 import org.cyanteam.telemaniacs.core.enums.TransmissionType;
 
-import javax.validation.constraints.NotNull;
 import java.util.List;
 
 /**

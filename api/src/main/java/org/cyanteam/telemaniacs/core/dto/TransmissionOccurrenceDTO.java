@@ -1,6 +1,5 @@
 package org.cyanteam.telemaniacs.core.dto;
 
-import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 
 /**

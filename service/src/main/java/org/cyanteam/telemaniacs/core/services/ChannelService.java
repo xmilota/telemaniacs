@@ -14,7 +14,7 @@ public interface ChannelService {
 	 * @param channel entity that will be persisted
 	 * @throws IllegalArgumentException if channel is null
 	 */
-	void create(Channel channel);
+	Channel create(Channel channel);
 
 	/**
 	 * Removes channel
@@ -32,7 +32,7 @@ public interface ChannelService {
 	 * @throws IllegalArgumentException if channel is null
 	 * @throws IllegalArgumentException if channel is not stored in the database
 	 */
-	void update(Channel channel);
+	Channel update(Channel channel);
 
 	/**
 	 * Returns channel by id.

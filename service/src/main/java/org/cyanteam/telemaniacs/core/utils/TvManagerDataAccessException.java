@@ -26,4 +26,8 @@ public class TvManagerDataAccessException extends DataAccessException {
     public TvManagerDataAccessException(String msg) {
         super(msg);
     }
+
+    public TvManagerDataAccessException(String msg, Throwable cause) {
+        super(msg, cause);
+    }
 }

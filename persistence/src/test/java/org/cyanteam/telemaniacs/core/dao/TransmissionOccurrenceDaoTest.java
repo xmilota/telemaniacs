@@ -1,4 +1,4 @@
-package org.cyanteam.telemaniacs.core.dto;
+package org.cyanteam.telemaniacs.core.dao;
 
 import org.assertj.core.util.Lists;
 import org.cyanteam.telemaniacs.core.PersistenceContextConfiguration;

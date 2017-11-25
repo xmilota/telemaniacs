@@ -1,4 +1,4 @@
-package org.cyanteam.telemaniacs.core.dto;
+package org.cyanteam.telemaniacs.core.dao;
 
 import org.cyanteam.telemaniacs.core.entities.Channel;
 import org.springframework.stereotype.Repository;
