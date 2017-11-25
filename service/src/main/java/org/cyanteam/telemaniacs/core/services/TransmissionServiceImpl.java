@@ -1,6 +1,7 @@
 package org.cyanteam.telemaniacs.core.services;
 
 import org.cyanteam.telemaniacs.core.dao.TransmissionDao;
+import org.cyanteam.telemaniacs.core.dao.TransmissionOccurrenceDao;
 import org.cyanteam.telemaniacs.core.entities.Transmission;
 import org.cyanteam.telemaniacs.core.entities.TransmissionOccurrence;
 import org.cyanteam.telemaniacs.core.entities.Voting;
@@ -8,7 +9,9 @@ import org.cyanteam.telemaniacs.core.enums.TransmissionType;
 import org.springframework.stereotype.Service;
 
 import javax.inject.Inject;
+import java.util.Collection;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Transmission service
@@ -17,7 +20,16 @@ import java.util.List;
 @Service
 public class TransmissionServiceImpl implements TransmissionService {
     @Inject
+    private DateTimeService dateTimeService;
+
+    @Inject
+    private StatisticsService statisticsService;
+
+    @Inject
     private TransmissionDao transmissionDao;
+
+    @Inject
+    private TransmissionOccurrenceDao transmissionOccurrenceDao;
 
     @Override
     public void createTransmission(Transmission transmission) {
@@ -46,41 +58,50 @@ public class TransmissionServiceImpl implements TransmissionService {
 
     @Override
     public List<Transmission> getTransmissionsByType(TransmissionType type) {
+        // return transmissionDao.findByType(type);
         return null;
     }
 
     @Override
     public void addOccurrence(TransmissionOccurrence occurrence) {
-
+        transmissionOccurrenceDao.create(occurrence);
     }
 
     @Override
     public void updateOccurrence(TransmissionOccurrence occurrence) {
-
+        transmissionOccurrenceDao.update(occurrence);
     }
 
     @Override
     public void removeOccurrence(TransmissionOccurrence occurrence) {
-
+        transmissionOccurrenceDao.remove(occurrence);
     }
 
     @Override
     public List<TransmissionOccurrence> getOccurrences(Transmission transmission) {
-        return null;
+        return transmission.getOccurrences();
     }
 
     @Override
     public List<TransmissionOccurrence> getUpcomingOccurrences(Transmission transmission) {
-        return null;
+        return transmissionOccurrenceDao.findByTransmissionAndDate(transmission, dateTimeService.getCurrent());
     }
 
     @Override
     public List<Voting> getVotings(Transmission transmission) {
-        return null;
+        return transmission.getVoting();
     }
 
     @Override
     public Double getAverageVoting(Transmission transmission) {
-        return null;
+        List<Voting> votings = getVotings(transmission);
+        if (votings.size() == 0) {
+            return null;
+        }
+
+        Collection<Integer> ranks = votings.stream()
+                .map(Voting::getRank)
+                .collect(Collectors.toList());
+        return statisticsService.Average(ranks);
     }
 }
