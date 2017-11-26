@@ -12,14 +12,15 @@ import org.cyanteam.telemaniacs.core.helpers.ChannelBuilder;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.Before;
+import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
-import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.testng.annotations.BeforeMethod;
 
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -32,8 +33,8 @@ import static org.mockito.Mockito.when;
  * @author Simona Tinkova
  */
 
-@DirtiesContext
 @ContextConfiguration(classes = ServiceContextConfiguration.class)
+//@RunWith(SpringJUnit4ClassRunner.class)
 public class ChannelServiceImplTest {
 
 	@Mock
@@ -50,7 +51,7 @@ public class ChannelServiceImplTest {
 	private Long counter = 10L;
 	private Map<Long, Channel> channels = new HashMap<>();
 
-	@Before
+	@BeforeMethod
 	public void prepareTestChannels(){
 		channels.clear();
 		channel1 = ChannelBuilder.nova().build();

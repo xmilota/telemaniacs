@@ -2,6 +2,7 @@ package org.cyanteam.telemaniacs.core.services;
 
 import org.cyanteam.telemaniacs.core.entities.Transmission;
 import org.cyanteam.telemaniacs.core.entities.User;
+import org.springframework.stereotype.Service;
 
 import java.time.Duration;
 import java.time.LocalDate;
@@ -12,7 +13,8 @@ import java.util.stream.Collectors;
 /**
  * @author Simona Tinkova
  */
-public class FavoriteTransmissionServiceImpl implements FavoriteTransmissionsService {
+@Service
+public class FavoriteTransmissionsServiceImpl implements FavoriteTransmissionsService {
 	@Override
 	public void followTransmission(Transmission transmission, User user) {
 		List<Transmission> favoriteTransmissions = user.getFavouriteTransmissions();

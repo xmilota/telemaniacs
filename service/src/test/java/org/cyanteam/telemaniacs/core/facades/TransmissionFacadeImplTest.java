@@ -3,16 +3,16 @@ package org.cyanteam.telemaniacs.core.facades;
 import org.cyanteam.telemaniacs.core.ServiceContextConfiguration;
 import org.cyanteam.telemaniacs.core.dto.TransmissionDTO;
 import org.cyanteam.telemaniacs.core.facade.TransmissionFacade;
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
-import org.testng.annotations.AfterMethod;
-import org.testng.annotations.BeforeMethod;
-
-import static java.util.stream.Collectors.toSet;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+//import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
 import static junit.framework.TestCase.assertFalse;
 import static junit.framework.TestCase.assertNull;
 import static junit.framework.TestCase.assertTrue;
@@ -22,10 +22,9 @@ import static org.junit.Assert.assertNotNull;
 /**
  * @author Simona Tinkova
  */
-
-@DirtiesContext
 @ContextConfiguration(classes = ServiceContextConfiguration.class)
-public class TransmissionFacadeImplTest extends AbstractTestNGSpringContextTests {
+@RunWith(SpringJUnit4ClassRunner.class)
+public class TransmissionFacadeImplTest {
 
 	@Autowired
 	@InjectMocks
@@ -36,7 +35,7 @@ public class TransmissionFacadeImplTest extends AbstractTestNGSpringContextTests
 	private TransmissionDTO newTransmission;
 
 
-	@BeforeMethod
+	@Before
 	public void createTransmissions() {
 		transmission1 = getTransmissionHelper("tran1");
 		transmission2 = getTransmissionHelper("tran2");
@@ -53,7 +52,7 @@ public class TransmissionFacadeImplTest extends AbstractTestNGSpringContextTests
 	}
 
 
-	@AfterMethod
+	@After
 	public void deleteTransmissions() {
 		if (transmissionFacade.findAll().contains(transmission1)) {
 			transmissionFacade.delete(transmission1);
@@ -102,7 +101,7 @@ public class TransmissionFacadeImplTest extends AbstractTestNGSpringContextTests
 	@Test
 	public void shouldUpdateTransmission() throws Exception {
 		transmission1.setName("tran");
-		logger.info("Transmission id: " + transmission1.getId());
+		//logger.info("Transmission id: " + transmission1.getId());
 		transmissionFacade.update(transmission1);
 		assertEquals(transmissionFacade.findAll().size(), 2);
 		assertEquals(transmissionFacade.findById(transmission1.getId()), transmission1);
