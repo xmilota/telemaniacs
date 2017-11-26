@@ -14,8 +14,9 @@ public interface UserService {
     /**
      * Creates new user
      * @param user User
+     * @param encryptedPassword encryptedPassword of user
      */
-    void createUser(User user);
+    void createUser(User user, String encryptedPassword);
 
     /**
      * Removes user
@@ -56,4 +57,18 @@ public interface UserService {
      */
     List<User> findAllUsers();
 
+    /**
+     * Check if user is admin
+     * @param user to be checked
+     * @return true if user is admin, false otherwise
+     */
+    boolean isAdmin(User user);
+    
+   /**
+    * Authenticate user
+    * @param user to be authenticated
+    * @param password of the user
+    * @return true if user is authenticated, false otherwise
+    */
+    boolean authenticate(User user, String password);
 }
