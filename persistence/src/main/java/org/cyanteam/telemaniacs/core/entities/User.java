@@ -148,7 +148,6 @@ public class User implements Serializable {
         int hash = 7;
         hash = 23 * hash + ((email == null) ? 0 : email.hashCode());
         hash = 23 * hash + ((username == null) ? 0 : username.hashCode());
-        hash = 23 * hash + ((passwordHash == null) ? 0 : passwordHash.hashCode());
         return hash;
     }
     
@@ -169,12 +168,6 @@ public class User implements Serializable {
         if((email != null) 
                 ? !email.equals(other.getEmail())
                 : other.getEmail()!= null){
-            return false;
-        }
-        
-        if((passwordHash != null) 
-                ? !passwordHash.equals(other.getPasswordHash())
-                : other.getPasswordHash()!= null){
             return false;
         }
         
