@@ -1,6 +1,5 @@
 package org.cyanteam.telemaniacs.core.dto;
 
-import org.cyanteam.telemaniacs.core.entities.TransmissionOccurrence;
 import org.cyanteam.telemaniacs.core.enums.ChannelType;
 
 import java.util.List;
