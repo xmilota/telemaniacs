@@ -1,6 +1,7 @@
 package org.cyanteam.telemaniacs.core.facade;
 
 import java.util.List;
+import javax.naming.AuthenticationException;
 import org.cyanteam.telemaniacs.core.dto.UserAuthenticationDTO;
 import org.cyanteam.telemaniacs.core.dto.UserDTO;
 
@@ -14,8 +15,9 @@ public interface UserFacade {
     /**
      * Create new user in the system
      * @param userDTO to be created/registered
+     * @param password of new user
      */
-    void createUser(UserDTO userDTO);
+    void createUser(UserDTO userDTO, String password);
     
     /**
      * Update user information
@@ -60,8 +62,9 @@ public interface UserFacade {
      * Checks if given username and password is valid
      * @param userAuth
      * @return true if condtions are met, false otherwise
+     * @throws AuthenticationException in case of error while authenticate
      */
-    boolean authenticate(UserAuthenticationDTO userAuth);
+    boolean authenticate(UserAuthenticationDTO userAuth) throws AuthenticationException;
     
     /**
      * Checks if given user is an administrator
