@@ -13,7 +13,7 @@ public interface ScheduleFacade {
 	 * Create new entity in the database
 	 * @param schedule entity to be persisted
 	 */
-	void addSchedule(ScheduleDTO schedule);
+	void createSchedule(ScheduleDTO schedule);
 
 	/**
 	 * Remove entity from the database
