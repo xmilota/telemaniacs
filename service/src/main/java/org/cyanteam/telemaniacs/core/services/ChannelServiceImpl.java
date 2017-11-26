@@ -5,12 +5,14 @@ import org.cyanteam.telemaniacs.core.entities.Channel;
 import org.cyanteam.telemaniacs.core.enums.ChannelType;
 import org.cyanteam.telemaniacs.core.utils.TvManagerDataAccessException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 /**
  * @author Simona Tinkova
  */
+@Service
 public class ChannelServiceImpl implements ChannelService {
 	@Autowired
 	private ChannelDao channelDao;
