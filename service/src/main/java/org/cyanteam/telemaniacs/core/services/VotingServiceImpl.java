@@ -10,11 +10,13 @@ import org.cyanteam.telemaniacs.core.entities.Transmission;
 import org.cyanteam.telemaniacs.core.entities.User;
 import org.cyanteam.telemaniacs.core.entities.Voting;
 import org.cyanteam.telemaniacs.core.utils.TvManagerDataAccessException;
+import org.springframework.stereotype.Service;
 
 /**
  * Service layer for voting entity.
  * @author Miroslav Kubus
  */
+@Service
 public class VotingServiceImpl implements VotingService {
     
     @Inject

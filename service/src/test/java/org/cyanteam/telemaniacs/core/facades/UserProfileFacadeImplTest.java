@@ -14,12 +14,12 @@ import org.cyanteam.telemaniacs.core.services.*;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.ArgumentMatcher;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
+import org.mockito.*;
+import org.springframework.aop.framework.Advised;
+import org.springframework.aop.support.AopUtils;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.util.ReflectionTestUtils;
 
 import javax.inject.Inject;
 import java.time.Duration;
@@ -29,8 +29,7 @@ import java.util.Objects;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.within;
 import static org.cyanteam.telemaniacs.core.utils.ListUtils.createList;
-import static org.mockito.Matchers.any;
-import static org.mockito.Matchers.argThat;
+import static org.mockito.Matchers.*;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -41,7 +40,8 @@ import static org.mockito.Mockito.when;
 @ContextConfiguration(classes = ServiceContextConfiguration.class)
 @RunWith(SpringJUnit4ClassRunner.class)
 public class UserProfileFacadeImplTest {
-    @Mock
+    @Inject
+    @Spy
     private ObjectMapperService mapper;
 
     @Mock
@@ -62,9 +62,9 @@ public class UserProfileFacadeImplTest {
     @Mock
     private VotingService votingService;
 
-    @Inject
     @InjectMocks
-    private UserProfileFacade userProfileFacade;
+    // Must be instantiated directly, because @Transactional overrides proxy
+    private UserProfileFacade userProfileFacade = new UserProfileFacadeImpl();
 
     private User user;
     private Channel channel;
@@ -75,7 +75,7 @@ public class UserProfileFacadeImplTest {
     private final int timespan = 10;
 
     @Before
-    public void setUp() {
+    public void setUp() throws Exception {
         MockitoAnnotations.initMocks(this);
 
         user = createTestUser();
@@ -95,12 +95,20 @@ public class UserProfileFacadeImplTest {
                 .thenReturn(createList(channel));
         when(favoriteTransmissionsService.getFavoriteTransmissionsByUser(user))
                 .thenReturn(createList(transmission));
-        when(favoriteTransmissionsService.getUpcomingFavoriteTransmissionsByUser(user, any()))
+        when(favoriteTransmissionsService.getUpcomingFavoriteTransmissionsByUser(eq(user), any()))
                 .thenReturn(createList(transmission));
+        when(votingService.getVotingById(voting.getId()))
+                .thenReturn(voting);
+        when(votingService.getVotingByUser(user))
+                .thenReturn(createList(voting));
     }
 
     @Test
     public void followChannelTest() {
+        when(userService.findUserById(any()))
+                .thenReturn(user);
+        User u = userService.findUserById(user.getId());
+
         userProfileFacade.followChannel(user.getId(), channel.getId());
         verify(favoriteChannelsService).followChannel(channel, user);
     }

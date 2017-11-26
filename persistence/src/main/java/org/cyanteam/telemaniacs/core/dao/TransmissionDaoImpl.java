@@ -7,6 +7,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
+import java.util.Collections;
+import java.util.List;
 
 /**
  * @author Simona Tinkova
@@ -69,14 +72,14 @@ public class TransmissionDaoImpl implements TransmissionDao {
 	}
 
 	@Override
-	public Transmission findByType(TransmissionType type) {
+	public List<Transmission> findByType(TransmissionType type) {
 		if(type == null) {
 			throw new IllegalArgumentException("You tried to find transmission with null type!");
 		}
-		return entityManager
+		Query query = entityManager
 				.createQuery("SELECT u FROM Transmission u WHERE u.transmissionType = :type", Transmission.class)
-				.setParameter("type", type)
-				.getSingleResult();
+				.setParameter("type", type);
+		return Collections.unmodifiableList(query.getResultList());
 	}
 
 
