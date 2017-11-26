@@ -16,7 +16,7 @@
 		<dependency>
 			<groupId>org.cyanteam.telemaniacs</groupId>
 			<artifactId>persistence</artifactId>
-			<version>${parent.version}</version>
+			<version>${project.parent.version}</version>
 		</dependency>
 
 		<dependency>
@@ -65,13 +65,8 @@
 		<dependency>
 			<groupId>org.cyanteam.telemaniacs</groupId>
 			<artifactId>api</artifactId>
-			<version>0.1-SNAPSHOT</version>
+			<version>${project.parent.version}</version>
 		</dependency>
-        <dependency>
-            <groupId>org.testng</groupId>
-            <artifactId>testng</artifactId>
-            <scope>test</scope>
-        </dependency>
     </dependencies>
 
 </project>
