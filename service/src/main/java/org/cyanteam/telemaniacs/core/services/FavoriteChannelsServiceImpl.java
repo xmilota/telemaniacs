@@ -1,5 +1,6 @@
 package org.cyanteam.telemaniacs.core.services;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.cyanteam.telemaniacs.core.entities.Channel;
