@@ -1,5 +1,6 @@
 package org.cyanteam.telemaniacs.core.services;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.cyanteam.telemaniacs.core.entities.Channel;
@@ -15,29 +16,29 @@ public class FavoriteChannelsServiceImpl implements FavoriteChannelsService {
 
     @Override
     public void followChannel(Channel channel, User user) {
-        List<Channel> favoriteChannels = user.getFavouriteChannels();
+        List<Channel> favoriteChannels = user.getFavoriteChannels();
 
         if(!favoriteChannels.contains(channel)) {
             favoriteChannels.add(channel);
         }
         
-        user.setFavouriteChannels(favoriteChannels);
+        user.setFavoriteChannels(favoriteChannels);
     }
 
     @Override
     public void unfollowChannel(Channel channel, User user) {
-        List<Channel> favoriteChannels = user.getFavouriteChannels();
+        List<Channel> favoriteChannels = user.getFavoriteChannels();
         
         if(favoriteChannels.contains(channel)) {
             favoriteChannels.remove(channel);
         }
         
-        user.setFavouriteChannels(favoriteChannels);
+        user.setFavoriteChannels(favoriteChannels);
     }
 
     @Override
     public List<Channel> getFavoriteChannels(User user) {
-        return user.getFavouriteChannels();
+        return user.getFavoriteChannels();
     }
     
 }

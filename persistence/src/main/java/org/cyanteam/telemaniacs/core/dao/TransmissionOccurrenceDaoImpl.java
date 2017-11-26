@@ -95,7 +95,7 @@ public class TransmissionOccurrenceDaoImpl implements TransmissionOccurrenceDao 
 
         String queryString =
                 "SELECT o FROM User u " +
-                        "LEFT JOIN u.favouriteTransmissions t " +
+                        "LEFT JOIN u.favoriteTransmissions t " +
                         "LEFT JOIN t.occurrences o " +
                         "WHERE u = :user AND o.startDate >= :start";
         Query query = entityManager

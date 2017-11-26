@@ -291,7 +291,7 @@ public class TransmissionOccurrenceDaoTest {
 		transmissionOccurrenceDao.create(occurrence3);
 
 		User user = prepareUser();
-		user.setFavouriteTransmissions(Lists.newArrayList(transmission1, transmission2));
+		user.setFavoriteTransmissions(Lists.newArrayList(transmission1, transmission2));
 		userDao.create(user);
 
 		LocalDateTime start = LocalDateTime.of(2017, 11, 3, 0, 0);
