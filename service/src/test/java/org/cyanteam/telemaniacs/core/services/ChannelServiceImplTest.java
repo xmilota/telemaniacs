@@ -1,11 +1,17 @@
 package org.cyanteam.telemaniacs.core.services;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import org.cyanteam.telemaniacs.core.ServiceContextConfiguration;
 import org.cyanteam.telemaniacs.core.dao.ChannelDao;
 import org.cyanteam.telemaniacs.core.entities.Channel;
 import org.cyanteam.telemaniacs.core.helpers.ChannelBuilder;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import org.junit.Before;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
@@ -14,9 +20,7 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
-import org.testng.annotations.BeforeMethod;
 
-import java.util.*;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Matchers.any;
@@ -30,7 +34,7 @@ import static org.mockito.Mockito.when;
 
 @DirtiesContext
 @ContextConfiguration(classes = ServiceContextConfiguration.class)
-public class ChannelServiceImplTest extends AbstractTestNGSpringContextTests{
+public class ChannelServiceImplTest {
 
 	@Mock
 	private ChannelDao channelDao;
@@ -46,7 +50,7 @@ public class ChannelServiceImplTest extends AbstractTestNGSpringContextTests{
 	private Long counter = 10L;
 	private Map<Long, Channel> channels = new HashMap<>();
 
-	@BeforeMethod
+	@Before
 	public void prepareTestChannels(){
 		channels.clear();
 		channel1 = ChannelBuilder.nova().build();
