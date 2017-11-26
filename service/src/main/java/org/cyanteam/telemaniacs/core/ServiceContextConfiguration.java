@@ -10,7 +10,7 @@ import org.springframework.context.annotation.Import;
 @Configuration
 @Import(PersistenceContextConfiguration.class)
 @ComponentScan(basePackages = "org.cyanteam.telemaniacs.core")
-public class ServiceContextConfiguration {
+public class ServiceContextConfiguration extends Throwable {
     @Bean
     public Mapper mapper() {
         return DozerBeanMapperBuilder.buildDefault();

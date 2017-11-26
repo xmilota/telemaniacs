@@ -23,16 +23,17 @@ public class ChannelDaoImpl implements ChannelDao {
     private EntityManager entityManager;
 
     @Override
-    public void create(Channel channel) {
+    public Channel create(Channel channel) {
         if(channel == null) {
             throw new IllegalArgumentException("You are trying to persist null channel.");
         }
 
         entityManager.persist(channel);
+        return channel;
     }
 
     @Override
-    public void remove(Channel channel) {
+    public Channel remove(Channel channel) {
         if(channel == null) {
             throw new IllegalArgumentException("You are trying to remove null channel.");
         }
@@ -41,10 +42,11 @@ public class ChannelDaoImpl implements ChannelDao {
         }
 
         entityManager.remove(findById(channel.getId()));
+        return channel;
     }
 
     @Override
-    public void update(Channel channel) {
+    public Channel update(Channel channel) {
         if(channel == null) {
             throw new IllegalArgumentException("You are trying to update null channel.");
         }
@@ -53,6 +55,7 @@ public class ChannelDaoImpl implements ChannelDao {
         }
 
         entityManager.merge(channel);
+        return channel;
     }
 
     @Override
