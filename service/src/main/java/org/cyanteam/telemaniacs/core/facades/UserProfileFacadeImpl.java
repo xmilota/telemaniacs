@@ -113,7 +113,7 @@ public class UserProfileFacadeImpl implements UserProfileFacade {
         }
         setVoting(voting, user, transmission, userVoting);
 
-        if (voting.getId() == 0) {
+        if (voting.getId() == null) {
             votingService.createVoting(voting);
             return;
         }

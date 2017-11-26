@@ -123,10 +123,10 @@ public class TransmissionServiceImplTest {
     @Test
     public void getTransmissionByType() {
         TransmissionType transmissionType = TransmissionType.MOVIE;
-        //when(transmissionDao.findByType(transmissionType)).thenReturn(createList(transmission2, transmission3));
+        when(transmissionDao.findByType(transmissionType)).thenReturn(createList(transmission2, transmission3));
 
         List<Transmission> result = transmissionService.getTransmissionsByType(transmissionType);
-        //verify(transmissionDao).findByType(transmissionType);
+        verify(transmissionDao).findByType(transmissionType);
         assertThat(result).containsExactlyInAnyOrder(transmission2, transmission3);
     }
 
