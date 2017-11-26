@@ -77,7 +77,7 @@ public class FavoriteChannelsServiceImplTest {
         List<Channel> expectedChannels = Arrays.asList(channel1);
         
         favoriteChannelsService.unfollowChannel(channel2, youngUser);
-        List<Channel> actualChannels = youngUser.getFavouriteChannels();
+        List<Channel> actualChannels = youngUser.getFavoriteChannels();
         
         assertThat(actualChannels).isEqualTo(expectedChannels);
     }
@@ -87,7 +87,7 @@ public class FavoriteChannelsServiceImplTest {
         List<Channel> expectedChannels = Arrays.asList(channel1);
         
         favoriteChannelsService.followChannel(channel1, adultUser);
-        List<Channel> actualChannels = adultUser.getFavouriteChannels();
+        List<Channel> actualChannels = adultUser.getFavoriteChannels();
         
         assertThat(actualChannels).isEqualTo(expectedChannels);
     }    
@@ -97,7 +97,7 @@ public class FavoriteChannelsServiceImplTest {
         List<Channel> expectedChannels = Arrays.asList(channel1, channel2);
         
         favoriteChannelsService.followChannel(channel1, youngUser);
-        List<Channel> actualChannels = youngUser.getFavouriteChannels();
+        List<Channel> actualChannels = youngUser.getFavoriteChannels();
         
         assertThat(actualChannels).isEqualTo(expectedChannels);
     }
@@ -107,7 +107,7 @@ public class FavoriteChannelsServiceImplTest {
         List<Channel> expectedChannels = Arrays.asList();
         
         favoriteChannelsService.unfollowChannel(channel1, adultUser);
-        List<Channel> actualChannels = adultUser.getFavouriteChannels();
+        List<Channel> actualChannels = adultUser.getFavoriteChannels();
         
         assertThat(actualChannels).isEqualTo(expectedChannels);
     }      

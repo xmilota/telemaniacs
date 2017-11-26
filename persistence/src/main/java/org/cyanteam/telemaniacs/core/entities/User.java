@@ -48,13 +48,13 @@ public class User implements Serializable {
     @JoinTable(name = "user_channel",
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "channel_id"))
-    private List<Channel> favouriteChannels;
+    private List<Channel> favoriteChannels;
 
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(name = "user_transmission",
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "transmission_id"))
-    private List<Transmission> favouriteTransmissions;
+    private List<Transmission> favoriteTransmissions;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
     private List<Voting> voting;
@@ -119,20 +119,20 @@ public class User implements Serializable {
         this.isAdmin = false;
     }
     
-    public List<Channel> getFavouriteChannels() {
-        return favouriteChannels;
+    public List<Channel> getFavoriteChannels() {
+        return favoriteChannels;
     }
 
-    public void setFavouriteChannels(List<Channel> favouriteChannels) {
-        this.favouriteChannels = favouriteChannels;
+    public void setFavoriteChannels(List<Channel> favoriteChannels) {
+        this.favoriteChannels = favoriteChannels;
     }
 
-    public List<Transmission> getFavouriteTransmissions() {
-        return favouriteTransmissions;
+    public List<Transmission> getFavoriteTransmissions() {
+        return favoriteTransmissions;
     }
 
-    public void setFavouriteTransmissions(List<Transmission> favouriteTransmissions) {
-        this.favouriteTransmissions = favouriteTransmissions;
+    public void setFavoriteTransmissions(List<Transmission> favoriteTransmissions) {
+        this.favoriteTransmissions = favoriteTransmissions;
     }
 
     public List<Voting> getVoting() {
@@ -183,7 +183,7 @@ public class User implements Serializable {
     @Override
     public String toString() {
         return "User { " + username + ", age=" + age + ", email=" + email + 
-               ", favouriteChannels=" + favouriteChannels + 
-               ", favouritePrograms=" + favouriteTransmissions + " }";
+               ", favouriteChannels=" + favoriteChannels + 
+               ", favouritePrograms=" + favoriteTransmissions + " }";
     }   
 }

@@ -80,8 +80,8 @@ public class UserBuilder {
         user.setSex(sex);
         user.setAge(age);
         user.setEmail(email);
-        user.setFavouriteChannels(favouriteChannels);
-        user.setFavouriteTransmissions(favouriteTransmissions);
+        user.setFavoriteChannels(favouriteChannels);
+        user.setFavoriteTransmissions(favouriteTransmissions);
         user.setUsername(username);
         user.setVoting(voting);
         user.setPasswordHash(passwordHash);

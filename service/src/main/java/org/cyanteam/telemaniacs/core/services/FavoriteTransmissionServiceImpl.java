@@ -18,38 +18,38 @@ import java.util.stream.Collectors;
 public class FavoriteTransmissionServiceImpl implements FavoriteTransmissionsService {
 	@Override
 	public void followTransmission(Transmission transmission, User user) {
-		List<Transmission> favoriteTransmissions = user.getFavouriteTransmissions();
+		List<Transmission> favoriteTransmissions = user.getFavoriteTransmissions();
 
 		if (!favoriteTransmissions.contains(transmission)) {
 			favoriteTransmissions.add(transmission);
 		}
 
-		user.setFavouriteTransmissions(favoriteTransmissions);
+		user.setFavoriteTransmissions(favoriteTransmissions);
 	}
 
 	@Override
 	public void unfollowTransmission(Transmission transmission, User user) {
-		List<Transmission> favoriteTransmissions = user.getFavouriteTransmissions();
+		List<Transmission> favoriteTransmissions = user.getFavoriteTransmissions();
 
 		if (favoriteTransmissions.contains(transmission)) {
 			favoriteTransmissions.remove(transmission);
 		}
 
-		user.setFavouriteTransmissions(favoriteTransmissions);
+		user.setFavoriteTransmissions(favoriteTransmissions);
 	}
 
 	@Override
 	public List<Transmission> getFavoriteTransmissionsByUser(User user) {
-		return user.getFavouriteTransmissions();
+		return user.getFavoriteTransmissions();
 	}
 
 	@Override
 	public List<Transmission> getUpcomingFavoriteTransmissionsByUser(User user, Duration maxTimeSpan) {
-		if (user.getFavouriteTransmissions() == null) {
+		if (user.getFavoriteTransmissions() == null) {
 			return new ArrayList<>();
 		}
 
-		return user.getFavouriteTransmissions().stream()
+		return user.getFavoriteTransmissions().stream()
 				.filter(p -> p.getOccurrences().stream()
 						.anyMatch(o ->
 								Duration.between(o.getStartDate(), LocalDateTime.now()).compareTo(maxTimeSpan) > 0))
