@@ -76,6 +76,18 @@ public class ChannelServiceImpl implements ChannelService {
 	}
 
 	@Override
+	public Channel getChannelByName(String name) {
+		if (name == null) {
+			throw new IllegalArgumentException("Channel name is null.");
+		}
+		try {
+			return channelDao.findByName(name);
+		} catch (Throwable e) {
+			throw new TvManagerDataAccessException("Cannot find channel with name " + name, e);
+		}
+	}
+
+	@Override
 	public Channel update(Channel channel) throws TvManagerDataAccessException {
 		if (channel == null) {
 			throw new IllegalArgumentException("Channel is null.");

@@ -6,7 +6,7 @@ import org.cyanteam.telemaniacs.core.enums.Sex;
 /**
  * Class for userDTO.
  * 
- * Created by tinko on 11/25/2017.
+ * Created by Simona Tinkova on 11/25/2017.
  * Implemented by kubmir on 11/26/2017.
  */
 public class UserDTO {
