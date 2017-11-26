@@ -107,7 +107,7 @@ public class UserProfileFacadeImpl implements UserProfileFacade {
         try {
             voting = votingService.getVotingByUser(user).stream()
                     .filter(v -> v.getTransmission().equals(transmission))
-                    .findFirst().orElse(null);
+                    .findFirst().orElse(new Voting());
         } catch (Exception e) {
             voting = new Voting();
         }
