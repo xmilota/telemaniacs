@@ -1,5 +1,7 @@
 package org.cyanteam.telemaniacs.core.dto;
 
+import org.cyanteam.telemaniacs.core.entities.TransmissionOccurrence;
+import org.cyanteam.telemaniacs.core.entities.Voting;
 import org.cyanteam.telemaniacs.core.enums.TransmissionType;
 
 import java.util.List;
@@ -7,18 +9,15 @@ import java.util.List;
 /**
  * @author Simona Tinkova
  */
-
-
-public class TransmissionDTO {
-
+public class Transmission {
 	private Long id;
 	private String name;
 	private String description;
 	private int length;
 	private String language;
 	private TransmissionType transmissionType;
-	private List<TransmissionOccurrenceDTO> occurrences;
-	private List<VotingDTO> voting;
+	private List<TransmissionOccurrence> occurrences;
+	private List<Voting> voting;
 
 	public Long getId() {
 		return id;
@@ -32,10 +31,8 @@ public class TransmissionDTO {
 		return name;
 	}
 
-
 	public void setName(String name) {
 		this.name = name;
-
 	}
 
 	public String getDescription() {
@@ -70,35 +67,19 @@ public class TransmissionDTO {
 		this.transmissionType = transmissionType;
 	}
 
-	public List<TransmissionOccurrenceDTO> getOccurrences() {
+	public List<TransmissionOccurrence> getOccurrences() {
 		return occurrences;
 	}
 
-	public void setOccurrences(List<TransmissionOccurrenceDTO> occurrences) {
+	public void setOccurrences(List<TransmissionOccurrence> occurrences) {
 		this.occurrences = occurrences;
 	}
 
-	public List<VotingDTO> getVoting() {
+	public List<Voting> getVoting() {
 		return voting;
 	}
 
-	public void setVoting(List<VotingDTO> voting) {
+	public void setVoting(List<Voting> voting) {
 		this.voting = voting;
 	}
-
-	@Override
-	public boolean equals(Object o) {
-		if (this == o) return true;
-		if (!(o instanceof TransmissionDTO)) return false;
-
-		TransmissionDTO that = (TransmissionDTO) o;
-
-		return getId() != null ? getId().equals(that.getId()) : that.getId() == null;
-	}
-
-	@Override
-	public int hashCode() {
-		return getId() != null ? getId().hashCode() : 0;
-	}
-
 }

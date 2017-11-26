@@ -7,6 +7,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import java.util.List;
 
 /**
  * @author Simona Tinkova
@@ -79,5 +80,11 @@ public class TransmissionDaoImpl implements TransmissionDao {
 				.getSingleResult();
 	}
 
+	@Override
+	public List<Transmission> findAll() {
+		return entityManager
+				.createQuery("SELECT t FROM Transmission t", Transmission.class)
+				.getResultList();
+	}
 
 }

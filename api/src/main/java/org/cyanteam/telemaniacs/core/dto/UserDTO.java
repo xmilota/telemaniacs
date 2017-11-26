@@ -1,7 +1,8 @@
 package org.cyanteam.telemaniacs.core.dto;
 
-import java.util.List;
 import org.cyanteam.telemaniacs.core.enums.Sex;
+
+import java.util.List;
 
 /**
  * Class for userDTO.

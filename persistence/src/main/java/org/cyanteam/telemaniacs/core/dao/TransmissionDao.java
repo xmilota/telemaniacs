@@ -4,6 +4,7 @@ import org.cyanteam.telemaniacs.core.entities.Transmission;
 import org.cyanteam.telemaniacs.core.enums.TransmissionType;
 
 import javax.validation.ConstraintViolationException;
+import java.util.List;
 
 /**
  * Transmission DAO
@@ -62,5 +63,12 @@ public interface TransmissionDao {
 	 * @param type of the transmission
 	 * @return tre transmission with the specific type
 	 */
-	Transmission findByType(TransmissionType type);
+	Transmission findByType(TransmissionType type) throws IllegalArgumentException;
+
+	/**
+	 * Returns all stored channels.
+	 *
+	 * @return all stored channels
+	 */
+	List<Transmission> findAll();
 }
