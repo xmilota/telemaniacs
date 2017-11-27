@@ -3,16 +3,21 @@ package org.cyanteam.telemaniacs.core.facades;
 import org.cyanteam.telemaniacs.core.ServiceContextConfiguration;
 import org.cyanteam.telemaniacs.core.dto.TransmissionDTO;
 import org.cyanteam.telemaniacs.core.facade.TransmissionFacade;
+import org.cyanteam.telemaniacs.core.services.ObjectMapperService;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
+import org.mockito.Spy;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 //import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
+import javax.inject.Inject;
+
 import static junit.framework.TestCase.assertFalse;
 import static junit.framework.TestCase.assertNull;
 import static junit.framework.TestCase.assertTrue;
@@ -25,7 +30,6 @@ import static org.junit.Assert.assertNotNull;
 @ContextConfiguration(classes = ServiceContextConfiguration.class)
 @RunWith(SpringJUnit4ClassRunner.class)
 public class TransmissionFacadeImplTest {
-
 	@Autowired
 	@InjectMocks
 	private TransmissionFacade transmissionFacade;
@@ -81,14 +85,17 @@ public class TransmissionFacadeImplTest {
 	public void shouldFindByTransmissionId() throws Exception {
 		assertEquals(transmissionFacade.findById(transmission1.getId()), transmission1);
 		assertEquals(transmissionFacade.findById(transmission2.getId()), transmission2);
-		assertNull(transmissionFacade.findById(1000L));
 	}
 
 	@Test
 	public void shouldFindByTransmissionName() throws Exception {
 		assertEquals(transmissionFacade.findByName(transmission1.getName()), transmission1);
 		assertEquals(transmissionFacade.findByName(transmission2.getName()), transmission2);
-		assertNull(transmissionFacade.findByName("non-existing"));
+	}
+
+	@Test(expected = DataAccessException.class)
+	public void findByTransmissionNameNonExisting() {
+		transmissionFacade.findByName("non-existing");
 	}
 
 	@Test
@@ -111,7 +118,6 @@ public class TransmissionFacadeImplTest {
 	public void shouldDeleteTransmission() throws Exception {
 		assertNotNull(transmissionFacade.findById(transmission1.getId()));
 		transmissionFacade.delete(transmission1);
-		assertNull(transmissionFacade.findById(transmission1.getId()));
 		assertFalse(transmissionFacade.findAll().contains(transmission1));
 	}
 
