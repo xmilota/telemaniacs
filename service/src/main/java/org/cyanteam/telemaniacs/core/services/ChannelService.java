@@ -59,7 +59,5 @@ public interface ChannelService {
 	 */
 	List<Channel> findAll();
 
-	Channel getChannelsByType(ChannelType type);
-
-	Channel getChannelByName(String name);
+	List<Channel> getChannelsByType(ChannelType type);
 }

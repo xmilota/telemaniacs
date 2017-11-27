@@ -64,7 +64,7 @@ public class ChannelServiceImpl implements ChannelService {
 	}
 
 	@Override
-	public Channel getChannelsByType(ChannelType type) {
+	public List<Channel> getChannelsByType(ChannelType type) {
 		if (type == null) {
 			throw new IllegalArgumentException("Channel type is null.");
 		}
@@ -72,18 +72,6 @@ public class ChannelServiceImpl implements ChannelService {
 			return channelDao.findByType(type);
 		} catch (Throwable e) {
 			throw new TvManagerDataAccessException("Cannot find channel with type  " + type, e);
-		}
-	}
-
-	@Override
-	public Channel getChannelByName(String name) {
-		if (name == null) {
-			throw new IllegalArgumentException("Channel name is null.");
-		}
-		try {
-			return channelDao.findByName(name);
-		} catch (Throwable e) {
-			throw new TvManagerDataAccessException("Cannot find channel with name " + name, e);
 		}
 	}
 
