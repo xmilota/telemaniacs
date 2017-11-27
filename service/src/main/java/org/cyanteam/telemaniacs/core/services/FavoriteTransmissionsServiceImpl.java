@@ -22,6 +22,13 @@ public class FavoriteTransmissionsServiceImpl implements FavoriteTransmissionsSe
 
 	@Override
 	public void followTransmission(Transmission transmission, User user) {
+		if (user == null){
+			throw new IllegalArgumentException("User is null");
+		}
+		if (transmission == null){
+			throw new IllegalArgumentException("Transmission is null");
+		}
+
 		List<Transmission> favoriteTransmissions = user.getFavoriteTransmissions();
 
 		if (!favoriteTransmissions.contains(transmission)) {
@@ -34,6 +41,13 @@ public class FavoriteTransmissionsServiceImpl implements FavoriteTransmissionsSe
 
 	@Override
 	public void unfollowTransmission(Transmission transmission, User user) {
+		if (user == null){
+			throw new IllegalArgumentException("User is null");
+		}
+		if (transmission == null){
+			throw new IllegalArgumentException("Transmission is null");
+		}
+
 		List<Transmission> favoriteTransmissions = user.getFavoriteTransmissions();
 
 		if (favoriteTransmissions.contains(transmission)) {
@@ -46,11 +60,22 @@ public class FavoriteTransmissionsServiceImpl implements FavoriteTransmissionsSe
 
 	@Override
 	public List<Transmission> getFavoriteTransmissionsByUser(User user) {
+		if (user == null) {
+			throw new IllegalArgumentException("User is null");
+		}
 		return user.getFavoriteTransmissions();
 	}
 
 	@Override
 	public List<Transmission> getUpcomingFavoriteTransmissionsByUser(User user, Duration maxTimeSpan) {
+		if (user == null){
+			throw new IllegalArgumentException("User is null");
+		}
+
+		if (maxTimeSpan == null){
+			throw new IllegalArgumentException("MaxTimeSpan is null");
+		}
+
 		if (user.getFavoriteTransmissions() == null) {
 			return new ArrayList<>();
 		}

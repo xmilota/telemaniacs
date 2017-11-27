@@ -106,6 +106,32 @@ public class FavoriteTransmissionsServiceImplTest  {
 	}
 
 	@Test
+	public void followAlreadyFollowedTransmissionTest(){
+		User user = UserBuilder.sampleAdultUserBuilder().build();
+		user.setFavoriteTransmissions(new ArrayList<Transmission>(){{
+			add(transmission2);
+		}});
+		userDao.create(user);
+		favoriteTransmissionsService.followTransmission(transmission2, user);
+
+		ArgumentCaptor<User> userCaptor = ArgumentCaptor.forClass(User.class);
+		verify(userDao).update(userCaptor.capture());
+
+		User capturedUser = userCaptor.getValue();
+		assertThat(capturedUser.getFavoriteTransmissions()).containsOnlyOnce(transmission2);
+	}
+
+	@Test(expected = IllegalArgumentException.class)
+	public void followNullTransmissionTest(){
+		favoriteTransmissionsService.followTransmission(null, user1);
+	}
+
+	@Test(expected = IllegalArgumentException.class)
+	public void followTransmissionWithNullUserTest(){
+		favoriteTransmissionsService.followTransmission(transmission1, null);
+	}
+
+	@Test
 	public void unfollowTransmissionTest(){
 		User user = UserBuilder.sampleAdultUserBuilder().build();
 		user.setFavoriteTransmissions(new ArrayList<Transmission>(){{
@@ -121,6 +147,43 @@ public class FavoriteTransmissionsServiceImplTest  {
 		assertThat(capturedUser.getFavoriteTransmissions()).doesNotContain(transmission2);
 	}
 
+	@Test(expected = IllegalArgumentException.class)
+	public void unfollowNullTransmissionTest(){
+		User user = UserBuilder.sampleAdultUserBuilder().build();
+		user.setFavoriteTransmissions(new ArrayList<Transmission>(){{
+			add(transmission2);
+		}});
+		userDao.create(user);
+		favoriteTransmissionsService.unfollowTransmission(null, user);
+	}
+
+	@Test(expected = IllegalArgumentException.class)
+	public void unfollowTransmissionWithNullUserTest(){
+		User user = UserBuilder.sampleAdultUserBuilder().build();
+		user.setFavoriteTransmissions(new ArrayList<Transmission>(){{
+			add(transmission2);
+		}});
+		userDao.create(user);
+		favoriteTransmissionsService.unfollowTransmission(transmission2, null);
+	}
+
+	@Test
+	public void unfollowNotFollowedTransmissionTest() {
+		User user = UserBuilder.sampleAdultUserBuilder().build();
+		user.setFavoriteTransmissions(new ArrayList<Transmission>(){{
+			add(transmission2);
+			add(transmission3);
+		}});
+		userDao.create(user);
+		favoriteTransmissionsService.unfollowTransmission(transmission1, user);
+
+		ArgumentCaptor<User> userCaptor = ArgumentCaptor.forClass(User.class);
+		verify(userDao).update(userCaptor.capture());
+
+		User capturedUser = userCaptor.getValue();
+		assertThat(capturedUser.getFavoriteTransmissions()).containsOnly(transmission2,transmission3);
+	}
+
 	@Test
 	public void getFavoriteTransmissionsByUserTest(){
 		User user = UserBuilder.sampleAdultUserBuilder().build();
@@ -133,7 +196,29 @@ public class FavoriteTransmissionsServiceImplTest  {
 		ArgumentCaptor<User> userCaptor = ArgumentCaptor.forClass(User.class);
 		verify(userDao).update(userCaptor.capture());
 		User capturedUser = userCaptor.getValue();
-		assertThat(capturedUser.getFavoriteTransmissions()).containsExactlyInAnyOrder(transmission2,transmission3);
+		assertThat(favoriteTransmissionsService.getFavoriteTransmissionsByUser(capturedUser))
+				.containsExactlyInAnyOrder(transmission2,transmission3);
+	}
+
+	@Test(expected = IllegalArgumentException.class)
+	public void getFavoriteTransmissionWithNullUserTest(){
+		favoriteTransmissionsService.getFavoriteTransmissionsByUser(null);
+	}
+
+	@Test
+	public void getEmptyFavoriteTransmissionsTest() {
+		User user = UserBuilder.sampleAdultUserBuilder().build();
+		user.setFavoriteTransmissions(new ArrayList<Transmission>(){{
+			add(transmission2);
+		}});
+		userDao.create(user);
+		favoriteTransmissionsService.unfollowTransmission(transmission2, user);
+
+		ArgumentCaptor<User> userCaptor = ArgumentCaptor.forClass(User.class);
+		verify(userDao).update(userCaptor.capture());
+		User capturedUser = userCaptor.getValue();
+
+		assertThat(favoriteTransmissionsService.getFavoriteTransmissionsByUser(capturedUser)).hasSize(0);
 	}
 
 	@Test
@@ -150,5 +235,29 @@ public class FavoriteTransmissionsServiceImplTest  {
 		User capturedUser = userCaptor.getValue();
 		assertThat(favoriteTransmissionsService.getUpcomingFavoriteTransmissionsByUser(capturedUser, Duration.ofDays(25)))
 				.containsExactly(transmission2);
+	}
+
+	@Test(expected = IllegalArgumentException.class)
+	public void getUpcomingFavoriteTransmissionWithNullUserTest(){
+		favoriteTransmissionsService.getUpcomingFavoriteTransmissionsByUser(null, Duration.ofDays(1));
+	}
+
+	@Test(expected = IllegalArgumentException.class)
+	public void getUpcomingFavoriteTransmissionWithNullMaxTimeSpanTest(){
+		favoriteTransmissionsService.getUpcomingFavoriteTransmissionsByUser(user1, null);
+
+	}
+
+	@Test
+	public void getUpcomingEmptyFavoriteTransmissionsByUserTest() {
+		User user = UserBuilder.sampleAdminBuilder().build();
+		favoriteTransmissionsService.followTransmission(transmission1, user);
+
+		ArgumentCaptor<User> userCaptor = ArgumentCaptor.forClass(User.class);
+		verify(userDao).update(userCaptor.capture());
+
+		User capturedUser = userCaptor.getValue();
+		assertThat(favoriteTransmissionsService.getUpcomingFavoriteTransmissionsByUser(capturedUser, Duration.ofDays(25)))
+				.hasSize(0);
 	}
 }
