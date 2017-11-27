@@ -1,15 +1,12 @@
 package org.cyanteam.telemaniacs.core.dao;
 
 import org.cyanteam.telemaniacs.core.entities.Channel;
-import org.cyanteam.telemaniacs.core.entities.TransmissionOccurrence;
 import org.cyanteam.telemaniacs.core.enums.ChannelType;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.persistence.Query;
-import java.util.Collections;
 import java.util.List;
 
 /**
@@ -80,7 +77,7 @@ public class ChannelDaoImpl implements ChannelDao {
     }
 
     @Override
-    public Channel findByType(ChannelType type){
+    public List<Channel> findByType(ChannelType type){
         if (type == null) {
             throw new IllegalArgumentException("Type cannot be null");
         }
@@ -88,7 +85,7 @@ public class ChannelDaoImpl implements ChannelDao {
         return entityManager
                 .createQuery("SELECT ch FROM Channel ch WHERE ch.channelType = :type", Channel.class)
                 .setParameter("type", type)
-                .getSingleResult();
+                .getResultList();
     }
 
     @Override
