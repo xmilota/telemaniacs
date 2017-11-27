@@ -4,11 +4,6 @@ import org.cyanteam.telemaniacs.core.entities.Channel;
 import org.cyanteam.telemaniacs.core.entities.TransmissionOccurrence;
 import org.cyanteam.telemaniacs.core.enums.ChannelType;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Enumerated;
-import javax.persistence.OneToMany;
-import javax.validation.constraints.NotNull;
 import java.util.List;
 
 /**
@@ -76,6 +71,8 @@ public class ChannelBuilder {
 				.language("Czech")
 				.name("Disney Channel")
 				.channelType(ChannelType.CHILDREN);
-	}
+        }
+        
+        
 }
 
