@@ -108,4 +108,31 @@ public class UserServiceTest {
         assertThat(result).isNotNull();
         assertThat(result).containsExactlyInAnyOrder(user, admin);
     }
+
+    @Test
+    public void authenticateTest() {
+        userService.createUser(user, "somePassword");
+
+        assertThat(userService.authenticate(user, "somePassword")).isTrue();
+    }
+
+    @Test
+    public void authenticateNullPasswordTest() {
+        assertThat(userService.authenticate(user, null)).isFalse();
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void authenticateUnsetPasswordTest() {
+        user.setPasswordHash(null);
+        userService.authenticate(user, "password");
+    }
+
+    @Test
+    public void isAdminTest() {
+        when(userDao.findById(user.getId())).thenReturn(user);
+        assertThat(userService.isAdmin(user)).isFalse();
+
+        when(userDao.findById(admin.getId())).thenReturn(admin);
+        assertThat(userService.isAdmin(admin)).isTrue();
+    }
 }
