@@ -6,6 +6,7 @@ import org.cyanteam.telemaniacs.core.entities.Transmission;
 import org.cyanteam.telemaniacs.core.entities.TransmissionOccurrence;
 import org.cyanteam.telemaniacs.core.entities.Voting;
 import org.cyanteam.telemaniacs.core.enums.TransmissionType;
+import org.cyanteam.telemaniacs.core.utils.TvManagerDataAccessException;
 import org.springframework.stereotype.Service;
 
 import javax.inject.Inject;
@@ -59,6 +60,15 @@ public class TransmissionServiceImpl implements TransmissionService {
     @Override
     public List<Transmission> getTransmissionsByType(TransmissionType type) {
         return transmissionDao.findByType(type);
+    }
+
+    @Override
+    public List<Transmission> findAllTransmissions() {
+        try {
+            return transmissionDao.findAll();
+        } catch (Throwable e) {
+            throw new TvManagerDataAccessException("Could not receive list of transmissions", e);
+        }
     }
 
     @Override

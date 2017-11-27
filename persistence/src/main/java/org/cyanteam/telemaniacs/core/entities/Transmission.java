@@ -14,7 +14,7 @@ import java.util.List;
  */
 
 @Entity
-@Table(name = "Transmissions")
+@Table(name = "Transmission")
 public class Transmission {
 
     @Id

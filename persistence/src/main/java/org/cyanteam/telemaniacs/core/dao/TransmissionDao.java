@@ -63,5 +63,12 @@ public interface TransmissionDao {
 	 * @param type of the transmission
 	 * @return tre transmission with the specific type
 	 */
-	List<Transmission> findByType(TransmissionType type);
+	List<Transmission> findByType(TransmissionType type)throws IllegalArgumentException;
+
+	/**
+	 * Returns all stored channels.
+	 *
+	 * @return all stored channels
+	 */
+	List<Transmission> findAll();
 }

@@ -33,7 +33,7 @@ public interface FavoriteTransmissionsService {
     List<Transmission> getFavoriteTransmissionsByUser(User user);
     
     /**
-     * Method returns all favorite transmission in maxTimeSpan window
+     * Method returns all favorite transmissions in maxTimeSpan window
      * @param user whose favorite transmissions will be returned
      * @param maxTimeSpan maximum time span for returning transmissions
      * @return list of favorite transmission of user in time span

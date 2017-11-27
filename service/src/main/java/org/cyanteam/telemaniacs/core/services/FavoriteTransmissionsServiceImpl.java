@@ -15,7 +15,7 @@ import java.util.stream.Collectors;
  * @author Simona Tinkova
  */
 @Service
-public class FavoriteTransmissionServiceImpl implements FavoriteTransmissionsService {
+public class FavoriteTransmissionsServiceImpl implements FavoriteTransmissionsService {
 	@Override
 	public void followTransmission(Transmission transmission, User user) {
 		List<Transmission> favoriteTransmissions = user.getFavoriteTransmissions();
@@ -52,7 +52,7 @@ public class FavoriteTransmissionServiceImpl implements FavoriteTransmissionsSer
 		return user.getFavoriteTransmissions().stream()
 				.filter(p -> p.getOccurrences().stream()
 						.anyMatch(o ->
-								Duration.between(o.getStartDate(), LocalDateTime.now()).compareTo(maxTimeSpan) > 0))
+								Duration.between(LocalDateTime.now(), o.getStartDate()).getSeconds() <= maxTimeSpan.getSeconds()))
 				.collect(Collectors.toList());
 
 	}

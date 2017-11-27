@@ -54,6 +54,12 @@ public interface TransmissionService {
     List<Transmission> getTransmissionsByType(TransmissionType type);
 
     /**
+     * Gets all transmissions
+     * @return all transmissions
+     */
+    List<Transmission> findAllTransmissions();
+
+    /**
      * Adds transmission occurrence
      * @param occurrence Transmission occurrence
      */

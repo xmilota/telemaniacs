@@ -8,12 +8,17 @@ import org.cyanteam.telemaniacs.core.entities.User;
 import org.cyanteam.telemaniacs.core.facade.UserFacade;
 import org.cyanteam.telemaniacs.core.services.ObjectMapperService;
 import org.cyanteam.telemaniacs.core.services.UserService;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
 import javax.naming.AuthenticationException;
 
 /**
  *
  * @author Miroslav Kubus
  */
+@Service
+@Transactional
 public class UserFacadeImpl implements UserFacade {
     @Inject
     private UserService userService;
@@ -73,7 +78,7 @@ public class UserFacadeImpl implements UserFacade {
     @Override
     public UserDTO getUserByUsername(String username) {
         if(username == null) {
-            throw new IllegalArgumentException("Id of user cannot be null!");
+            throw new IllegalArgumentException("Username of user cannot be null!");
         }
         
         User user = userService.findUserByUserName(username);
