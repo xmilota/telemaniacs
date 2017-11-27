@@ -59,8 +59,7 @@ public class TransmissionServiceImpl implements TransmissionService {
 
     @Override
     public List<Transmission> getTransmissionsByType(TransmissionType type) {
-        // return transmissionDao.findByType(type);
-        return null;
+        return transmissionDao.findByType(type);
     }
 
     @Override

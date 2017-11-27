@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -14,7 +15,7 @@ import java.util.stream.Collectors;
  * @author Simona Tinkova
  */
 @Service
-public class FavoriteTransmissionsServiceImpl implements FavoriteTransmissionsService {
+public class FavoriteTransmissionServiceImpl implements FavoriteTransmissionsService {
 	@Override
 	public void followTransmission(Transmission transmission, User user) {
 		List<Transmission> favoriteTransmissions = user.getFavouriteTransmissions();
@@ -44,6 +45,10 @@ public class FavoriteTransmissionsServiceImpl implements FavoriteTransmissionsSe
 
 	@Override
 	public List<Transmission> getUpcomingFavoriteTransmissionsByUser(User user, Duration maxTimeSpan) {
+		if (user.getFavouriteTransmissions() == null) {
+			return new ArrayList<>();
+		}
+
 		return user.getFavouriteTransmissions().stream()
 				.filter(p -> p.getOccurrences().stream()
 						.anyMatch(o ->

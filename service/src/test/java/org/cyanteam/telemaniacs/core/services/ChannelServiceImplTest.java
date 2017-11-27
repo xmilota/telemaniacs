@@ -9,6 +9,7 @@ import org.cyanteam.telemaniacs.core.ServiceContextConfiguration;
 import org.cyanteam.telemaniacs.core.dao.ChannelDao;
 import org.cyanteam.telemaniacs.core.entities.Channel;
 import org.cyanteam.telemaniacs.core.helpers.ChannelBuilder;
+import org.cyanteam.telemaniacs.core.utils.TvManagerDataAccessException;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.Before;
@@ -18,12 +19,13 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
+import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.testng.annotations.BeforeMethod;
 
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.cyanteam.telemaniacs.core.utils.ListUtils.createList;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyLong;
 import static org.mockito.Mockito.when;
@@ -34,7 +36,7 @@ import static org.mockito.Mockito.when;
  */
 
 @ContextConfiguration(classes = ServiceContextConfiguration.class)
-//@RunWith(SpringJUnit4ClassRunner.class)
+@RunWith(SpringJUnit4ClassRunner.class)
 public class ChannelServiceImplTest {
 
 	@Mock
@@ -51,7 +53,7 @@ public class ChannelServiceImplTest {
 	private Long counter = 10L;
 	private Map<Long, Channel> channels = new HashMap<>();
 
-	@BeforeMethod
+	@Before
 	public void prepareTestChannels(){
 		channels.clear();
 		channel1 = ChannelBuilder.nova().build();
@@ -67,7 +69,7 @@ public class ChannelServiceImplTest {
 		channels.put(3L, channel3);
 	}
 
-	@BeforeClass
+	@Before
 	public void beforeClass() throws ServiceContextConfiguration{
 		MockitoAnnotations.initMocks(this);
 
@@ -113,8 +115,7 @@ public class ChannelServiceImplTest {
 			return mockedChannel;
 		});
 
-		when(channelDao.findAll())
-				.then(invoke -> Collections.unmodifiableList(new ArrayList<>(channels.values())));
+		when(channelDao.findAll()).thenReturn(createList(channel1, channel2, channel3));
 
 
 		when(channelDao.findById(anyLong())).then(invoke -> {
@@ -125,17 +126,12 @@ public class ChannelServiceImplTest {
 			return channels.get(index);
 		});
 
-		when(channelDao.findAll()).then(invoke -> {
-			List<Channel> channelList = new ArrayList<>();
-			return Collections.unmodifiableList(channelList);
-		});
-
 	}
 
 	@Test
 	public void createNewChannel() throws DataAccessException {
 		int sizeBefore = channels.size();
-		Channel channel = ChannelBuilder.disneyChannel().build();
+		Channel channel = ChannelBuilder.disneyChannel().name("Disney 2").build();
 		channelService.create(channel);
 		assertThat(channels.values()).hasSize(sizeBefore + 1)
 				.contains(channel);
@@ -189,7 +185,7 @@ public class ChannelServiceImplTest {
 	}
 
 
-	@Test(expected = IllegalArgumentException.class)
+	@Test(expected = TvManagerDataAccessException.class)
 	public void updateChannelWithNullId() {
 		Channel channel = ChannelBuilder.disneyChannel().build();
 		channelService.update(channel);
@@ -226,7 +222,7 @@ public class ChannelServiceImplTest {
 	@Test
 	public void deleteChannelNotInDB() throws DataAccessException {
 		int sizeBefore = channels.values().size();
-		Channel channel = ChannelBuilder.disneyChannel().build();
+		Channel channel = ChannelBuilder.disneyChannel().name("Disney 2").build();
 		channel.setId(counter * 2L);
 		channelService.remove(channel);
 

@@ -13,6 +13,8 @@ import org.springframework.context.annotation.Import;
 public class ServiceContextConfiguration extends Throwable {
     @Bean
     public Mapper mapper() {
-        return DozerBeanMapperBuilder.buildDefault();
+        return DozerBeanMapperBuilder.create()
+                .withMappingFiles("mappings.xml")
+                .build();
     }
 }
