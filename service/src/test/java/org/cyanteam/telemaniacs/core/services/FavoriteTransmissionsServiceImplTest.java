@@ -20,6 +20,8 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import javax.inject.Inject;
 import java.time.Duration;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.Collections;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.cyanteam.telemaniacs.core.utils.ListUtils.createList;
@@ -105,24 +107,48 @@ public class FavoriteTransmissionsServiceImplTest  {
 
 	@Test
 	public void unfollowTransmissionTest(){
-		favoriteTransmissionsService.followTransmission(transmission2, user1);
-		favoriteTransmissionsService.unfollowTransmission(transmission2, user1);
-		assertThat(user1.getFavoriteTransmissions()).doesNotContain(transmission2);
+		User user = UserBuilder.sampleAdultUserBuilder().build();
+		user.setFavoriteTransmissions(new ArrayList<Transmission>(){{
+			add(transmission2);
+		}});
+		userDao.create(user);
+		favoriteTransmissionsService.unfollowTransmission(transmission2, user);
+
+		ArgumentCaptor<User> userCaptor = ArgumentCaptor.forClass(User.class);
+		verify(userDao).update(userCaptor.capture());
+
+		User capturedUser = userCaptor.getValue();
+		assertThat(capturedUser.getFavoriteTransmissions()).doesNotContain(transmission2);
 	}
 
 	@Test
 	public void getFavoriteTransmissionsByUserTest(){
-		favoriteTransmissionsService.followTransmission(transmission1, user1);
-		favoriteTransmissionsService.followTransmission(transmission2, user1);
-		favoriteTransmissionsService.followTransmission(transmission3, user1);
-		assertThat(user1.getFavoriteTransmissions()).containsExactlyInAnyOrder(transmission1,transmission2,transmission3);
+		User user = UserBuilder.sampleAdultUserBuilder().build();
+		user.setFavoriteTransmissions(new ArrayList<Transmission>(){{
+			add(transmission2);
+		}});
+		userDao.create(user);
+		favoriteTransmissionsService.followTransmission(transmission3, user);
+
+		ArgumentCaptor<User> userCaptor = ArgumentCaptor.forClass(User.class);
+		verify(userDao).update(userCaptor.capture());
+		User capturedUser = userCaptor.getValue();
+		assertThat(capturedUser.getFavoriteTransmissions()).containsExactlyInAnyOrder(transmission2,transmission3);
 	}
 
 	@Test
 	public void getUpcomingFavoriteTransmissionsByUserTest(){
-		favoriteTransmissionsService.followTransmission(transmission1, user1);
-		favoriteTransmissionsService.followTransmission(transmission2, user1);
-		assertThat(favoriteTransmissionsService.getUpcomingFavoriteTransmissionsByUser(user1, Duration.ofDays(25)))
+		User user = UserBuilder.sampleAdultUserBuilder().build();
+		user.setFavoriteTransmissions(new ArrayList<Transmission>(){{
+			add(transmission1);
+		}});
+		favoriteTransmissionsService.followTransmission(transmission2, user);
+
+		ArgumentCaptor<User> userCaptor = ArgumentCaptor.forClass(User.class);
+		verify(userDao).update(userCaptor.capture());
+
+		User capturedUser = userCaptor.getValue();
+		assertThat(favoriteTransmissionsService.getUpcomingFavoriteTransmissionsByUser(capturedUser, Duration.ofDays(25)))
 				.containsExactly(transmission2);
 	}
 }
