@@ -7,6 +7,7 @@ import org.cyanteam.telemaniacs.core.facade.ChannelFacade;
 import org.cyanteam.telemaniacs.core.services.ChannelService;
 import org.cyanteam.telemaniacs.core.services.ObjectMapperService;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.inject.Inject;
 import java.util.List;
@@ -16,6 +17,7 @@ import java.util.List;
  * @author Tomas Milota
  */
 @Service
+@Transactional
 public class ChannelFacadeImpl implements ChannelFacade {
 
     @Inject
