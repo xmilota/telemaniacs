@@ -1,11 +1,12 @@
 package org.cyanteam.telemaniacs.core.services;
 
+import org.cyanteam.telemaniacs.core.dao.UserDao;
 import org.cyanteam.telemaniacs.core.entities.Transmission;
 import org.cyanteam.telemaniacs.core.entities.User;
 import org.springframework.stereotype.Service;
 
+import javax.inject.Inject;
 import java.time.Duration;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -16,6 +17,9 @@ import java.util.stream.Collectors;
  */
 @Service
 public class FavoriteTransmissionsServiceImpl implements FavoriteTransmissionsService {
+	@Inject
+	private UserDao userDao;
+
 	@Override
 	public void followTransmission(Transmission transmission, User user) {
 		List<Transmission> favoriteTransmissions = user.getFavoriteTransmissions();
@@ -25,6 +29,7 @@ public class FavoriteTransmissionsServiceImpl implements FavoriteTransmissionsSe
 		}
 
 		user.setFavoriteTransmissions(favoriteTransmissions);
+		userDao.update(user);
 	}
 
 	@Override
@@ -36,6 +41,7 @@ public class FavoriteTransmissionsServiceImpl implements FavoriteTransmissionsSe
 		}
 
 		user.setFavoriteTransmissions(favoriteTransmissions);
+		userDao.update(user);
 	}
 
 	@Override
@@ -54,6 +60,5 @@ public class FavoriteTransmissionsServiceImpl implements FavoriteTransmissionsSe
 						.anyMatch(o ->
 								Duration.between(LocalDateTime.now(), o.getStartDate()).getSeconds() <= maxTimeSpan.getSeconds()))
 				.collect(Collectors.toList());
-
 	}
 }
