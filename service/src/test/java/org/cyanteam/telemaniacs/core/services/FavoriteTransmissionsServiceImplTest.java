@@ -20,8 +20,10 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.testng.annotations.BeforeMethod;
 
 import javax.inject.Inject;
+import java.time.Duration;
 import java.time.LocalDateTime;
 
 import static org.cyanteam.telemaniacs.core.utils.ListUtils.createList;
@@ -34,15 +36,9 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 @ContextConfiguration(classes = ServiceContextConfiguration.class)
 @RunWith(SpringJUnit4ClassRunner.class)
-public class FavoriteTransmissionsServiceImplTest {
-	@Mock
-	private TransmissionDao transmissionDao;
-
-	@Mock
-	private UserDao userDao;
+public class FavoriteTransmissionsServiceImplTest  {
 
 	@Inject
-	@InjectMocks
 	private FavoriteTransmissionsService favoriteTransmissionsService;
 
 	private LocalDateTime mockDateTime = LocalDateTime.of(2017, 1, 1, 0, 0, 0);
@@ -65,11 +61,6 @@ public class FavoriteTransmissionsServiceImplTest {
 	private User user3;
 
 	@Before
-	public void setUp() {
-		MockitoAnnotations.initMocks(this);
-	}
-
-	@Before
 	public void setUpTestData() {
 		channel.setName("hbo");
 
@@ -79,10 +70,11 @@ public class FavoriteTransmissionsServiceImplTest {
 
 		TransmissionOccurrenceBuilder builder = new TransmissionOccurrenceBuilder()
 				.transmission(transmission2).channel(channel);
-		occurrence1 = builder.startDate(2018, 3, 5, 15, 5, 0).build();
-		occurrence2 = builder.id(1L).startDate(2018, 3, 6, 15, 15, 0).build();
-		occurrence3 = builder.id(2L).startDate(2018, 3, 7, 15, 20, 0).build();
+		occurrence1 = builder.startDate(LocalDateTime.now().plusDays(54)).build();
+		occurrence2 = builder.id(1L).startDate(LocalDateTime.now().plusDays(12)).build();
+		occurrence3 = builder.id(2L).startDate(LocalDateTime.now().plusDays(5)).build();
 		transmission2.setOccurrences(createList(occurrence2, occurrence3));
+		transmission1.setOccurrences(createList(occurrence1));
 
 		voting1 = VotingBuilder.sampleLowVotingBuilder().build();
 		voting2 = VotingBuilder.sampleMediumVotingBuilder().build();
@@ -97,15 +89,29 @@ public class FavoriteTransmissionsServiceImplTest {
 	@Test
 	public void followTransmissionTest(){
 		favoriteTransmissionsService.followTransmission(transmission1, user1);
-		verify(user1).getFavouriteTransmissions().contains(transmission1);
+		assertThat(user1.getFavoriteTransmissions()).contains(transmission1);
 	}
 
 	@Test
 	public void unfollowTransmissionTest(){
-		favoriteTransmissionsService.followTransmission(transmission1, user1);
-		favoriteTransmissionsService.unfollowTransmission(transmission1, user1);
-		verify(user1).getFavouriteTransmissions().contains(transmission1);
+		favoriteTransmissionsService.followTransmission(transmission2, user1);
+		favoriteTransmissionsService.unfollowTransmission(transmission2, user1);
+		assertThat(user1.getFavoriteTransmissions()).doesNotContain(transmission2);
 	}
 
+	@Test
+	public void getFavoriteTransmissionsByUserTest(){
+		favoriteTransmissionsService.followTransmission(transmission1, user1);
+		favoriteTransmissionsService.followTransmission(transmission2, user1);
+		favoriteTransmissionsService.followTransmission(transmission3, user1);
+		assertThat(user1.getFavoriteTransmissions()).containsExactlyInAnyOrder(transmission1,transmission2,transmission3);
+	}
 
+	@Test
+	public void getUpcomingFavoriteTransmissionsByUserTest(){
+		favoriteTransmissionsService.followTransmission(transmission1, user1);
+		favoriteTransmissionsService.followTransmission(transmission2, user1);
+		assertThat(favoriteTransmissionsService.getUpcomingFavoriteTransmissionsByUser(user1, Duration.ofDays(25)))
+				.containsExactly(transmission2);
+	}
 }

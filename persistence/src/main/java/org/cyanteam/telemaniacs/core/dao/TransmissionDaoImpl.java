@@ -82,5 +82,11 @@ public class TransmissionDaoImpl implements TransmissionDao {
 		return Collections.unmodifiableList(query.getResultList());
 	}
 
+	@Override
+	public List<Transmission> findAll() {
+		return entityManager
+				.createQuery("SELECT t FROM Transmission t", Transmission.class)
+				.getResultList();
+	}
 
 }
