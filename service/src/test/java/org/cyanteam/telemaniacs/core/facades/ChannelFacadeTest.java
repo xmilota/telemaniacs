@@ -6,18 +6,15 @@ import org.cyanteam.telemaniacs.core.entities.Channel;
 import org.cyanteam.telemaniacs.core.enums.ChannelType;
 import org.cyanteam.telemaniacs.core.facade.ChannelFacade;
 import org.cyanteam.telemaniacs.core.services.ChannelService;
+import org.cyanteam.telemaniacs.core.services.ObjectMapperService;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.ArgumentMatcher;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
+import org.mockito.*;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import javax.inject.Inject;
-
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -34,12 +31,15 @@ import static org.mockito.Mockito.when;
 @RunWith(SpringJUnit4ClassRunner.class)
 public class ChannelFacadeTest {
 
+    @Inject
+    @Spy
+    private ObjectMapperService mapper;
+
     @Mock
     private ChannelService channelService;
 
-    @Inject
     @InjectMocks
-    private ChannelFacade channelFacade;
+    private ChannelFacade channelFacade = new ChannelFacadeImpl();
 
     private ChannelDTO channelDTO;
     private Channel channelEntity;
