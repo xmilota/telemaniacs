@@ -9,7 +9,6 @@ import org.cyanteam.telemaniacs.core.helpers.VotingBuilder;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.Spy;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
@@ -17,6 +16,7 @@ import javax.inject.Inject;
 import java.time.Duration;
 import java.time.LocalDateTime;
 
+import static org.cyanteam.telemaniacs.core.utils.ListUtils.createList;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.cyanteam.telemaniacs.core.utils.ListUtils.createList;
 
@@ -27,10 +27,6 @@ import static org.cyanteam.telemaniacs.core.utils.ListUtils.createList;
 @ContextConfiguration(classes = ServiceContextConfiguration.class)
 @RunWith(SpringJUnit4ClassRunner.class)
 public class FavoriteTransmissionsServiceImplTest  {
-	@Inject
-	@Spy
-	private ObjectMapperService objectMapperService;
-
 	@Inject
 	private FavoriteTransmissionsService favoriteTransmissionsService;
 
