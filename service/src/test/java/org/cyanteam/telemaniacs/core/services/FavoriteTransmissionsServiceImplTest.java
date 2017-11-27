@@ -16,7 +16,6 @@ import javax.inject.Inject;
 import java.time.Duration;
 import java.time.LocalDateTime;
 
-import static org.cyanteam.telemaniacs.core.utils.ListUtils.createList;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.cyanteam.telemaniacs.core.utils.ListUtils.createList;
 
