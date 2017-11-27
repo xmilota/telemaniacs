@@ -1,11 +1,7 @@
 package org.cyanteam.telemaniacs.core.services;
 
 import org.cyanteam.telemaniacs.core.ServiceContextConfiguration;
-import org.cyanteam.telemaniacs.core.entities.Transmission;
-import org.cyanteam.telemaniacs.core.entities.Channel;
-import org.cyanteam.telemaniacs.core.entities.TransmissionOccurrence;
-import org.cyanteam.telemaniacs.core.entities.User;
-import org.cyanteam.telemaniacs.core.entities.Voting;
+import org.cyanteam.telemaniacs.core.entities.*;
 import org.cyanteam.telemaniacs.core.helpers.TransmissionBuilder;
 import org.cyanteam.telemaniacs.core.helpers.TransmissionOccurrenceBuilder;
 import org.cyanteam.telemaniacs.core.helpers.UserBuilder;
@@ -22,6 +18,7 @@ import java.time.LocalDateTime;
 
 import static org.cyanteam.telemaniacs.core.utils.ListUtils.createList;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.cyanteam.telemaniacs.core.utils.ListUtils.createList;
 
 /**
  * @author Simona Tinkova
@@ -30,7 +27,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 @ContextConfiguration(classes = ServiceContextConfiguration.class)
 @RunWith(SpringJUnit4ClassRunner.class)
 public class FavoriteTransmissionsServiceImplTest  {
-
 	@Inject
 	private FavoriteTransmissionsService favoriteTransmissionsService;
 
