@@ -1,6 +1,7 @@
 package org.cyanteam.telemaniacs.core.services;
 
 import org.cyanteam.telemaniacs.core.ServiceContextConfiguration;
+import org.cyanteam.telemaniacs.core.dao.UserDao;
 import org.cyanteam.telemaniacs.core.entities.*;
 import org.cyanteam.telemaniacs.core.helpers.TransmissionBuilder;
 import org.cyanteam.telemaniacs.core.helpers.TransmissionOccurrenceBuilder;
@@ -9,6 +10,10 @@ import org.cyanteam.telemaniacs.core.helpers.VotingBuilder;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.ArgumentCaptor;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
@@ -18,6 +23,9 @@ import java.time.LocalDateTime;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.cyanteam.telemaniacs.core.utils.ListUtils.createList;
+import static org.mockito.Matchers.any;
+import static org.mockito.Mockito.doNothing;
+import static org.mockito.Mockito.verify;
 
 /**
  * @author Simona Tinkova
@@ -26,7 +34,14 @@ import static org.cyanteam.telemaniacs.core.utils.ListUtils.createList;
 @ContextConfiguration(classes = ServiceContextConfiguration.class)
 @RunWith(SpringJUnit4ClassRunner.class)
 public class FavoriteTransmissionsServiceImplTest  {
+	@Mock
+	private UserDao userDao;
+
 	@Inject
+	private UserService userService;
+
+	@Inject
+	@InjectMocks
 	private FavoriteTransmissionsService favoriteTransmissionsService;
 
 	private LocalDateTime mockDateTime = LocalDateTime.of(2017, 1, 1, 0, 0, 0);
@@ -50,6 +65,8 @@ public class FavoriteTransmissionsServiceImplTest  {
 
 	@Before
 	public void setUpTestData() {
+		MockitoAnnotations.initMocks(this);
+
 		channel.setName("hbo");
 
 		transmission1 = TransmissionBuilder.sampleIceAgeBuilder().build();
@@ -72,12 +89,18 @@ public class FavoriteTransmissionsServiceImplTest  {
 		user1 = UserBuilder.sampleAdultUserBuilder().build();
 		user2 = UserBuilder.sampleYoungUserBuilder().build();
 		user3 = UserBuilder.sampleAdminBuilder().build();
+		doNothing().when(userDao).update(any());
 	}
 
 	@Test
 	public void followTransmissionTest(){
 		favoriteTransmissionsService.followTransmission(transmission1, user1);
-		assertThat(user1.getFavoriteTransmissions()).contains(transmission1);
+
+		ArgumentCaptor<User> userCaptor = ArgumentCaptor.forClass(User.class);
+		verify(userDao).update(userCaptor.capture());
+
+		User capturedUser = userCaptor.getValue();
+		assertThat(capturedUser.getFavoriteTransmissions()).containsExactly(transmission1);
 	}
 
 	@Test
