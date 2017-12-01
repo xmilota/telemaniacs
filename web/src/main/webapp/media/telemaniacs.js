@@ -27,15 +27,34 @@ var telemaniacs = {
     placeNavigation: function () {
         // Custom Header
         var customHeader = $('section#custom-header');
+        var customHeaderPlaceholder = $('#custom-header-placeholder');
+        var customHeaderSize = $(customHeader).attr('data-size');
+
+        customHeaderPlaceholder.html('');
         if (customHeader.length === 1) {
-            $('#custom-header-placeholder').html(customHeader.html());
+            if (typeof customHeaderSize === typeof undefined || customHeaderSize === null) {
+                customHeaderSize = 0;
+            }
+
+            $('#page-header-name')
+                .removeClass()
+                .addClass('col-md-' + (12 - customHeaderSize));
+
+            $('#page-header-custom')
+                .removeClass()
+                .addClass('col-md-' + customHeaderSize);
+
+            customHeaderPlaceholder.html(customHeader.html());
             customHeader.remove();
         }
 
         // Custom Panel
         var customPanel = $('section#custom-panel');
+        var customPanelPlaceholder = $('#custom-panel-placeholder');
+
+        customPanelPlaceholder.html('');
         if (customPanel.length === 1) {
-            $('#custom-panel-placeholder').html(customPanel.html());
+            customPanelPlaceholder.html(customPanel.html());
             customPanel.remove();
         }
     },

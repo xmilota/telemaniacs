@@ -33,6 +33,8 @@
     <script src="app/services/page.js"></script>
 
     <script src="app/schedule/list.js"></script>
+
+    <script src="app/channels/create.js"></script>
 </body>
 
 </html>
