@@ -165,6 +165,39 @@ body {
     }
 }
 
+/* Main */
+main h2 {
+    margin-bottom: 32px;
+    font-size: 25px;
+}
+
+main h2 span {
+    margin: -10px;
+    padding: 2px 10px;
+    border-bottom: 3px #006064 solid;
+    color: #006064;
+}
+
+main .btn {
+    border: 2px #424242 solid;
+    background-color: transparent;
+    font-weight: bold;
+    color: #424242;
+}
+
+main .btn:hover {
+    background-color: #f5f5f5;
+}
+
+main .btn.btn-primary {
+    border-color: #006064;
+    color: #006064;
+}
+
+main .btn.btn-primary:hover {
+    background-color: #e1f5fe;
+}
+
 
 /* SCHEDULE */
 /* Date Picker */

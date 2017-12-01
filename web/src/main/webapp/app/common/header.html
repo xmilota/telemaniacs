@@ -46,6 +46,15 @@
                                     <i class="fa fa-eye"></i> Shows
                                 </a>
                             </li>
+
+                            <!-- TODO: TO BE REMOVED -->
+                            <li role="separator" class="divider"></li>
+                            <!-- TODO: END TO BE REMOVED -->
+                            <li>
+                                <a href="#!/admin/channels/create">
+                                    <i class="fa fa-plus"></i> Create channel
+                                </a>
+                            </li>
                         </ul>
                     </li>
 
@@ -88,11 +97,11 @@
     <div class="page-header">
         <div class="container">
             <div class="row">
-                <div class="col-md-3">
+                <div id="page-header-name">
                     <h2>{{ $ctrl.pageName }}</h2>
                 </div>
 
-                <div class="col-md-9">
+                <div id="page-header-custom">
                     <div id="custom-header-placeholder"></div>
                 </div>
             </div>
