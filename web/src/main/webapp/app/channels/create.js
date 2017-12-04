@@ -3,6 +3,7 @@ telemaniacsApp.controller('ChannelsCreateController', [
     'PageService',
 
     function ($scope, pageService) {
+        pageService.setTitle('Create Channel - Channel Administration');
         pageService.setPageName('Channel Administration');
 
         $scope.channelTypes = [ 'Movie', 'Documentary', 'Commerce', 'Music', 'Sport', 'Children' ];
