@@ -1,5 +1,6 @@
 package org.cyanteam.telemaniacs.core.facade;
 
+import org.cyanteam.telemaniacs.core.dto.ChannelCreateDTO;
 import org.cyanteam.telemaniacs.core.dto.ChannelDTO;
 import org.cyanteam.telemaniacs.core.enums.ChannelType;
 
@@ -18,8 +19,9 @@ public interface ChannelFacade {
      *
      * @param channel entity that will be persisted
      * @throws IllegalArgumentException if channel is null
+     * @return ID of created channel
      */
-    void create(ChannelDTO channel);
+    Long create(ChannelCreateDTO channel);
 
     /**
      * Updates persisted channel.

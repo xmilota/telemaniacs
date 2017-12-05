@@ -1,5 +1,6 @@
 package org.cyanteam.telemaniacs.core.facades;
 
+import org.cyanteam.telemaniacs.core.dto.ChannelCreateDTO;
 import org.cyanteam.telemaniacs.core.dto.ChannelDTO;
 import org.cyanteam.telemaniacs.core.entities.Channel;
 import org.cyanteam.telemaniacs.core.enums.ChannelType;
@@ -11,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.inject.Inject;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * Class implements facade of channels.
@@ -27,11 +29,12 @@ public class ChannelFacadeImpl implements ChannelFacade {
     private ObjectMapperService objectMapperService;
 
     @Override
-    public void create(ChannelDTO channelDTO) {
-        Channel channel = prepareChannel(channelDTO);
+    public Long create(ChannelCreateDTO channelCreateDTO) {
+        Objects.requireNonNull(channelCreateDTO, "ChannelCreateDTO cannot be null.");
+        Channel channel = objectMapperService.map(channelCreateDTO, Channel.class);
 
         channelService.create(channel);
-        channelDTO.setId(channel.getId());
+        return channel.getId();
     }
 
     @Override
@@ -55,7 +58,6 @@ public class ChannelFacadeImpl implements ChannelFacade {
         }
 
         Channel channel = channelService.findById(id);
-
         return objectMapperService.map(channel, ChannelDTO.class);
     }
 
