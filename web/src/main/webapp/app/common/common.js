@@ -19,3 +19,9 @@ telemaniacsApp.component('tmHeader', {
         pageName: '<'
     }
 });
+
+telemaniacsApp.directive('tmAlerts', function () {
+    return {
+        templateUrl: 'app/common/alerts.html'
+    };
+});

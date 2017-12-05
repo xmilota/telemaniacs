@@ -9,13 +9,21 @@
 		<version>0.1-SNAPSHOT</version>
 	</parent>
 
-	<artifactId>api</artifactId>
+	<artifactId>demo</artifactId>
 
 
 	<dependencies>
 		<dependency>
-			<groupId>javax.validation</groupId>
-			<artifactId>validation-api</artifactId>
+			<groupId>org.cyanteam.telemaniacs</groupId>
+			<artifactId>service</artifactId>
+			<version>${project.parent.version}</version>
+			<exclusions>
+				<exclusion>
+					<groupId>org.glassfish.web</groupId>
+					<artifactId>javax.el</artifactId>
+				</exclusion>
+			</exclusions>
 		</dependency>
 	</dependencies>
+
 </project>

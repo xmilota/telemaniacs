@@ -1,6 +1,7 @@
 package org.cyanteam.telemaniacs.core.facades;
 
 import org.cyanteam.telemaniacs.core.ServiceContextConfiguration;
+import org.cyanteam.telemaniacs.core.dto.ChannelCreateDTO;
 import org.cyanteam.telemaniacs.core.dto.ChannelDTO;
 import org.cyanteam.telemaniacs.core.entities.Channel;
 import org.cyanteam.telemaniacs.core.enums.ChannelType;
@@ -41,6 +42,7 @@ public class ChannelFacadeImplTest {
     private ChannelFacade channelFacade = new ChannelFacadeImpl();
 
     private ChannelDTO channelDTO;
+    private ChannelCreateDTO channelCreateDTO;
     private Channel channelEntity;
 
     @Before
@@ -52,6 +54,11 @@ public class ChannelFacadeImplTest {
         channelDTO.setLanguage("EN");
         channelDTO.setChannelType(ChannelType.MOVIE);
 
+        channelCreateDTO = new ChannelCreateDTO();
+        channelCreateDTO.setName("hbo");
+        channelCreateDTO.setLanguage("EN");
+        channelCreateDTO.setChannelType(ChannelType.MOVIE);
+
         channelEntity = new Channel();
         channelEntity.setName("hbo");
         channelEntity.setLanguage("EN");
@@ -60,7 +67,7 @@ public class ChannelFacadeImplTest {
 
     @Test
     public void createChannelTest() {
-        channelFacade.create(channelDTO);
+        channelFacade.create(channelCreateDTO);
         verify(channelService).create(argThat(getChannelMatcher()));
     }
 
