@@ -27,5 +27,10 @@ telemaniacsApp.config(function($routeProvider) {
             edit: true
         })
 
+        .when('/admin/occurrences/:id', {
+            controller: 'TransmissionOccurrencesListController',
+            templateUrl: 'app/transmissionOccurrence/list.html'
+        })
+
         .otherwise({ redirectTo: '/schedule' });
 });
