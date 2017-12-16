@@ -16,11 +16,11 @@ public interface TransmissionFacade {
     /**
      * New transmissionDTO into the system.
      *
-     * @param transmissionDTO represents entity that will be created into system.
+     * @param transmissionCreateDTO represents entity that will be created into system.
      * @throws ConstraintViolationException if any constraints on columns
      *                                      are violated.
      */
-    Long create(TransmissionCreateDTO transmissionDTO) throws ConstraintViolationException;
+    Long create(TransmissionCreateDTO transmissionCreateDTO) throws ConstraintViolationException;
 
     /**
      * The transmissionDTO will be deleted from system.
