@@ -1,5 +1,6 @@
 package org.cyanteam.telemaniacs.core.facades;
 
+import org.cyanteam.telemaniacs.core.dto.TransmissionCreateDTO;
 import org.cyanteam.telemaniacs.core.dto.TransmissionDTO;
 import org.cyanteam.telemaniacs.core.entities.Transmission;
 import org.cyanteam.telemaniacs.core.enums.TransmissionType;
@@ -26,12 +27,15 @@ public class TransmissionFacadeImpl implements TransmissionFacade {
     private ObjectMapperService objectMapperService;
 
     @Override
-    public TransmissionDTO create(TransmissionDTO transmissionDTO) throws ConstraintViolationException {
-        Transmission transmission = prepareTransmission(transmissionDTO);
+    public Long create(TransmissionCreateDTO transmissionCreateDTO) throws ConstraintViolationException {
+        if (transmissionCreateDTO == null) {
+            throw new IllegalArgumentException("TransmissionCreateDTO cannot be null!");
+        }
 
+        Transmission transmission = objectMapperService.map(transmissionCreateDTO, Transmission.class);
         transmissionService.create(transmission);
-        transmissionDTO.setId(transmission.getId());
-        return transmissionDTO;
+
+        return transmission.getId();
     }
 
     @Override

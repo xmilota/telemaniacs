@@ -1,5 +1,6 @@
 package org.cyanteam.telemaniacs.core.facade;
 
+import org.cyanteam.telemaniacs.core.dto.TransmissionCreateDTO;
 import org.cyanteam.telemaniacs.core.dto.TransmissionDTO;
 import org.cyanteam.telemaniacs.core.enums.TransmissionType;
 
@@ -17,7 +18,7 @@ public interface TransmissionFacade {
      * @throws ConstraintViolationException if any constraints on columns
      *                                      are violated.
      */
-    TransmissionDTO create(TransmissionDTO transmissionDTO) throws ConstraintViolationException;
+    Long create(TransmissionCreateDTO transmissionDTO) throws ConstraintViolationException;
 
     /**
      * The transmissionDTO will be deleted from system.
