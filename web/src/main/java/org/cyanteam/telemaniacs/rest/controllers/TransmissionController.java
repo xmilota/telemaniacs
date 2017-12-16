@@ -1,83 +1,88 @@
 package org.cyanteam.telemaniacs.rest.controllers;
 
-import org.cyanteam.telemaniacs.core.dto.TransmissionCreateDTO;
 import org.cyanteam.telemaniacs.core.dto.TransmissionDTO;
+import org.cyanteam.telemaniacs.core.dto.TransmissionOccurrenceDTO;
+import org.cyanteam.telemaniacs.core.enums.TransmissionType;
 import org.cyanteam.telemaniacs.core.facade.TransmissionFacade;
-import org.cyanteam.telemaniacs.rest.exceptions.ResourceNotFoundException;
 import org.cyanteam.telemaniacs.rest.exceptions.ValidationException;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.http.MediaType;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.inject.Inject;
 import javax.validation.Valid;
+import java.util.List;
 
+/**
+ * @author Simona Tinkova
+ */
 @RestController
 @RequestMapping(Url.TRANSMISSION)
 public class TransmissionController {
 
-    @Inject
-    private TransmissionFacade transmissionFacade;
+	@Inject
+	private TransmissionFacade transmissionFacade;
 
-    private final static Logger log = LoggerFactory.getLogger(TransmissionController.class);
+	@RequestMapping(value = "/name/{name}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	public final TransmissionDTO getTransmissionByName(@PathVariable("name") String name) {
+		TransmissionDTO transmissions = transmissionFacade
+				.findByName(name);
 
-    /**
-     * Creates new transmission.
-     *
-     * @param transmissionCreateDTO transmission that will be created
-     * @return created transmission
-     */
-    @RequestMapping(value = "/add", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
-    public TransmissionDTO createTransmission(@RequestBody @Valid TransmissionCreateDTO transmissionCreateDTO,
-                                              BindingResult bindingResult) {
-        log.debug("rest createTransmission()");
+		if (transmissions == null) {
+			throw new IllegalArgumentException("No transmission with this name");
+		}
 
-        if (bindingResult.hasErrors()) {
-            throw new ValidationException("Invalid transmission state.");
-        }
+		return transmissions;
+	}
 
-        Long transmissionId = transmissionFacade.create(transmissionCreateDTO);
-        return transmissionFacade.findById(transmissionId);
-    }
+	@RequestMapping(value = "/type/{type}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	public final List<TransmissionDTO> getTransmissionsByType(@PathVariable("type") TransmissionType type) {
+		List<TransmissionDTO> transmissions = transmissionFacade
+				.findByType(type);
 
-    /**
-     * Updates transmission.
-     *
-     * @param id ID of updated transmission
-     * @param transmissionDTO transmission with modified values
-     * @return updated transmission
-     */
-    @RequestMapping(value = "/{id}", method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE)
-    public TransmissionDTO updateTransmission(@PathVariable("id") long id,
-                                              @RequestBody @Valid TransmissionDTO transmissionDTO,
-                                              BindingResult bindingResult) {
-        log.debug("rest updateTransmission({})");
+		if (transmissions == null) {
+			throw new IllegalArgumentException("No transmissions with this type");
+		}
 
-        if (bindingResult.hasErrors()) {
-            throw new ValidationException("Invalid transmission state.");
-        }
+		return transmissions;
+	}
 
-        transmissionDTO.setId(id);
-        return transmissionFacade.update(transmissionDTO);
-    }
+	@RequestMapping(value = "/occurrence/add", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
+	public TransmissionOccurrenceDTO createOccurrence(@RequestBody @Valid TransmissionOccurrenceDTO occurenceDTO,
+	                                               BindingResult bindingResult) {
 
-    /**
-     * Retrieves transmission with specific ID
-     *
-     * @param id ID of the transmission
-     * @return transmission with specific ID
-     */
-    @RequestMapping(value = "/{id}", method = RequestMethod.GET)
-    public TransmissionDTO getTransmission(@PathVariable("id") long id) {
-        log.debug("rest transmission({})");
+		if (bindingResult.hasErrors()) {
+			throw new ValidationException("Invalid ocuurence state.");
+		}
 
-        TransmissionDTO transmissionDTO = transmissionFacade.findById(id);
-        if (transmissionDTO == null) {
-            throw new ResourceNotFoundException("Transmission", id);
-        }
+		TransmissionOccurrenceDTO occurrence = transmissionFacade.addOccurrence(occurenceDTO);
+		return occurrence;
+	}
 
-        return transmissionDTO;
-    }
+	@RequestMapping(value = "/occurrence/{occurrenceId}", method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE)
+	public TransmissionOccurrenceDTO updateOccurrence(@PathVariable("id") long id,
+	                                @RequestBody @Valid TransmissionOccurrenceDTO occurrenceDTO,
+	                                BindingResult bindingResult) {
+
+		if (bindingResult.hasErrors()) {
+			throw new ValidationException("Invalid occurrence state.");
+		}
+
+		occurrenceDTO.setId(id);
+		transmissionFacade.updateOccurrence(occurrenceDTO);
+		return occurrenceDTO;
+	}
+
+	@RequestMapping(value = "/occurrence/{occurrenceId}", method = RequestMethod.DELETE, consumes = MediaType.APPLICATION_JSON_VALUE)
+	public TransmissionOccurrenceDTO removeOccurrence(@PathVariable("id") long id,
+	                                                  @RequestBody @Valid TransmissionOccurrenceDTO occurrenceDTO,
+	                                                  BindingResult bindingResult) {
+
+		if (bindingResult.hasErrors()) {
+			throw new ValidationException("Invalid occurrence state.");
+		}
+
+		transmissionFacade.removeOccurrence(occurrenceDTO);
+		return occurrenceDTO;
+	}
 }
