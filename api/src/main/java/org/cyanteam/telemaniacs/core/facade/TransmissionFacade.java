@@ -1,11 +1,9 @@
 package org.cyanteam.telemaniacs.core.facade;
 
+import org.cyanteam.telemaniacs.core.dto.TransmissionCreateDTO;
 import org.cyanteam.telemaniacs.core.dto.TransmissionDTO;
 import org.cyanteam.telemaniacs.core.dto.TransmissionOccurrenceDTO;
 import org.cyanteam.telemaniacs.core.dto.VotingDTO;
-import org.cyanteam.telemaniacs.core.entities.Transmission;
-import org.cyanteam.telemaniacs.core.entities.TransmissionOccurrence;
-import org.cyanteam.telemaniacs.core.entities.Voting;
 import org.cyanteam.telemaniacs.core.enums.TransmissionType;
 
 import javax.validation.ConstraintViolationException;
@@ -18,11 +16,11 @@ public interface TransmissionFacade {
     /**
      * New transmissionDTO into the system.
      *
-     * @param transmissionDTO represents entity that will be created into system.
+     * @param transmissionCreateDTO represents entity that will be created into system.
      * @throws ConstraintViolationException if any constraints on columns
      *                                      are violated.
      */
-    TransmissionDTO create(TransmissionDTO transmissionDTO) throws ConstraintViolationException;
+    Long create(TransmissionCreateDTO transmissionCreateDTO) throws ConstraintViolationException;
 
     /**
      * The transmissionDTO will be deleted from system.
