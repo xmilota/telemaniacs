@@ -12,6 +12,15 @@
 	</mapping>
 
 	<mapping>
+		<class-a>org.cyanteam.telemaniacs.core.entities.TransmissionOccurrence</class-a>
+		<class-b>org.cyanteam.telemaniacs.core.dto.TransmissionOccurrenceDTO</class-b>
+		<field-exclude>
+			<a>startDate</a>
+			<b>startDate</b>
+		</field-exclude>
+	</mapping>
+
+	<mapping>
 		<class-a>org.cyanteam.telemaniacs.core.entities.Channel</class-a>
 		<class-b>org.cyanteam.telemaniacs.core.dto.ChannelDTO</class-b>
 		<field-exclude>
