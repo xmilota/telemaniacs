@@ -1,7 +1,11 @@
 package org.cyanteam.telemaniacs.core.facades;
 
 import org.cyanteam.telemaniacs.core.dto.TransmissionDTO;
+import org.cyanteam.telemaniacs.core.dto.TransmissionOccurrenceDTO;
+import org.cyanteam.telemaniacs.core.dto.VotingDTO;
 import org.cyanteam.telemaniacs.core.entities.Transmission;
+import org.cyanteam.telemaniacs.core.entities.TransmissionOccurrence;
+import org.cyanteam.telemaniacs.core.entities.Voting;
 import org.cyanteam.telemaniacs.core.enums.TransmissionType;
 import org.cyanteam.telemaniacs.core.facade.TransmissionFacade;
 import org.cyanteam.telemaniacs.core.services.ObjectMapperService;
@@ -88,11 +92,104 @@ public class TransmissionFacadeImpl implements TransmissionFacade {
         return objectMapperService.map(transmissionService.findAll(), TransmissionDTO.class);
     }
 
+    @Override
+    public TransmissionOccurrenceDTO addOccurrence(TransmissionOccurrenceDTO occurrenceDTO) {
+        TransmissionOccurrence occurence = prepareTransmissionOccurence(occurrenceDTO);
+
+        transmissionService.addOccurrence(occurence);
+        occurrenceDTO.setId(occurence.getId());
+        return occurrenceDTO;
+    }
+
+    @Override
+    public TransmissionOccurrenceDTO updateOccurrence(TransmissionOccurrenceDTO occurrenceDTO) {
+        TransmissionOccurrence occurence = prepareTransmissionOccurence(occurrenceDTO);
+
+        transmissionService.updateOccurrence(occurence);
+        return occurrenceDTO;
+    }
+
+    @Override
+    public TransmissionOccurrenceDTO removeOccurrence(TransmissionOccurrenceDTO occurrenceDTO) {
+        TransmissionOccurrence occurence = prepareTransmissionOccurence(occurrenceDTO);
+
+        transmissionService.removeOccurrence(occurence);
+        return occurrenceDTO;
+    }
+
+    @Override
+    public List<TransmissionOccurrenceDTO> getOccurrences(TransmissionDTO transmissionDTO) {
+        if (transmissionDTO == null) {
+            throw new IllegalArgumentException("Transmission cannot be null!");
+        }
+        Transmission transmission = prepareTransmission(transmissionDTO);
+
+        List<TransmissionOccurrence> occurences = transmissionService.getOccurrences(transmission);
+
+        return objectMapperService.map(occurences, TransmissionOccurrenceDTO.class);
+
+    }
+
+    @Override
+    public List<TransmissionOccurrenceDTO> getUpcomingOccurrences(TransmissionDTO transmissionDTO) {
+        if (transmissionDTO == null) {
+            throw new IllegalArgumentException("Transmission cannot be null!");
+        }
+        Transmission transmission = prepareTransmission(transmissionDTO);
+
+        List<TransmissionOccurrence> occurences = transmissionService.getUpcomingOccurrences(transmission);
+
+        return objectMapperService.map(occurences, TransmissionOccurrenceDTO.class);
+    }
+
+    @Override
+    public List<VotingDTO> getVotings(TransmissionDTO transmissionDTO) {
+        if (transmissionDTO == null) {
+            throw new IllegalArgumentException("Transmission cannot be null!");
+        }
+        Transmission transmission = prepareTransmission(transmissionDTO);
+
+        List<Voting> votings = transmissionService.getVotings(transmission);
+
+        return objectMapperService.map(votings, VotingDTO.class);
+    }
+
+    @Override
+    public Double getAverageVoting(TransmissionDTO transmissionDTO) {
+        if (transmissionDTO == null) {
+            throw new IllegalArgumentException("Transmission cannot be null!");
+        }
+        Transmission transmission = prepareTransmission(transmissionDTO);
+
+        Double votings = transmissionService.getAverageVoting(transmission);
+
+        return votings;
+    }
+
+    @Override
+    public TransmissionOccurrenceDTO getOccurranceById(Long id) throws IllegalArgumentException {
+        if (id == null) {
+            throw new IllegalArgumentException("Id of occurrance cannot be null!");
+        }
+
+        TransmissionOccurrence occurence = transmissionService.getOccurranceById(id);
+
+        return objectMapperService.map(occurence, TransmissionOccurrenceDTO.class);
+    }
+
     private Transmission prepareTransmission(TransmissionDTO transmissionDTO) {
         if (transmissionDTO == null) {
             throw new IllegalArgumentException("TransmissionDTO cannot be null!");
         }
 
         return objectMapperService.map(transmissionDTO, Transmission.class);
+    }
+
+    private TransmissionOccurrence prepareTransmissionOccurence(TransmissionOccurrenceDTO occurenceDTO) {
+        if (occurenceDTO == null) {
+            throw new IllegalArgumentException("TransmissionOccurenceDTO cannot be null!");
+        }
+
+        return objectMapperService.map(occurenceDTO, TransmissionOccurrence.class);
     }
 }
