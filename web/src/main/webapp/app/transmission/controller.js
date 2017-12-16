@@ -9,6 +9,18 @@ telemaniacsApp.controller('TransmissionsCreateController', [
         pageService.consumeMessages();
         pageService.setPageName('Transmission Administration');
 
+        telemaniacsApp.controller('TransmissionDetailsController', [
+            '$scope',
+            '$route',
+            '$routeParams',
+            '$location',
+            'PageService',
+
+            function ($scope, $route, $routeParams, $location, pageService) {
+                pageService.setPageName('Show details');
+            }
+        ]);
+
         $scope.transmissionTypes = [
             { id: 'MOVIE', name: 'Movie' },
             { id: 'TV_SERIES', name: 'TV Series' },
