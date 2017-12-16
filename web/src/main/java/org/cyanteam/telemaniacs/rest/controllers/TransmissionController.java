@@ -2,10 +2,8 @@ package org.cyanteam.telemaniacs.rest.controllers;
 
 import org.cyanteam.telemaniacs.core.dto.TransmissionDTO;
 import org.cyanteam.telemaniacs.core.dto.TransmissionOccurrenceDTO;
-import org.cyanteam.telemaniacs.core.entities.Transmission;
 import org.cyanteam.telemaniacs.core.enums.TransmissionType;
 import org.cyanteam.telemaniacs.core.facade.TransmissionFacade;
-import org.cyanteam.telemaniacs.rest.exceptions.ResourceNotFoundException;
 import org.cyanteam.telemaniacs.rest.exceptions.ValidationException;
 import org.springframework.http.MediaType;
 import org.springframework.validation.BindingResult;
@@ -18,10 +16,10 @@ import java.util.List;
 /**
  * @author Simona Tinkova
  */
-
 @RestController
 @RequestMapping(Url.TRANSMISSION)
 public class TransmissionController {
+
 	@Inject
 	private TransmissionFacade transmissionFacade;
 

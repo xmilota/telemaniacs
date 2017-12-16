@@ -3,10 +3,10 @@ package org.cyanteam.telemaniacs.core.facade;
 import org.cyanteam.telemaniacs.core.dto.TransmissionDTO;
 import org.cyanteam.telemaniacs.core.dto.TransmissionOccurrenceDTO;
 import org.cyanteam.telemaniacs.core.dto.VotingDTO;
-import org.cyanteam.telemaniacs.core.enums.TransmissionType;
 import org.cyanteam.telemaniacs.core.entities.Transmission;
 import org.cyanteam.telemaniacs.core.entities.TransmissionOccurrence;
 import org.cyanteam.telemaniacs.core.entities.Voting;
+import org.cyanteam.telemaniacs.core.enums.TransmissionType;
 
 import javax.validation.ConstraintViolationException;
 import java.util.List;
