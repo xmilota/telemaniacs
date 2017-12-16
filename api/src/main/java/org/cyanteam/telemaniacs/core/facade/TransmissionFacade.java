@@ -2,6 +2,8 @@ package org.cyanteam.telemaniacs.core.facade;
 
 import org.cyanteam.telemaniacs.core.dto.TransmissionCreateDTO;
 import org.cyanteam.telemaniacs.core.dto.TransmissionDTO;
+import org.cyanteam.telemaniacs.core.dto.TransmissionOccurrenceDTO;
+import org.cyanteam.telemaniacs.core.dto.VotingDTO;
 import org.cyanteam.telemaniacs.core.enums.TransmissionType;
 
 import javax.validation.ConstraintViolationException;
@@ -70,4 +72,59 @@ public interface TransmissionFacade {
      * @return all transmissionsDTO
      */
     List<TransmissionDTO> findAll();
+
+    /**
+     * Adds transmission occurrence
+     *
+     * @param occurrenceDTO Transmission occurrence
+     */
+    TransmissionOccurrenceDTO addOccurrence(TransmissionOccurrenceDTO occurrenceDTO);
+
+    /**
+     * Updates transmission occurrence
+     *
+     * @param occurrenceDTO Transmission occurrence
+     */
+    TransmissionOccurrenceDTO updateOccurrence(TransmissionOccurrenceDTO occurrenceDTO);
+
+    /**
+     * Removes transmission occurrence
+     *
+     * @param occurrenceDTO Transmission occurrence
+     */
+    TransmissionOccurrenceDTO removeOccurrence(TransmissionOccurrenceDTO occurrenceDTO);
+
+    /**
+     * Get all occurrences of a transmission
+     *
+     * @param transmissionDTO Transmission
+     * @return List of all occurrences of given transmission
+     */
+    List<TransmissionOccurrenceDTO> getOccurrences(TransmissionDTO transmissionDTO);
+
+    /**
+     * Get all upcoming occurrences of a transmission
+     *
+     * @param transmissionDTO Transmission
+     * @return List of all upcoming occurrences of given transmission
+     */
+    List<TransmissionOccurrenceDTO> getUpcomingOccurrences(TransmissionDTO transmissionDTO);
+
+    /**
+     * Get all votings of a transmission
+     *
+     * @param transmissionDTO Transmission
+     * @return List of all votings of given transmission
+     */
+    List<VotingDTO> getVotings(TransmissionDTO transmissionDTO);
+
+    /**
+     * Get average voting of a transmission
+     *
+     * @param transmissionDTO Transmission
+     * @return Average voting of given transmission, or null if no voting available
+     */
+    Double getAverageVoting(TransmissionDTO transmissionDTO);
+
+    TransmissionOccurrenceDTO getOccurranceById(Long id)throws IllegalArgumentException;
 }
