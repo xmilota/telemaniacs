@@ -4,6 +4,7 @@ import org.cyanteam.telemaniacs.core.dto.Schedule;
 import org.cyanteam.telemaniacs.core.entities.Channel;
 import org.cyanteam.telemaniacs.core.entities.TransmissionOccurrence;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Collection;
 
@@ -13,6 +14,11 @@ import java.util.Collection;
  * @author Michael Le
  */
 public interface ScheduleService {
+    /**
+     * TODO: JavaDoc and tests
+     */
+    Schedule getSchedule(Collection<Channel> channels, LocalDate day);
+
     /**
      * Gets schedule for specified channels and period
      *

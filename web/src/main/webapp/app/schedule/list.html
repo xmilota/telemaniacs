@@ -34,57 +34,9 @@
     <div class="group channels">
         <div class="column time-clue"></div>
 
-        <div class="column">
+        <div class="column" ng-repeat="schedule in schedules">
             <div class="channel">
-                Discovery Channel
-
-                <a href="" class="follow"><i class="fa fa-heart"></i></a>
-            </div>
-        </div>
-
-        <div class="column">
-            <div class="channel">
-                Nat Geo
-
-                <a href="" class="follow"><i class="fa fa-heart"></i></a>
-            </div>
-        </div>
-
-        <div class="column">
-            <div class="channel">
-                Nat Geo Wild
-
-                <a href="" class="follow"><i class="fa fa-heart"></i></a>
-            </div>
-        </div>
-
-        <div class="column">
-            <div class="channel">
-                Channel
-
-                <a href="" class="follow"><i class="fa fa-heart"></i></a>
-            </div>
-        </div>
-
-        <div class="column">
-            <div class="channel">
-                Channel
-
-                <a href="" class="follow"><i class="fa fa-heart"></i></a>
-            </div>
-        </div>
-
-        <div class="column">
-            <div class="channel">
-                Channel
-
-                <a href="" class="follow"><i class="fa fa-heart"></i></a>
-            </div>
-        </div>
-
-        <div class="column">
-            <div class="channel">
-                Channel
+                {{schedule.channel.name}}
 
                 <a href="" class="follow"><i class="fa fa-heart"></i></a>
             </div>
