@@ -112,15 +112,15 @@ public class TransmissionController {
 	}
 
 	@RequestMapping(value = "/occurrence/add", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
-	public TransmissionOccurrenceDTO createOccurrence(@RequestBody @Valid TransmissionOccurrenceDTO occurenceDTO,
+	public TransmissionOccurrenceDTO createOccurrence(@RequestBody @Valid TransmissionOccurrenceDTO occurrenceDTO,
 	                                               BindingResult bindingResult) {
 
 		if (bindingResult.hasErrors()) {
-			throw new ValidationException("Invalid ocuurence state.");
+			throw new ValidationException("Invalid ocuurrence state.");
 		}
 
-		TransmissionOccurrenceDTO occurrence = transmissionFacade.addOccurrence(occurenceDTO);
-		return occurrence;
+
+		return transmissionFacade.addOccurrence(occurrenceDTO);
 	}
 
 	@RequestMapping(value = "/occurrence/{occurrenceId}", method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE)
