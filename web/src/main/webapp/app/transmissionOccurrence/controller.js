@@ -1,4 +1,4 @@
-telemaniacsApp.controller('TransmissionOccurencesCreateController', [
+telemaniacsApp.controller('TransmissionOccurrencesCreateController', [
     '$scope',
     '$route',
     '$routeParams',
@@ -7,7 +7,7 @@ telemaniacsApp.controller('TransmissionOccurencesCreateController', [
 
     function ($scope, $route, $routeParams, $location, pageService) {
         pageService.consumeMessages();
-        pageService.setPageName('Transmission Occurence Administration');
+        pageService.setPageName('Transmission Occurrence Administration');
 
         $scope.channel = {
             'id': null,
@@ -26,9 +26,9 @@ telemaniacsApp.controller('TransmissionOccurencesCreateController', [
 
 
         if (pageService.isEditing($route)) {
-            pageService.getDataAsync('transmissionOccurence/' + $routeParams.id).then(function (transmissionOccurence) {
+            pageService.getDataAsync('transmissionOccurrence/' + $routeParams.id).then(function (transmissionOccurence) {
                 if (transmissionOccurence == null) {
-                    $location.path('admin/transmissionOccurence/create/');
+                    $location.path('admin/transmissionOccurrence/create/');
                     return;
                 }
 
@@ -36,20 +36,20 @@ telemaniacsApp.controller('TransmissionOccurencesCreateController', [
             });
         }
 
-        $scope.save = function (transmissionOccurence) {
+        $scope.save = function (transmissionOccurrence) {
             var errorMessages = {
-                'TvManagerDataAccessException': 'Transmission occurence with the same name already exists.',
-                'JpaSystemException': 'Transmission occurence with the same name already exists.',
-                'ValidationException': 'Invalid transmission occurence state.',
+                'TvManagerDataAccessException': 'Transmission occurrence with the same name already exists.',
+                'JpaSystemException': 'Transmission occurrence with the same name already exists.',
+                'ValidationException': 'Invalid transmission occurrence state.',
                 'otherwise': 'Category cannot be created: {msg}'
             };
 
             if (!pageService.isEditing($route)) {
-                pageService.sendDataAsync('transmissionOccurence/add/', 'POST', transmissionOccurence, 'Transmission occurence was added.',
-                    'admin/transmissionOccurences/', errorMessages);
+                pageService.sendDataAsync('transmissionOccurrence/add/', 'POST', transmissionOccurrence, 'Transmission occurrence was added.',
+                    'admin/transmissionOccurrences/', errorMessages);
             } else {
-                pageService.sendDataAsync('transmissionOccurence/' + transmissionOccurence.id, 'PUT', transmissionOccurence,
-                    'Transmission occurence was updated.', 'admin/transmissionOccurences/', errorMessages);
+                pageService.sendDataAsync('transmissionOccurrence/' + transmissionOccurrence.id, 'PUT', transmissionOccurrence,
+                    'Transmission occurrence was updated.', 'admin/transmissionOccurrences/', errorMessages);
             }
         };
     }
