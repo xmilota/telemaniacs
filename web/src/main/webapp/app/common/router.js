@@ -12,7 +12,10 @@ telemaniacsApp.config(function($routeProvider) {
 
         .when('/admin/channels/create', {
             controller: 'ChannelsCreateController',
-            templateUrl: 'app/channels/edit.html'
+            templateUrl: 'app/channels/edit.html',
+            data: {
+                authorizedRoles: []
+            }
         })
 
         .when('/admin/channels/edit/:id', {
@@ -68,5 +71,41 @@ telemaniacsApp.config(function($routeProvider) {
             templateUrl: 'app/transmission/myTransmissionList.html'
         })
 
+        .when('/login', {
+            controller: 'LoginController',
+            templateUrl: 'app/login/login.html'
+        })
+
         .otherwise({ redirectTo: '/schedule' });
 });
+
+// telemaniacsApp.run(function ($rootScope, $location, $window, loggedUserFactory) {
+//
+//     loggedUserFactory.getPrincipal(
+//         function (response) {
+//
+//             var values = JSON.parse(response.data);
+//
+//             $rootScope.principal = values.username;
+//             $rootScope.role = values.role;
+//         },
+//         function (response) {
+//             alert("An error occurred when getting the logged user.");
+//         }
+//     );
+//
+//     $rootScope.unsuccessfulResponse = function (response) {
+//         if (response.status === 403) {
+//             $rootScope.page = $location.path();
+//             $location.path("/forbidden");
+//         } else if (response.status === 401) {
+//             $window.location.href = "login.html";
+//         } else if (response.status === 400 || response.status === 409) {
+//             document.getElementById('errorOutput').style.display = 'block';
+//             setTimeout(function () {
+//                 document.getElementById('errorOutput').style.display = 'none';
+//             }, 3000);
+//         }
+//     };
+//
+// });

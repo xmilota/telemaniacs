@@ -102,3 +102,28 @@ telemaniacsApp.factory('PageService', function($rootScope, $http, $location) {
         }
     };
 });
+
+// // TODO presunout do samostatneho souboru
+// telemaniacsApp.factory('AuthService', function ($http, $rootScope) {
+//
+//         return {
+//             login : function (userEmail, password) {
+//                 return $http
+//                     .post("/rest/user/authenticate", userEmail, password)
+//                     .then(function (response) {
+//
+//                     })
+//                 // {
+//                 //     url: "/rest/user/authenticate,
+//                 //     method: "GET",
+//                 //     data: data
+//             }
+//         }
+//             dataFactory
+//         }.getPrincipal = function (success, error) {
+//             return $http.get(urlUser).then(success, error);
+//         };
+//
+//         return dataFactory;
+//     }
+// ]);
