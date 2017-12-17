@@ -17,4 +17,6 @@ public interface ScheduleFacade {
     ScheduleDTO getSchedule(Collection<ChannelDTO> channels, LocalDateTime start, LocalDateTime end);
 
     ScheduleDTO getUserSchedule(UserDTO user, LocalDateTime from, LocalDateTime to);
+
+    long getDay();
 }
