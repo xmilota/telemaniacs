@@ -17,7 +17,6 @@ telemaniacsApp.controller('MyTransmissionController', [
             console.log($scope.transmissions);
         });
 
-
         $scope.unfollow = function (transmission) {
             console.log('Unfollow');
             var errorMessages = {
