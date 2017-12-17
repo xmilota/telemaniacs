@@ -19,6 +19,7 @@ import java.util.List;
 
 /**
  * @author Simona Tinkova
+ * @author Tomas Milota
  */
 @RestController
 @RequestMapping(Url.TRANSMISSION)
@@ -69,6 +70,18 @@ public class TransmissionController {
 		return transmissionFacade.update(transmissionDTO);
 	}
 
+	@RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
+	public final void deleteTransmission(@PathVariable("id") long id) throws Exception {
+		log.debug("rest deleteTransmission({})", id);
+
+		TransmissionDTO transmissionDTO = transmissionFacade.findById(id);
+		if (transmissionDTO == null) {
+			throw new ResourceNotFoundException("Transmission", id);
+		}
+
+		transmissionFacade.remove(transmissionDTO);
+	}
+
 	/**
 	 * Retrieves transmission with specific ID
 	 *
@@ -111,16 +124,28 @@ public class TransmissionController {
 		return transmissions;
 	}
 
+	/**
+	 * Produces list of all transmissions in JSON.
+	 *
+	 * @return list of transmissions
+	 */
+	@RequestMapping(method = RequestMethod.GET)
+	public List<TransmissionDTO> getAllTransmissions() {
+		log.debug("rest getAllTransmissions()");
+
+		return transmissionFacade.findAll();
+	}
+
 	@RequestMapping(value = "/occurrence/add", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
-	public TransmissionOccurrenceDTO createOccurrence(@RequestBody @Valid TransmissionOccurrenceDTO occurrenceDTO,
+	public TransmissionOccurrenceDTO createOccurrence(@RequestBody @Valid TransmissionOccurrenceDTO occurenceDTO,
 	                                               BindingResult bindingResult) {
 
 		if (bindingResult.hasErrors()) {
-			throw new ValidationException("Invalid ocuurrence state.");
+			throw new ValidationException("Invalid ocuurence state.");
 		}
 
-
-		return transmissionFacade.addOccurrence(occurrenceDTO);
+		TransmissionOccurrenceDTO occurrence = transmissionFacade.addOccurrence(occurenceDTO);
+		return occurrence;
 	}
 
 	@RequestMapping(value = "/occurrence/{occurrenceId}", method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE)

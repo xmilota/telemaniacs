@@ -60,6 +60,19 @@ var telemaniacs = {
     },
 
     /**
+     * Transmission type name
+     */
+    transmissionTypeName: function(type) {
+        switch (type) {
+            case 'MOVIE': return 'Movie';
+            case 'TV_SERIES': return 'TV Series';
+            case 'TV_SHOW': return 'TV Show';
+            case 'SPORT_EVENT': return 'Sport';
+            case 'DOCUMENTARY': return 'Documentary';
+        }
+    },
+
+    /**
      * Loads scripts
      */
     boot: function () {

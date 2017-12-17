@@ -34,6 +34,7 @@ public class DemoDataLoader {
         "Ride", "Ball", "Ride", "Wind", "Sun"
     };
 
+    private static final Set<String> usedNames = new HashSet<>();
     private static final Integer[] lengths = { 15, 30, 60, 120 };
     private static final AgeAvailability[] availability = { AgeAvailability.AGE12, AgeAvailability.AGE15, AgeAvailability.AGE18, AgeAvailability.UNRESTRICTED };
     private static final String[] languages = { "CZ", "SK", "EN", "D", "FR" };
@@ -74,11 +75,16 @@ public class DemoDataLoader {
             int relativeTime = 0;
             for (int i = 0; i < 50; i++) {
                 int index = random.nextInt(transmissions.size());
+                int part = 0;
+                if (index > 0.8 * transmissionsNumber) {
+                    part = partMap.get(index);
+                }
 
-                LocalDateTime time = baseTime.plusSeconds(relativeTime);
+                LocalDateTime time = baseTime.plusMinutes(relativeTime);
                 Transmission transmission = transmissions.get(index);
-                createOccurrence(channel, transmission, time, partMap.get(index));
+                createOccurrence(channel, transmission, time, part);
                 relativeTime += transmission.getLength();
+                partMap.put(index, part + 1);
             }
 
         }
@@ -98,8 +104,8 @@ public class DemoDataLoader {
 
     private Transmission createTransmission() {
         Transmission transmission = new Transmission();
-        transmission.setName(getRandom(adjectives) + " " + getRandom(names) + " " + counter);
-        transmission.setDescription(getRandomString(10));
+        transmission.setName(getRandomName());
+        transmission.setDescription(getRandomString(80));
         transmission.setLength(getRandom(lengths));
         transmission.setAgeAvailability(getRandom(availability));
         transmission.setLanguage(getRandom(languages));
@@ -114,11 +120,13 @@ public class DemoDataLoader {
     private TransmissionOccurrence createOccurrence(Channel channel, Transmission transmission, LocalDateTime start,
                                                     int part) {
         TransmissionOccurrence occurrence = new TransmissionOccurrence();
-        occurrence.setPartName(Integer.toString(part));
+        if (part > 0) {
+            occurrence.setPartName(Integer.toString(part));
+        }
         occurrence.setStartDate(start);
         occurrence.setChannel(channel);
         occurrence.setTransmission(transmission);
-        occurrence.setRerun(true);
+        occurrence.setRerun(random.nextInt(2) == 1);
 
         transmissionService.addOccurrence(occurrence);
         return occurrence;
@@ -136,6 +144,16 @@ public class DemoDataLoader {
             output.append(" ");
         }
 
-        return output.toString();
+        return output.toString().trim();
+    }
+
+    private String getRandomName() {
+        String name = getRandom(adjectives) + " " + getRandom(names);
+        if (usedNames.contains(name)) {
+            name += " " + counter;
+        }
+
+        usedNames.add(name);
+        return name;
     }
 }

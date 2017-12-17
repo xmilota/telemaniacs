@@ -20,6 +20,11 @@ telemaniacsApp.config(function($routeProvider) {
             templateUrl: 'app/channels/edit.html',
             edit: true
         })
+        
+        .when('/admin/channels', {
+            controller: 'ChannelsListController',
+            templateUrl: 'app/channels/list.html'
+        })
 
         .when('/admin/transmissions/create', {
             controller: 'TransmissionsCreateController',
@@ -30,6 +35,11 @@ telemaniacsApp.config(function($routeProvider) {
             controller: 'TransmissionsCreateController',
             templateUrl: 'app/transmission/edit.html',
             edit: true
+        })
+
+        .when('/admin/transmissions', {
+            controller: 'TransmissionsListController',
+            templateUrl: 'app/transmission/list.html'
         })
 
         .when('/admin/occurrences/:id', {

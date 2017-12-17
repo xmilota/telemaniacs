@@ -166,6 +166,10 @@ body {
 }
 
 /* Main */
+main .container {
+    margin-top: 12px;
+}
+
 main h2 {
     margin-bottom: 32px;
     font-size: 25px;

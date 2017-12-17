@@ -15,12 +15,15 @@ import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.List;
 
+import static java.time.temporal.ChronoUnit.DAYS;
+
 /**
  * @author Simona Tinkova
  */
 @Service
 @Transactional
 public class ScheduleFacadeImpl implements ScheduleFacade {
+    private static final LocalDate BASE_DATE = LocalDate.of(2017, 1, 1);
 
     @Inject
     private ChannelService channelService;
@@ -54,6 +57,11 @@ public class ScheduleFacadeImpl implements ScheduleFacade {
         schedule = scheduleService.getSchedule(objectMapperService.map(user.getFavouriteChannels(), Channel.class), from, to);
 
         return objectMapperService.map(schedule, ScheduleDTO.class);
+    }
+
+    @Override
+    public long getDay() {
+        return DAYS.between(BASE_DATE, LocalDate.now());
     }
 
     private ScheduleDTO mapStartDate(Schedule schedule, ScheduleDTO scheduleDTO) {
