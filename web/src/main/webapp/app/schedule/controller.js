@@ -10,6 +10,7 @@ telemaniacsApp.controller('ScheduleListController', [
         pageService.useSchedulerLayout();
 
         pageService.getDataAsync('schedule/date/123').then(function (response) {
+            $scope.telemaniacs = telemaniacs;
             $scope.schedules = response['channelSchedules'];
         });
     }
