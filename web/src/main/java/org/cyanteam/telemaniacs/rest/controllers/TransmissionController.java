@@ -19,6 +19,7 @@ import java.util.List;
 
 /**
  * @author Simona Tinkova
+ * @author Tomas Milota
  */
 @RestController
 @RequestMapping(Url.TRANSMISSION)

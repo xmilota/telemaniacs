@@ -1,3 +1,19 @@
+telemaniacsApp.controller('TransmissionDetailsController', [
+    '$scope',
+    '$route',
+    '$routeParams',
+    '$location',
+    'PageService',
+
+    function ($scope, $route, $routeParams, $location, pageService) {
+        pageService.setPageName('Show Details');
+        pageService.getDataAsync('transmission/' + $routeParams.id).then(function (transmission) {
+            $scope.transmission = transmission;
+            console.log($scope.transmission);
+        });
+    }
+]);
+
 telemaniacsApp.controller('TransmissionsCreateController', [
     '$scope',
     '$route',
@@ -8,6 +24,7 @@ telemaniacsApp.controller('TransmissionsCreateController', [
     function ($scope, $route, $routeParams, $location, pageService) {
         pageService.consumeMessages();
         pageService.setPageName('Transmission Administration');
+
 
         $scope.transmissionTypes = [
             { id: 'MOVIE', name: 'Movie' },
