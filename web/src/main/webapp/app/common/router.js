@@ -52,5 +52,15 @@ telemaniacsApp.config(function($routeProvider) {
             templateUrl: 'app/transmission/find.html'
         })
 
+        .when('/user-profile/channels', {
+            controller: 'MyChannelController',
+            templateUrl: 'app/channels/myChannelList.html'
+        })
+
+        .when('/user-profile/shows', {
+            controller: 'MyTransmissionController',
+            templateUrl: 'app/transmission/myTransmissionList.html'
+        })
+
         .otherwise({ redirectTo: '/schedule' });
 });
