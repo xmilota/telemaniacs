@@ -6,8 +6,8 @@ telemaniacsApp.controller('ChannelsListController', [
     'PageService',
 
     function ($scope, $route, $routeParams, $location, pageService) {
-        pageService.setPageName('List of all channels');
-        pageService.useSchedulerLayout();
+        pageService.consumeMessages();
+        pageService.setPageName('Channel Administration');
 
         pageService.getDataAsync('/channel/').then(function (response) {
             $scope.channels = response;
