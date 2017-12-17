@@ -25,6 +25,7 @@ public class Transmission {
     @Column(nullable = false, unique = true)
     private String name;
 
+    @Column(length = 1000)
     private String description;
 
     private int length;
