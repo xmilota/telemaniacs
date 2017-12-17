@@ -29,18 +29,20 @@
                         <thead>
                         <tr>
                             <th>#</th>
-                            <th>Occurrence part name</th>
+                            <th>Part name</th>
                             <th>Channel</th>
                             <th>Start time</th>
+                            <th>Rerun?</th>
 
                         </tr>
                         </thead>
                         <tbody>
-                        <tr ng-repeat="transmission occurrence in transmission occurrences">
+                        <tr ng-repeat="occurrence in transmission.occurrences">
                             <td>{{ $index + 1}}</td>
-                            <td>{{ transmission.partName}}</td>
-                            <td>{{ transmission.channel}}</td>
-                            <td>{{ transmission.startTime}}</td>
+                            <td>{{ occurrence.partName}}</td>
+                            <td>{{ occurrence.channel.name}}</td>
+                            <td>{{ occurrence.startTime}}</td>
+                            <td>{{ occurrence.rerun}}</td>
                         </tr>
                         </tbody>
                     </table>
