@@ -15,7 +15,7 @@ telemaniacsApp.controller('MyChannelController', [
         });
 
         $scope.follow = function (channel) {
-            console.log('Delete');
+            console.log('Follow');
             var errorMessages = {
                 'DataAccessException': 'Channel to follow does not exist!',
                 'otherwise': 'Channel cannot be followed: {msg}'

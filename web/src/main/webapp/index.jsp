@@ -38,6 +38,7 @@
     <script src="app/transmission/controller.js"></script>
     <script src="app/channels/channelsListController.js"></script>
     <script src="app/channels/myChannelController.js"></script>
+    <script src="app/transmission/myTransmissionController.js"></script>
 </body>
 
 </html>
