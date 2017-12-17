@@ -14,6 +14,7 @@ telemaniacsApp.controller('TransmissionOccurrencesCreateController', [
             'name': '',
             'channelType': 'MOVIE',
             'language': 'EN'
+
         };
 
         $scope.transmissionOccurence = {
@@ -21,7 +22,8 @@ telemaniacsApp.controller('TransmissionOccurrencesCreateController', [
             'channel': '',
             'transmission': '',
             'partName': '',
-            'startTime': ''
+            'startTime': '',
+            'isRerun': ''
         };
 
 
