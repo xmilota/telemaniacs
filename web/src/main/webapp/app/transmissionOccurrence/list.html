@@ -2,6 +2,8 @@
     <div class="container">
         <tm-alerts></tm-alerts>
 
+        <h2><span>Occurrences of show {{transmission.name}}</span></h2>
+
         <div class="table-responsive">
             <table class="table">
                 <thead>
@@ -11,20 +13,29 @@
                     <th>Channel</th>
                     <th>Start time</th>
                     <th>Rerun?</th>
-                    <th>Tlacitko 1</th>
-                    <th>Tlacitko 2</th>
+                    <th>Edit occurrence</th>
+                    <th>Delete occurrence</th>
                 </tr>
                 </thead>
                 <tbody>
                 <tr ng-repeat="occurrence in occurrences">
                     <td>{{ $index + 1}}</td>
-                    <td>{{ channel.partName}}</td>
+                    <td>{{ occurrence.partName}}</td>
                     <td>{{ occurrence.channel.name}}</td>
-                    <td>{{ channel.startTime}}</td>
-                    <td>{{ channel.isRerun}}</td>
-                    <td>Tlacitko 1</td>
-                    <td>Tlacitko 2</td>
-
+                    <td>{{ occurrence.startTime}}</td>
+                    <td>{{ occurrence.rerun}}</td>
+                    <td>
+                        <a href="#!/admin/occurrences/edit/{{occurrence.id}}" title="Edit occurrence" style="cursor: pointer;">
+                            <span class="glyphicon glyphicon-edit"></span>
+                        </a>
+                    </td>
+                    <td>
+                            <span class="glyphicon glyphicon-trash"
+                                  style="cursor:pointer; color:red;"
+                                  title="Delete occurrence"
+                                  ng-click="delete(occurrence)"
+                            />
+                    </td>
                 </tr>
                 </tbody>
             </table>
