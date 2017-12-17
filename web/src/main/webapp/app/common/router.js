@@ -5,6 +5,11 @@ telemaniacsApp.config(function($routeProvider) {
             templateUrl: 'app/schedule/list.html'
         })
 
+        .when('/details/:id', {
+            controller: 'TransmissionDetailsController',
+            templateUrl: 'app/transmission/detail.html'
+        })
+
         .when('/admin/channels/create', {
             controller: 'ChannelsCreateController',
             templateUrl: 'app/channels/edit.html'
