@@ -1,14 +1,21 @@
-telemaniacsApp.controller('LoginController', function ($scope, $rootScope, AUTH_EVENTS, AuthService) {
-    $scope.credentials = {
-        email: '',
-        password: ''
-    };
-    $scope.login = function (credentials) {
-        AuthService.login(credentials).then(function (user) {
-            $rootScope.$broadcast(AUTH_EVENTS.loginSuccess);
-            $scope.setCurrentUser(user);
-        }, function () {
-            $rootScope.$broadcast(AUTH_EVENTS.loginFailed);
-        });
-    };
-})
+telemaniacsApp.controller('LoginController', [
+    '$scope',
+    '$rootScope',
+    'AuthService',
+
+    function ($scope, $rootScope, authService) {
+        $scope.userAuthenticate = {
+            email: '',
+            password: ''
+        };
+        $scope.login = function (userAuthenticate) {
+            console.log("LoginController" + userAuthenticate);
+            authService.login(userAuthenticate).then(function (user) {
+                // $rootScope.$broadcast(AUTH_EVENTS.loginSuccess);
+                $scope.setCurrentUser(user);
+            }, function () {
+                // $rootScope.$broadcast(AUTH_EVENTS.loginFailed);
+            });
+        };
+    }
+])

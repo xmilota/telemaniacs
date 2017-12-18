@@ -1,13 +1,13 @@
 <form name="loginForm" ng-controller="LoginController"
-      ng-submit="login(credentials)" novalidate>
+      ng-submit="login(userAuthenticate)" novalidate>
 
-    <label for="username">Username:</label>
-    <input type="text" id="username"
-           ng-model="credentials.username">
+    <label for="email">Email:</label>
+    <input type="text" id="email"
+           ng-model="userAuthenticate.email">
 
     <label for="password">Password:</label>
     <input type="password" id="password"
-           ng-model="credentials.password">
+           ng-model="userAuthenticate.password">
 
     <button type="submit">Login</button>
 

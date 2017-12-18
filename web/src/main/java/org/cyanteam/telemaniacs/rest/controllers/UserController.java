@@ -4,10 +4,8 @@ import java.util.List;
 import javax.inject.Inject;
 import javax.naming.AuthenticationException;
 import javax.validation.Valid;
-import org.cyanteam.telemaniacs.core.dto.ChannelDTO;
-import org.cyanteam.telemaniacs.core.dto.TransmissionDTO;
-import org.cyanteam.telemaniacs.core.dto.UserAuthenticationDTO;
-import org.cyanteam.telemaniacs.core.dto.UserVotingDto;
+
+import org.cyanteam.telemaniacs.core.dto.*;
 import org.cyanteam.telemaniacs.core.facade.UserFacade;
 import org.cyanteam.telemaniacs.core.facade.UserProfileFacade;
 import org.cyanteam.telemaniacs.rest.exceptions.ResourceNotFoundException;
@@ -80,8 +78,13 @@ public class UserController {
         return favoriteTransmissions;
     }
 
-    @RequestMapping(value = "/authenticate", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    public boolean authenticateUser(UserAuthenticationDTO user) {
+    @RequestMapping(value = "/email/{email}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    public UserDTO getUserByEmail(@PathVariable("email") String email) {
+        return userFacade.findByEmail(email);
+    }
+
+    @RequestMapping(value = "/authenticate", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
+    public boolean authenticateUser(@RequestBody @Valid UserAuthenticationDTO user) {
         try {
             return userFacade.authenticate(user);
         } catch (AuthenticationException e) {

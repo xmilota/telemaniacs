@@ -53,6 +53,9 @@ public class DemoDataLoader {
     @Inject
     private TransmissionService transmissionService;
 
+    @Inject
+    private UserService userService;
+
     public void load() {
         createUser("admin", "admin", true);
         createUser("pepa", "novak", false);
@@ -97,6 +100,9 @@ public class DemoDataLoader {
             }
 
         }
+
+        createUser();
+        createAdmin();
     }
 
     private User createUser(String username, String password, boolean isAdmin) {
@@ -153,6 +159,28 @@ public class DemoDataLoader {
 
         transmissionService.addOccurrence(occurrence);
         return occurrence;
+    }
+
+    private User createUser() {
+        User user = new User();
+        user.setUsername("user");
+        user.setEmail("user@mail.com");
+        user.setAge(20);
+        user.setGender(Gender.MALE);
+
+        userService.create(user, "userPass");
+        return user;
+    }
+
+    private User createAdmin() {
+        User admin = new User();
+        admin.setUsername("admin");
+        admin.setEmail("admin@mail.com");
+        admin.setAge(20);
+        admin.setGender(Gender.MALE);
+
+        userService.create(admin, "adminPass");
+        return admin;
     }
 
     private <T> T getRandom(T[] values) {

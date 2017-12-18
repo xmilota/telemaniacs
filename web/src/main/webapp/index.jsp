@@ -32,6 +32,8 @@
     <script src="app/common/router.js"></script>
 
     <script src="app/services/page.js"></script>
+    <script src="app/services/AuthService.js"></script>
+    <script src="app/services/Session.js"></script>
 
     <script src="app/schedule/controller.js"></script>
     <script src="app/channels/controller.js"></script>
@@ -40,6 +42,7 @@
     <script src="app/channels/myChannelController.js"></script>
     <script src="app/transmission/myTransmissionController.js"></script>
     <script src="app/transmissionOccurrence/myOccurrencesController.js"></script>
+    <script src="app/login/controller.js"></script>
 </body>
 
 </html>

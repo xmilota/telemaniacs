@@ -2,13 +2,15 @@ telemaniacsApp.controller('CommonController', [
     '$scope',
     '$timeout',
     'PageService',
+    'AuthService',
 
 
-    function ($scope, $timeout, pageService) {
+    function ($scope, $timeout, pageService, authService) {
         $scope.currentUser = null;
-        $scope.userRoles = USER_ROLES;
-        $scope.isAuthorized = AuthService.isAuthorized;
+        // $scope.userRoles = USER_ROLES;
+        $scope.isAuthorized = authService.isAuthorized;
         $scope.pageService = pageService;
+        $scope.authService = authService;
 
         $scope.$on('$viewContentLoaded', function () {
             $timeout(function () {
