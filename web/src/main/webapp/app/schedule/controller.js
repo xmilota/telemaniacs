@@ -107,10 +107,6 @@ telemaniacsApp.controller('ScheduleListController', [
                             if (currentDate >= startTime && currentDate < endTime && latestStartTime < startTime) {
                                 running[channelSchedule.channelId] = occurrence;
                                 progress[channelSchedule.channelId] = Math.round((currentDate - startTime) / (endTime - startTime) * 100);
-                                console.log(occurrence.startDate);
-                                console.log(occurrence.transmission.length);
-                                console.log(startTime);
-                                console.log(endTime);
                             }
                         }
                     }

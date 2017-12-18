@@ -1,4 +1,4 @@
-telemaniacsApp.controller('TransmissionOccurrencesCreateController', [
+telemaniacsApp.controller('TransmissionOccurrencesListController', [
     '$scope',
     '$route',
     '$routeParams',
@@ -7,34 +7,90 @@ telemaniacsApp.controller('TransmissionOccurrencesCreateController', [
 
     function ($scope, $route, $routeParams, $location, pageService) {
         pageService.consumeMessages();
-        pageService.setPageName('Transmission Occurrence Administration');
+        pageService.setPageName('Occurrence Administration');
 
-        $scope.channel = {
-            'id': null,
-            'name': '',
-            'channelType': 'MOVIE',
-            'language': 'EN'
+        pageService.getDataAsync('/transmission/'+ $routeParams.id).then(function (response) {
+            $scope.transmission = response;
+            $scope.occurrences = response.occurrences;
+            console.log($scope.occurrences);
+        });
 
+        $scope.delete = function (occurrence, transmissionId) {
+            console.log('Delete');
+            console.log(occurrence);
+            var errorMessages = {
+                'DataAccessException': 'Occurrence for deletion does not exist!',
+                'otherwise': 'Occurrence cannot be deleted: {msg}'
+            };
+
+            pageService.sendDataAsync('transmission/occurrence/' + occurrence.id, 'DELETE', null, 'Occurrence was deleted.',
+                'admin/occurrences/' + transmissionId, errorMessages, { 'generation': Date.now() });
         };
 
-        $scope.transmissionOccurence = {
+    }
+]);
+
+
+telemaniacsApp.controller('TransmissionOccurrencesCreateController', [
+    '$scope',
+    '$route',
+    '$routeParams',
+    '$location',
+    '$filter',
+    'PageService',
+
+    function ($scope, $route, $routeParams, $location, $filter, pageService) {
+        pageService.consumeMessages();
+        pageService.setPageName('Occurrence Administration');
+
+        $scope.transmission = {
             'id': null,
-            'channel': '',
-            'transmission': '',
+            'name': '',
+            'description': '',
+            'length': '',
+            'language': 'EN',
+            'transmissionType': 'MOVIE'
+        };
+
+        $scope.transmissionOccurrence = {
+            'id': null,
+            'channelId': 1,
+            'transmissionId': '',
             'partName': '',
-            'startTime': '',
+            'startDate': '',
             'isRerun': ''
         };
 
+        pageService.getDataAsync('channel/').then(function (response) {
+            $scope.channels = response;
+        });
 
         if (pageService.isEditing($route)) {
-            pageService.getDataAsync('transmissionOccurrence/' + $routeParams.id).then(function (transmissionOccurence) {
-                if (transmissionOccurence == null) {
-                    $location.path('admin/transmissionOccurrence/create/');
+            pageService.getDataAsync('transmission/occurrence/' + $routeParams.id).then(function (response) {
+                if (response == null || response === '') {
+                    $location.path('admin/transmissions');
+                    return;
+                }
+                $scope.transmissionOccurrence = response;
+
+                var startDate = new Date(Date.parse(response.startDate));
+                $scope.transmissionOccurrence.startDate = $filter('date')(startDate, 'yyyy-MM-dd HH:mm');
+                $scope.transmissionOccurrence.isRerun = response.rerun;
+
+                pageService.getDataAsync('transmission/' + response.transmissionId).then(function (transmission) {
+                    $scope.transmission = transmission;
+                    $scope.transmissionOccurrence.transmissionId = $scope.transmission.id;
+                });
+            });
+        } else {
+            pageService.getDataAsync('transmission/' + $routeParams.transmissionId).then(function (response) {
+                if (response == null || response === '') {
+                    $location.path('admin/transmissions');
                     return;
                 }
 
-                $scope.transmissionOccurence = transmissionOccurence;
+                $scope.transmission = response;
+                $scope.transmissionOccurrence.transmissionId = $scope.transmission.id;
             });
         }
 
@@ -46,12 +102,17 @@ telemaniacsApp.controller('TransmissionOccurrencesCreateController', [
                 'otherwise': 'Category cannot be created: {msg}'
             };
 
+            var startDate = new Date(Date.parse(transmissionOccurrence.startDate));
+            transmissionOccurrence.startDate = startDate.toISOString();
+
             if (!pageService.isEditing($route)) {
-                pageService.sendDataAsync('transmissionOccurrence/add/', 'POST', transmissionOccurrence, 'Transmission occurrence was added.',
-                    'admin/transmissionOccurrences/', errorMessages);
+                pageService.sendDataAsync('transmission/occurrence/add/', 'POST', transmissionOccurrence, 'Transmission occurrence was added.',
+                    'admin/occurrences/' + transmissionOccurrence.transmissionId, errorMessages);
             } else {
-                pageService.sendDataAsync('transmissionOccurrence/' + transmissionOccurrence.id, 'PUT', transmissionOccurrence,
-                    'Transmission occurrence was updated.', 'admin/transmissionOccurrences/', errorMessages);
+                console.log(transmissionOccurrence);
+
+                pageService.sendDataAsync('transmission/occurrence/' + transmissionOccurrence.id, 'PUT', transmissionOccurrence,
+                    'Transmission occurrence was updated.', 'admin/occurrences/' + transmissionOccurrence.transmissionId, errorMessages);
             }
         };
     }

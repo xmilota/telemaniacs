@@ -49,21 +49,22 @@
                         </ul>
                     </li>
 
-                    <li class="action notification">
+                    <li class="action notification" ng-if="$ctrl.pageService.isLoggedIn()">
                         <a href="#" title="Notifications">
                             <i class="fa fa-bell"></i> <span class="hidden">Notifications</span>
                         </a>
                     </li>
 
                     <li class="action" ng-if="!$ctrl.pageService.isLoggedIn()">
-                        <a class="user" href="#!/login">
-                            Log In
+                        <a href="#!/user-profile/registration">
+                            <i class="fa fa-key"></i>
+                            Registration
                         </a>
                     </li>
 
                     <li class="action" ng-if="!$ctrl.pageService.isLoggedIn()">
-                        <a class="user" href="#!/user-profile/registration">
-                            Registration
+                        <a class="user" href="#!/login">
+                            Log In
                         </a>
                     </li>
 

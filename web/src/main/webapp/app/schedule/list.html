@@ -71,7 +71,7 @@
         <div class="column time-clue"></div>
 
         <div class="column" ng-repeat="schedule in schedules">
-            <div ng-class="{transmission: true, followed: followedTransmissions.indexOf(running[schedule.channelId].transmission.id) > -1}">
+            <div ng-class="{transmission: true, followed: followedTransmissions.indexOf(running[schedule.channelId].transmission.id) > -1}" ng-show="running[schedule.channelId] != null">
                 <div class="heading">
                     <div class="time">Now</div>
 
@@ -85,7 +85,7 @@
                 <h3>
                     <a href="#!/details/{{ running[schedule.channelId].transmission.id }}">
                         {{ running[schedule.channelId].transmission.name }}
-                        <span ng-if="running[schedule.channelId].partName !== null">
+                        <span ng-if="running[schedule.channelId].partName != null && running[schedule.channelId].partName != ''">
                             ({{ running[schedule.channelId].partName }})
                         </span>
                     </a>
@@ -142,7 +142,7 @@
                     <h3>
                         <a href="#!/details/{{ occurrence.transmission.id }}">
                             {{ occurrence.transmission.name }}
-                            <span ng-if="occurrence.partName !== null">
+                            <span ng-if="occurrence.partName !== null && occurrence.partName != ''">
                                 ({{ occurrence.partName }})
                             </span>
                         </a>

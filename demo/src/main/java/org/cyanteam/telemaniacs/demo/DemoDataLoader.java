@@ -75,7 +75,7 @@ public class DemoDataLoader {
         Channel golf = createChannel("Golf Channel", ChannelType.SPORT, "EE");
         Channel[] channels = { hbo, cinestar, cn, minimax, nova, joj, discovery, natgeo, mtv, vh1, eurosport, golf };
 
-        final int transmissionsNumber = channels.length * 2;
+        final int transmissionsNumber = channels.length * 4;
         List<Transmission> transmissions = new ArrayList<>();
         Map<Integer, Integer> partMap = new HashMap<>();
         for (int i = 0; i < transmissionsNumber; i++) {

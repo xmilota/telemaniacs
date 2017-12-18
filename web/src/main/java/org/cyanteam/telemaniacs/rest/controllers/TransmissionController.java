@@ -1,9 +1,6 @@
 package org.cyanteam.telemaniacs.rest.controllers;
 
-import org.cyanteam.telemaniacs.core.dto.TransmissionCreateDTO;
-import org.cyanteam.telemaniacs.core.dto.TransmissionDTO;
-import org.cyanteam.telemaniacs.core.dto.TransmissionOccurrenceDTO;
-import org.cyanteam.telemaniacs.core.dto.VotingDTO;
+import org.cyanteam.telemaniacs.core.dto.*;
 import org.cyanteam.telemaniacs.core.enums.TransmissionType;
 import org.cyanteam.telemaniacs.core.facade.TransmissionFacade;
 import org.cyanteam.telemaniacs.core.facade.UserProfileFacade;
@@ -151,20 +148,24 @@ public class TransmissionController {
 	}
 
 	@RequestMapping(value = "/occurrence/add", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
-	public TransmissionOccurrenceDTO createOccurrence(@RequestBody @Valid TransmissionOccurrenceDTO occurenceDTO,
-	                                               BindingResult bindingResult) {
+	public Long createOccurrence(@RequestBody @Valid TransmissionOccurrenceCreateDTO occurrence,
+													  BindingResult bindingResult) {
 
 		if (bindingResult.hasErrors()) {
 			throw new ValidationException("Invalid ocuurence state.");
 		}
 
-		TransmissionOccurrenceDTO occurrence = transmissionFacade.addOccurrence(occurenceDTO);
-		return occurrence;
+		return transmissionFacade.addOccurrence(occurrence);
 	}
 
-	@RequestMapping(value = "/occurrence/{occurrenceId}", method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE)
-	public TransmissionOccurrenceDTO updateOccurrence(@PathVariable("id") long id,
-	                                @RequestBody @Valid TransmissionOccurrenceDTO occurrenceDTO,
+	@RequestMapping(value = "/occurrence/{id}", method = RequestMethod.GET)
+	public TransmissionOccurrenceCreateDTO getOccurrence(@PathVariable("id") long id) {
+		return transmissionFacade.getOccurrenceById(id);
+	}
+
+	@RequestMapping(value = "/occurrence/{id}", method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE)
+	public void updateOccurrence(@PathVariable("id") long id,
+	                                @RequestBody @Valid TransmissionOccurrenceCreateDTO occurrenceDTO,
 	                                BindingResult bindingResult) {
 
 		if (bindingResult.hasErrors()) {
@@ -173,20 +174,11 @@ public class TransmissionController {
 
 		occurrenceDTO.setId(id);
 		transmissionFacade.updateOccurrence(occurrenceDTO);
-		return occurrenceDTO;
 	}
 
-	@RequestMapping(value = "/occurrence/{occurrenceId}", method = RequestMethod.DELETE, consumes = MediaType.APPLICATION_JSON_VALUE)
-	public TransmissionOccurrenceDTO removeOccurrence(@PathVariable("id") long id,
-	                                                  @RequestBody @Valid TransmissionOccurrenceDTO occurrenceDTO,
-	                                                  BindingResult bindingResult) {
-
-		if (bindingResult.hasErrors()) {
-			throw new ValidationException("Invalid occurrence state.");
-		}
-
-		transmissionFacade.removeOccurrence(occurrenceDTO);
-		return occurrenceDTO;
+	@RequestMapping(value = "/occurrence/{id}", method = RequestMethod.DELETE)
+	public void removeOccurrence(@PathVariable("id") long id) {
+		transmissionFacade.removeOccurrence(id);
 	}
 
 	@RequestMapping(value = "/{id}/votings", method = RequestMethod.GET)
