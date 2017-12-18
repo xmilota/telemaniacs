@@ -39,6 +39,7 @@
     <script src="app/channels/channelsListController.js"></script>
     <script src="app/channels/myChannelController.js"></script>
     <script src="app/transmission/myTransmissionController.js"></script>
+    <script src="app/transmission/upcomingTransmissionsController.js"></script>
     <script src="app/transmissionOccurrence/myOccurrencesController.js"></script>
     <script src="app/user/controller.js"></script>
 </body>

@@ -75,7 +75,7 @@ public class DemoDataLoader {
         Channel golf = createChannel("Golf Channel", ChannelType.SPORT, "EE");
         Channel[] channels = { hbo, cinestar, cn, minimax, nova, joj, discovery, natgeo, mtv, vh1, eurosport, golf };
 
-        final int transmissionsNumber = channels.length * 2;
+        final int transmissionsNumber = channels.length * 4;
         List<Transmission> transmissions = new ArrayList<>();
         Map<Integer, Integer> partMap = new HashMap<>();
         for (int i = 0; i < transmissionsNumber; i++) {
@@ -100,8 +100,12 @@ public class DemoDataLoader {
             }
         }
 
-        createUser("admin", "admin", true);
-        createUser("pepa", "novak", false);
+        User admin = createUser("admin", "admin", true);
+        User user = createUser("pepa", "novak", false);
+        admin.setFavoriteTransmissions(transmissions.subList(0, 10));
+        user.setFavoriteTransmissions(transmissions.subList(10, 20));
+        userService.update(admin);
+        userService.update(user);
     }
 
     private User createUser(String username, String password, boolean isAdmin) {
