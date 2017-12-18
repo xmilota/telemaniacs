@@ -14,9 +14,6 @@ import java.util.Collection;
  * @author Michael Le
  */
 public interface ScheduleService {
-    /**
-     * TODO: JavaDoc and tests
-     */
     Schedule getSchedule(Collection<Channel> channels, LocalDate day);
 
     /**

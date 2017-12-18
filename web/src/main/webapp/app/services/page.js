@@ -4,11 +4,7 @@ telemaniacsApp.factory('PageService', function ($rootScope, $http, $location) {
     var _useSchedulerLayout = false;
     var _restPrefix = 'rest/';
 
-    $rootScope.user = {
-        'id': null,
-        'username': '',
-        'isAdmin': null
-    };
+    $rootScope.user = null;
 
     return {
         getTitle: function () {
@@ -42,7 +38,7 @@ telemaniacsApp.factory('PageService', function ($rootScope, $http, $location) {
             });
         },
 
-        sendDataAsync: function (url, method, data, successMessage, successUrl, errorMessages) {
+        sendDataAsync: function (url, method, data, successMessage, successUrl, errorMessages, qsa) {
             var _this = this;
             return $http({
                 url: _restPrefix + url,
@@ -50,7 +46,11 @@ telemaniacsApp.factory('PageService', function ($rootScope, $http, $location) {
                 data: data
             }).then(function (response) {
                 _this.pushSuccessMessage(successMessage);
-                $location.path(successUrl);
+                if (qsa != null) {
+                    $location.path(successUrl).search(qsa);
+                } else {
+                    $location.path(successUrl);
+                }
             }, function (reason) {
                 var type = reason.data.type;
                 console.log("Failure code: " + type);

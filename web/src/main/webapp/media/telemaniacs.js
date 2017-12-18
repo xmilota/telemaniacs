@@ -79,6 +79,18 @@ var telemaniacs = {
     },
 
     /**
+     * Age availability name
+     */
+    ageAvailabilityName: function(type) {
+        switch (type) {
+            case 'AGE12': return '12+';
+            case 'AGE15': return '15+';
+            case 'AGE18': return '18+';
+            default: return '';
+        }
+    },
+
+    /**
      * Loads scripts
      */
     boot: function () {
