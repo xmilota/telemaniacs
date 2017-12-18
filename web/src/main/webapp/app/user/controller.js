@@ -4,7 +4,8 @@ telemaniacsApp.controller('LoginController', [
     'PageService',
 
     function ($scope, $rootScope, pageService) {
-        pageService.consumeMessages()
+        pageService.consumeMessages();
+        pageService.setPageName('Log In');
 
         $scope.userAuthenticate = {
             email: '',
