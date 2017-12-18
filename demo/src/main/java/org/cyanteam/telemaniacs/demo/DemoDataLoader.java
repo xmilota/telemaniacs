@@ -100,8 +100,12 @@ public class DemoDataLoader {
             }
         }
 
-        createUser("admin", "admin", true);
-        createUser("pepa", "novak", false);
+        User admin = createUser("admin", "admin", true);
+        User user = createUser("pepa", "novak", false);
+        admin.setFavoriteTransmissions(transmissions.subList(0, 10));
+        user.setFavoriteTransmissions(transmissions.subList(10, 20));
+        userService.update(admin);
+        userService.update(user);
     }
 
     private User createUser(String username, String password, boolean isAdmin) {

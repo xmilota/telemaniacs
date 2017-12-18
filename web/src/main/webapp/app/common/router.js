@@ -88,5 +88,10 @@ telemaniacsApp.config(function($routeProvider) {
             templateUrl: 'app/user/registration.html'
         })
 
+        .when('/user-profile/upcomingTransmissions', {
+            controller: 'upcomingTransmissionsController',
+            templateUrl: 'app/transmission/upcomingTransmissions.html'
+        })
+
         .otherwise({ redirectTo: '/schedule' });
 });
