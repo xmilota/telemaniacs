@@ -28,21 +28,23 @@
                     <table class="table">
                         <thead>
                         <tr>
-                            <th>#</th>
                             <th>Part name</th>
                             <th>Channel</th>
                             <th>Start time</th>
-                            <th>Rerun?</th>
+                            <th></th>
 
                         </tr>
                         </thead>
                         <tbody>
                         <tr ng-repeat="occurrence in transmission.occurrences">
-                            <td>{{ $index + 1}}</td>
                             <td>{{ occurrence.partName}}</td>
                             <td>{{ occurrence.channel.name}}</td>
-                            <td>{{ occurrence.startTime}}</td>
-                            <td>{{ occurrence.rerun}}</td>
+                            <td>{{ occurrence.startDate | date: 'MM/dd/yyyy HH:mm'}}</td>
+                            <td>
+                                <span ng-if="occurrence.rerun">
+                                    <i class="fa fa-refresh"></i> Rerun
+                                </span>
+                            </td>
                         </tr>
                         </tbody>
                     </table>

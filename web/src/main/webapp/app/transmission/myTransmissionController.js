@@ -12,7 +12,7 @@ telemaniacsApp.controller('MyTransmissionController', [
         pageService.consumeMessages();
         pageService.setPageName('Followed Shows');
 
-        pageService.getDataAsync('/transmission/').then(function (response) {
+        pageService.getDataAsync('/user/' + pageService.getUser().id + '/transmissions').then(function (response) {
             $scope.transmissions = response;
             console.log($scope.transmissions);
         });
@@ -24,7 +24,7 @@ telemaniacsApp.controller('MyTransmissionController', [
                 'otherwise': 'Transmission cannot be unfollowed: {msg}'
             };
 
-            pageService.sendDataAsync('transmission/1/unfollow/' + transmission.id, 'POST', null, 'Transmission was removed from favourites.',
+            pageService.sendDataAsync('transmission/'  + transmission.id + '/unfollow/' + pageService.getUser().id, 'POST', null, 'Transmission was removed from favourites.',
                 '/user-profile/shows', errorMessages);
         };
     }

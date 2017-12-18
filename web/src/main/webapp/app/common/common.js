@@ -16,7 +16,7 @@ telemaniacsApp.controller('CommonController', [
 telemaniacsApp.component('tmHeader', {
     templateUrl: 'app/common/header.html',
     bindings: {
-        pageName: '<'
+        pageService: '<'
     }
 });
 

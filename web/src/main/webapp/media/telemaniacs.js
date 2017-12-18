@@ -10,6 +10,11 @@ var telemaniacs = {
      * Adjusts containers top padding after resizing
      */
     adjustContent: function() {
+        $('body').attr('id', '');
+        if ($('main').attr('id') === 'schedule') {
+            $('body').attr('id', 'schedule-layout');
+        }
+
         this.resizeSchedule();
         if ($('#schedule-layout').find('main').length !== 0) {
             this.resizeSchedule();
@@ -30,6 +35,9 @@ var telemaniacs = {
         var customHeaderPlaceholder = $('#custom-header-placeholder');
         var customHeaderSize = $(customHeader).attr('data-size');
 
+        $('#page-header-name').removeClass();
+        $('#page-header-custom').removeClass()
+
         customHeaderPlaceholder.html('');
         if (customHeader.length === 1) {
             if (typeof customHeaderSize === typeof undefined || customHeaderSize === null) {
@@ -37,15 +45,13 @@ var telemaniacs = {
             }
 
             $('#page-header-name')
-                .removeClass()
                 .addClass('col-md-' + (12 - customHeaderSize));
 
             $('#page-header-custom')
-                .removeClass()
                 .addClass('col-md-' + customHeaderSize);
 
             customHeaderPlaceholder.html(customHeader.html());
-            customHeader.remove();
+            customHeader.hide();
         }
 
         // Custom Panel
@@ -55,7 +61,7 @@ var telemaniacs = {
         customPanelPlaceholder.html('');
         if (customPanel.length === 1) {
             customPanelPlaceholder.html(customPanel.html());
-            customPanel.remove();
+            customPanel.hide();
         }
     },
 

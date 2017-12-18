@@ -20,21 +20,21 @@
                 <tbody>
                 <tr ng-repeat="occurrence in occurrences">
                     <td>{{ $index + 1}}</td>
-                    <td>{{ occurrence.partName}}</td>
-                    <td>{{ occurrence.channel.name}}</td>
-                    <td>{{ occurrence.startTime}}</td>
-                    <td>{{ occurrence.rerun}}</td>
+                    <td>{{ occurrence.partName }}</td>
+                    <td>{{ occurrence.channel.name }}</td>
+                    <td>{{ occurrence.startDate | date: 'MM/dd/yyyy HH:mm' }}</td>
+                    <td>{{ occurrence.rerun }}</td>
                     <td>
                         <a href="#!/admin/occurrences/edit/{{occurrence.id}}" title="Edit occurrence" style="cursor: pointer;">
                             <span class="glyphicon glyphicon-edit"></span>
                         </a>
                     </td>
                     <td>
-                            <span class="glyphicon glyphicon-trash"
-                                  style="cursor:pointer; color:red;"
-                                  title="Delete occurrence"
-                                  ng-click="delete(occurrence)"
-                            />
+                        <span class="glyphicon glyphicon-trash"
+                              style="cursor:pointer; color:red;"
+                              title="Delete occurrence"
+                              ng-click="delete(occurrence)"
+                        />
                     </td>
                 </tr>
                 </tbody>

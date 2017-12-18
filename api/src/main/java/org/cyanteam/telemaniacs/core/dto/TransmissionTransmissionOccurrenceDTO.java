@@ -13,7 +13,7 @@ public class TransmissionTransmissionOccurrenceDTO {
 
 	private String partName;
 
-	private LocalDateTime startDate;
+	private String startDate;
 
 	private boolean isRerun;
 
@@ -41,11 +41,11 @@ public class TransmissionTransmissionOccurrenceDTO {
 		this.partName = partName;
 	}
 
-	public LocalDateTime getStartDate() {
+	public String getStartDate() {
 		return startDate;
 	}
 
-	public void setStartDate(LocalDateTime startDate) {
+	public void setStartDate(String startDate) {
 		this.startDate = startDate;
 	}
 

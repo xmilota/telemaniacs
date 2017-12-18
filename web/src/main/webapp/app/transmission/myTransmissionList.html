@@ -12,7 +12,7 @@
                     <th>Length</th>
                     <th>Language</th>
                     <th>Transmission type</th>
-                    <th>Remove from favourites</th>
+                    <th></th>
                 </tr>
                 </thead>
                 <tbody>
@@ -24,11 +24,13 @@
                     <td>{{ transmission.language}}</td>
                     <td>{{ transmission.transmissionType}}</td>
                     <td>
-                            <span class="fa fa-star-o" aria-hidden="true"
-                                  style="cursor:pointer; color:yellow;"
-                                  title="Remove from favourite"
-                                  ng-click="unfollow(channel)"
-                            />
+                        <span class="fa fa-star-o" aria-hidden="true"
+                              style="color:gray;"
+                              title="Remove from favourite"
+                              ng-click="unfollow(transmission)"
+                        />
+
+                        <a href="#" ng-click="unfollow(transmission)">Unfollow</a>
                     </td>
 
                 </tr>

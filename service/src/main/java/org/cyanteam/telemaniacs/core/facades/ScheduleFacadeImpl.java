@@ -39,8 +39,7 @@ public class ScheduleFacadeImpl implements ScheduleFacade {
         List<Channel> channels = channelService.findAll();
         Schedule schedule = scheduleService.getSchedule(channels, day);
 
-        ScheduleDTO mapped = objectMapperService.map(schedule, ScheduleDTO.class);
-        return mapStartDate(schedule, mapped);
+        return objectMapperService.map(schedule, ScheduleDTO.class);
     }
 
     @Override
@@ -62,21 +61,5 @@ public class ScheduleFacadeImpl implements ScheduleFacade {
     @Override
     public long getDay() {
         return DAYS.between(BASE_DATE, LocalDate.now());
-    }
-
-    private ScheduleDTO mapStartDate(Schedule schedule, ScheduleDTO scheduleDTO) {
-        List<ScheduleChannelDTO> channelSchedules = scheduleDTO.getChannelSchedules();
-        for (int i = 0; i < channelSchedules.size(); i++) {
-            List<ScheduleTransmissionOccurrenceDTO> occurrences = channelSchedules.get(i).getTransmissionOccurrences();
-            for (int j = 0; j < occurrences.size(); j++) {
-                occurrences.get(j).setStartDate(
-                        schedule.getChannelSchedules().get(i)
-                                .getTransmissionOccurrences().get(j)
-                                .getStartDate()
-                );
-            }
-        }
-
-        return scheduleDTO;
     }
 }
