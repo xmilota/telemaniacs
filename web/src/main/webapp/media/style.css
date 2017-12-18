@@ -121,6 +121,11 @@ body {
     text-decoration: none;
 }
 
+.page-header .links .count {
+    font-size: 2.5rem;
+    color: #ffffff;
+}
+
 .page-header .buttons {
     float: right;
 }

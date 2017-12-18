@@ -9,20 +9,27 @@ import org.cyanteam.telemaniacs.core.enums.ChannelType;
 import org.cyanteam.telemaniacs.core.enums.Gender;
 import org.cyanteam.telemaniacs.core.enums.TransmissionType;
 import org.cyanteam.telemaniacs.core.services.ChannelService;
+import org.cyanteam.telemaniacs.core.services.FavoriteChannelsService;
 import org.cyanteam.telemaniacs.core.services.TransmissionService;
 import org.cyanteam.telemaniacs.core.services.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.inject.Inject;
 import javax.inject.Named;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.*;
 
 @Named
 public class DemoDataLoader {
     private static final Logger logger = LoggerFactory.getLogger(DemoDataLoader.class);
     private static final Random random = new Random();
+    private static final LocalDate baseDate = LocalDate.now();
+    private static final LocalDateTime baseTime
+            = LocalDateTime.of(baseDate, LocalTime.of(0, 0, 0, 0));
 
     private static final String[] adjectives = {
         "Miraculous", "Amazing", "Serious", "Interesting",
@@ -38,7 +45,7 @@ public class DemoDataLoader {
     };
 
     private static final Set<String> usedNames = new HashSet<>();
-    private static final Integer[] lengths = { 15, 30, 60, 120 };
+    private static final Integer[] lengths = { 15, 30, 45, 60 };
     private static final AgeAvailability[] availability = { AgeAvailability.AGE12, AgeAvailability.AGE15, AgeAvailability.AGE18, AgeAvailability.UNRESTRICTED };
     private static final String[] languages = { "CZ", "SK", "EN", "D", "FR" };
     private static final TransmissionType[] types = { TransmissionType.MOVIE, TransmissionType.TV_SERIES, TransmissionType.TV_SHOW, TransmissionType.SPORT_EVENT, TransmissionType.DOCUMENTARY };
@@ -54,9 +61,6 @@ public class DemoDataLoader {
     private TransmissionService transmissionService;
 
     public void load() {
-        createUser("admin", "admin", true);
-        createUser("pepa", "novak", false);
-
         Channel hbo = createChannel("HBO", ChannelType.MOVIE, "EN");
         Channel cinestar = createChannel("Cinestar", ChannelType.MOVIE, "EN");
         Channel cn = createChannel("Cartoon Network", ChannelType.CHILDREN, "CZ");
@@ -80,9 +84,8 @@ public class DemoDataLoader {
         }
 
         for (Channel channel : channels) {
-            LocalDateTime baseTime = LocalDateTime.now();
             int relativeTime = 0;
-            for (int i = 0; i < 50; i++) {
+            for (int i = 0; i < 150; i++) {
                 int index = random.nextInt(transmissions.size());
                 int part = 0;
                 if (index > 0.8 * transmissionsNumber) {
@@ -95,8 +98,10 @@ public class DemoDataLoader {
                 relativeTime += transmission.getLength();
                 partMap.put(index, part + 1);
             }
-
         }
+
+        createUser("admin", "admin", true);
+        createUser("pepa", "novak", false);
     }
 
     private User createUser(String username, String password, boolean isAdmin) {
@@ -149,7 +154,7 @@ public class DemoDataLoader {
         occurrence.setStartDate(start);
         occurrence.setChannel(channel);
         occurrence.setTransmission(transmission);
-        occurrence.setRerun(random.nextInt(2) == 1);
+        occurrence.setRerun(random.nextInt(5) == 1);
 
         transmissionService.addOccurrence(occurrence);
         return occurrence;

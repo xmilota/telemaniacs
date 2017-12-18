@@ -8,7 +8,7 @@ telemaniacsApp.controller('CommonController', [
         $scope.$on('$viewContentLoaded', function () {
             $timeout(function () {
                 telemaniacs.boot();
-            });
+            }, 30);
         });
     }
 ]);

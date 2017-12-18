@@ -2,10 +2,9 @@ package org.cyanteam.telemaniacs.core.facades;
 
 import org.cyanteam.telemaniacs.core.dto.*;
 import org.cyanteam.telemaniacs.core.entities.Channel;
+import org.cyanteam.telemaniacs.core.entities.User;
 import org.cyanteam.telemaniacs.core.facade.ScheduleFacade;
-import org.cyanteam.telemaniacs.core.services.ChannelService;
-import org.cyanteam.telemaniacs.core.services.ObjectMapperService;
-import org.cyanteam.telemaniacs.core.services.ScheduleService;
+import org.cyanteam.telemaniacs.core.services.*;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -29,6 +28,12 @@ public class ScheduleFacadeImpl implements ScheduleFacade {
     private ChannelService channelService;
 
     @Inject
+    private UserService userService;
+
+    @Inject
+    private FavoriteChannelsService favoriteChannelsService;
+
+    @Inject
     private ScheduleService scheduleService;
 
     @Inject
@@ -37,6 +42,15 @@ public class ScheduleFacadeImpl implements ScheduleFacade {
     @Override
     public ScheduleDTO getSchedule(LocalDate day) {
         List<Channel> channels = channelService.findAll();
+        Schedule schedule = scheduleService.getSchedule(channels, day);
+
+        return objectMapperService.map(schedule, ScheduleDTO.class);
+    }
+
+    @Override
+    public ScheduleDTO getSchedule(Long userId, LocalDate day) {
+        User user = userService.findById(userId);
+        List<Channel> channels = favoriteChannelsService.getFavoriteChannels(user);
         Schedule schedule = scheduleService.getSchedule(channels, day);
 
         return objectMapperService.map(schedule, ScheduleDTO.class);

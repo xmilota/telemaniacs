@@ -14,6 +14,8 @@ import java.util.Collection;
 public interface ScheduleFacade {
     ScheduleDTO getSchedule(LocalDate day);
 
+    ScheduleDTO getSchedule(Long userId, LocalDate day);
+
     ScheduleDTO getSchedule(Collection<ChannelDTO> channels, LocalDateTime start, LocalDateTime end);
 
     ScheduleDTO getUserSchedule(UserDTO user, LocalDateTime from, LocalDateTime to);
