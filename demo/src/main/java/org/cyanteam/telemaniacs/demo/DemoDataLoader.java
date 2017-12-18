@@ -53,9 +53,6 @@ public class DemoDataLoader {
     @Inject
     private TransmissionService transmissionService;
 
-    @Inject
-    private UserService userService;
-
     public void load() {
         createUser("admin", "admin", true);
         createUser("pepa", "novak", false);
@@ -101,8 +98,8 @@ public class DemoDataLoader {
 
         }
 
-        createUser();
-        createAdmin();
+//        createUser();
+//        createAdmin();
     }
 
     private User createUser(String username, String password, boolean isAdmin) {

@@ -10,12 +10,14 @@ telemaniacsApp.controller('LoginController', [
         };
         $scope.login = function (userAuthenticate) {
             console.log("LoginController" + userAuthenticate);
-            authService.login(userAuthenticate).then(function (user) {
-                // $rootScope.$broadcast(AUTH_EVENTS.loginSuccess);
-                $scope.setCurrentUser(user);
-            }, function () {
-                // $rootScope.$broadcast(AUTH_EVENTS.loginFailed);
-            });
+            authService.login(userAuthenticate);
+            //     .then(function (user) {
+            //     // $rootScope.$broadcast(AUTH_EVENTS.loginSuccess);
+            //     console.log("setting current user: " + user)
+            //     $scope.setCurrentUser(user);
+            // }, function () {
+            //     // $rootScope.$broadcast(AUTH_EVENTS.loginFailed);
+            // });
         };
     }
 ])

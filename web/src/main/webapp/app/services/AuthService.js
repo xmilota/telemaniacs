@@ -1,4 +1,4 @@
-telemaniacsApp.factory('AuthService', function ($rootScope, $http, $location, Session) {
+telemaniacsApp.factory('AuthService', function ($rootScope, $http, $location, PageService) {
     var authService = {};
     var _userRestPrefix = 'rest/user'
 
@@ -10,10 +10,14 @@ telemaniacsApp.factory('AuthService', function ($rootScope, $http, $location, Se
             method: 'POST',
             data: userAuthenticate
         }).then(function (response) {
-            console.log('authenticated user!!!');
-            return $http.get('/rest/user/email/' + userAuthenticate.email).then(function (response) {
-                return response.data.user;
-            });
+            console.log('user authenticated ' + userAuthenticate.email);
+            var user = PageService.getDataAsync('user/email/' + userAuthenticate.email);
+            // var user = $http.get(_userRestPrefix + '/email/' + userAuthenticate.email).then(function (response) {
+            //     return response.data;
+            // });
+            console.log(user.id);
+            PageService.setUser(user);
+
         }, function (reason) {
             console.log(reason);
         })

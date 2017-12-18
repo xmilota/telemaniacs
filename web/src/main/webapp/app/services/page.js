@@ -3,6 +3,11 @@ telemaniacsApp.factory('PageService', function($rootScope, $http, $location) {
     var _pageName = '';
     var _useSchedulerLayout = false;
     var _restPrefix = 'rest/';
+    $rootScope.user = {
+        'id': null,
+        'username': '',
+        'isAdmin': null
+    };
 
     return {
         getTitle: function () {
@@ -30,8 +35,10 @@ telemaniacsApp.factory('PageService', function($rootScope, $http, $location) {
 
         getDataAsync: function (url) {
             return $http.get(_restPrefix + url).then(function (response) {
+                console.log("user by email successfully");
                 return response.data;
-            }, function () {
+            }, function (reason) {
+                console.log(reason);
                 return null;
             });
         },
@@ -86,13 +93,14 @@ telemaniacsApp.factory('PageService', function($rootScope, $http, $location) {
         },
 
         getUser: function () {
-            return {
-                'id': 1,
-                'username': 'admin',
-                'isAdmin': true
-            };
+            return $rootScope.user;
         },
-        
+
+        setUser: function (user) {
+            console.log('setting logged user '+ user.username);
+            $rootScope.user = user;
+        },
+
         isLoggedIn: function () {
             return typeof this.getUser() !== typeof undefined && this.getUser() !== null;
         },

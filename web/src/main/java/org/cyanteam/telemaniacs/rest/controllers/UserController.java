@@ -3,6 +3,7 @@ package org.cyanteam.telemaniacs.rest.controllers;
 import java.util.List;
 import javax.inject.Inject;
 import javax.naming.AuthenticationException;
+import javax.persistence.NoResultException;
 import javax.validation.Valid;
 
 import org.cyanteam.telemaniacs.core.dto.*;
@@ -78,16 +79,17 @@ public class UserController {
         return favoriteTransmissions;
     }
 
-    @RequestMapping(value = "/email/{email}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(value = "/email/{email}/", method = RequestMethod.GET)
     public UserDTO getUserByEmail(@PathVariable("email") String email) {
-        return userFacade.findByEmail(email);
+        UserDTO user = userFacade.findByEmail(email);
+        return user;
     }
 
     @RequestMapping(value = "/authenticate", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
     public boolean authenticateUser(@RequestBody @Valid UserAuthenticationDTO user) {
         try {
             return userFacade.authenticate(user);
-        } catch (AuthenticationException e) {
+        } catch (AuthenticationException | NoResultException e) {
             throw new ResourceNotFoundException("User with email");
         }
     }
