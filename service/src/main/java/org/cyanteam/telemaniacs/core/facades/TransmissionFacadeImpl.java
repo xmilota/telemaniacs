@@ -1,14 +1,12 @@
 package org.cyanteam.telemaniacs.core.facades;
 
-import org.cyanteam.telemaniacs.core.dto.TransmissionCreateDTO;
-import org.cyanteam.telemaniacs.core.dto.TransmissionDTO;
-import org.cyanteam.telemaniacs.core.dto.TransmissionOccurrenceDTO;
-import org.cyanteam.telemaniacs.core.dto.VotingDTO;
+import org.cyanteam.telemaniacs.core.dto.*;
 import org.cyanteam.telemaniacs.core.entities.Transmission;
 import org.cyanteam.telemaniacs.core.entities.TransmissionOccurrence;
 import org.cyanteam.telemaniacs.core.entities.Voting;
 import org.cyanteam.telemaniacs.core.enums.TransmissionType;
 import org.cyanteam.telemaniacs.core.facade.TransmissionFacade;
+import org.cyanteam.telemaniacs.core.services.ChannelService;
 import org.cyanteam.telemaniacs.core.services.ObjectMapperService;
 import org.cyanteam.telemaniacs.core.services.TransmissionService;
 import org.springframework.stereotype.Service;
@@ -16,6 +14,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.inject.Inject;
 import javax.validation.ConstraintViolationException;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 /**
@@ -26,6 +26,9 @@ import java.util.List;
 public class TransmissionFacadeImpl implements TransmissionFacade {
     @Inject
     private TransmissionService transmissionService;
+
+    @Inject
+    private ChannelService channelService;
 
     @Inject
     private ObjectMapperService objectMapperService;
@@ -96,28 +99,28 @@ public class TransmissionFacadeImpl implements TransmissionFacade {
     }
 
     @Override
-    public TransmissionOccurrenceDTO addOccurrence(TransmissionOccurrenceDTO occurrenceDTO) {
-        TransmissionOccurrence occurence = prepareTransmissionOccurence(occurrenceDTO);
+    public Long addOccurrence(TransmissionOccurrenceCreateDTO occurrenceDTO) {
+        TransmissionOccurrence occurrence = prepareTransmissionOccurenceCreate(occurrenceDTO);
+        occurrence.setChannel(channelService.findById(occurrenceDTO.getChannelId()));
+        occurrence.setTransmission(transmissionService.findById(occurrenceDTO.getTransmissionId()));
 
-        transmissionService.addOccurrence(occurence);
-        occurrenceDTO.setId(occurence.getId());
-        return occurrenceDTO;
+        transmissionService.addOccurrence(occurrence);
+        return occurrence.getId();
     }
 
     @Override
-    public TransmissionOccurrenceDTO updateOccurrence(TransmissionOccurrenceDTO occurrenceDTO) {
-        TransmissionOccurrence occurence = prepareTransmissionOccurence(occurrenceDTO);
+    public void updateOccurrence(TransmissionOccurrenceCreateDTO occurrenceDTO) {
+        TransmissionOccurrence occurrence = prepareTransmissionOccurenceCreate(occurrenceDTO);
+        occurrence.setChannel(channelService.findById(occurrenceDTO.getChannelId()));
+        occurrence.setTransmission(transmissionService.findById(occurrenceDTO.getTransmissionId()));
 
-        transmissionService.updateOccurrence(occurence);
-        return occurrenceDTO;
+        transmissionService.updateOccurrence(occurrence);
     }
 
     @Override
-    public TransmissionOccurrenceDTO removeOccurrence(TransmissionOccurrenceDTO occurrenceDTO) {
-        TransmissionOccurrence occurence = prepareTransmissionOccurence(occurrenceDTO);
-
-        transmissionService.removeOccurrence(occurence);
-        return occurrenceDTO;
+    public void removeOccurrence(Long occurrenceId) {
+        TransmissionOccurrence occurrence = transmissionService.getOccurranceById(occurrenceId);
+        transmissionService.removeOccurrence(occurrence);
     }
 
     @Override
@@ -128,7 +131,6 @@ public class TransmissionFacadeImpl implements TransmissionFacade {
         Transmission transmission = prepareTransmission(transmissionDTO);
 
         List<TransmissionOccurrence> occurences = transmissionService.getOccurrences(transmission);
-
         return objectMapperService.map(occurences, TransmissionOccurrenceDTO.class);
 
     }
@@ -141,7 +143,6 @@ public class TransmissionFacadeImpl implements TransmissionFacade {
         Transmission transmission = prepareTransmission(transmissionDTO);
 
         List<TransmissionOccurrence> occurences = transmissionService.getUpcomingOccurrences(transmission);
-
         return objectMapperService.map(occurences, TransmissionOccurrenceDTO.class);
     }
 
@@ -170,14 +171,16 @@ public class TransmissionFacadeImpl implements TransmissionFacade {
     }
 
     @Override
-    public TransmissionOccurrenceDTO getOccurranceById(Long id) throws IllegalArgumentException {
+    public TransmissionOccurrenceCreateDTO getOccurrenceById(Long id) throws IllegalArgumentException {
         if (id == null) {
             throw new IllegalArgumentException("Id of occurrance cannot be null!");
         }
 
         TransmissionOccurrence occurence = transmissionService.getOccurranceById(id);
-
-        return objectMapperService.map(occurence, TransmissionOccurrenceDTO.class);
+        TransmissionOccurrenceCreateDTO occurrenceDTO = objectMapperService.map(occurence, TransmissionOccurrenceCreateDTO.class);
+        occurrenceDTO.setChannelId(occurence.getChannel().getId());
+        occurrenceDTO.setTransmissionId(occurence.getTransmission().getId());
+        return occurrenceDTO;
     }
 
     private Transmission prepareTransmission(TransmissionDTO transmissionDTO) {
@@ -194,5 +197,19 @@ public class TransmissionFacadeImpl implements TransmissionFacade {
         }
 
         return objectMapperService.map(occurenceDTO, TransmissionOccurrence.class);
+    }
+
+    private TransmissionOccurrence prepareTransmissionOccurenceCreate(TransmissionOccurrenceCreateDTO occurenceDTO) {
+        if (occurenceDTO == null) {
+            throw new IllegalArgumentException("TransmissionOccurenceCreateDTO cannot be null!");
+        }
+
+        TransmissionOccurrence occurrence = objectMapperService.map(occurenceDTO, TransmissionOccurrence.class);
+        if (occurenceDTO.getStartDate() != null) {
+            LocalDateTime dateTime = LocalDateTime.from(DateTimeFormatter.ISO_DATE_TIME.parse(occurenceDTO.getStartDate()));
+            occurrence.setStartDate(dateTime);
+        }
+
+        return occurrence;
     }
 }

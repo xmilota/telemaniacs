@@ -47,6 +47,11 @@ telemaniacsApp.config(function($routeProvider) {
             templateUrl: 'app/transmissionOccurrence/list.html'
         })
 
+        .when('/admin/occurrences/create/:transmissionId', {
+            controller: 'TransmissionOccurrencesCreateController',
+            templateUrl: 'app/transmissionOccurrence/edit.html'
+        })
+
         .when('/admin/occurrences/edit/:id', {
             controller: 'TransmissionOccurrencesCreateController',
             templateUrl: 'app/transmissionOccurrence/edit.html',

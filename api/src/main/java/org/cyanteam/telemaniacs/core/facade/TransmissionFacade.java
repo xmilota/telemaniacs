@@ -1,9 +1,6 @@
 package org.cyanteam.telemaniacs.core.facade;
 
-import org.cyanteam.telemaniacs.core.dto.TransmissionCreateDTO;
-import org.cyanteam.telemaniacs.core.dto.TransmissionDTO;
-import org.cyanteam.telemaniacs.core.dto.TransmissionOccurrenceDTO;
-import org.cyanteam.telemaniacs.core.dto.VotingDTO;
+import org.cyanteam.telemaniacs.core.dto.*;
 import org.cyanteam.telemaniacs.core.enums.TransmissionType;
 
 import javax.validation.ConstraintViolationException;
@@ -78,21 +75,21 @@ public interface TransmissionFacade {
      *
      * @param occurrenceDTO Transmission occurrence
      */
-    TransmissionOccurrenceDTO addOccurrence(TransmissionOccurrenceDTO occurrenceDTO);
+    Long addOccurrence(TransmissionOccurrenceCreateDTO occurrenceDTO);
 
     /**
      * Updates transmission occurrence
      *
      * @param occurrenceDTO Transmission occurrence
      */
-    TransmissionOccurrenceDTO updateOccurrence(TransmissionOccurrenceDTO occurrenceDTO);
+    void updateOccurrence(TransmissionOccurrenceCreateDTO occurrenceDTO);
 
     /**
      * Removes transmission occurrence
      *
-     * @param occurrenceDTO Transmission occurrence
+     * @param occurrenceId Transmission occurrence
      */
-    TransmissionOccurrenceDTO removeOccurrence(TransmissionOccurrenceDTO occurrenceDTO);
+    void removeOccurrence(Long occurrenceId);
 
     /**
      * Get all occurrences of a transmission
@@ -126,5 +123,5 @@ public interface TransmissionFacade {
      */
     Double getAverageVoting(TransmissionDTO transmissionDTO);
 
-    TransmissionOccurrenceDTO getOccurranceById(Long id)throws IllegalArgumentException;
+    TransmissionOccurrenceCreateDTO getOccurrenceById(Long id) throws IllegalArgumentException;
 }

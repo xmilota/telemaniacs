@@ -36,11 +36,11 @@
     <script src="app/schedule/controller.js"></script>
     <script src="app/channels/controller.js"></script>
     <script src="app/transmission/controller.js"></script>
+    <script src="app/transmissionOccurrence/controller.js"></script>
     <script src="app/channels/channelsListController.js"></script>
     <script src="app/channels/myChannelController.js"></script>
     <script src="app/transmission/myTransmissionController.js"></script>
     <script src="app/transmission/upcomingTransmissionsController.js"></script>
-    <script src="app/transmissionOccurrence/myOccurrencesController.js"></script>
     <script src="app/user/controller.js"></script>
 </body>
 
