@@ -30,7 +30,7 @@
                         </a>
                     </li>
 
-                    <li class="action dropdown">
+                    <li class="action dropdown" ng-if="$ctrl.pageService.isAdministrator()">
                         <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
                             <i class="fa fa-unlock-alt"></i> Manage <span class="caret"></span>
                         </a>
@@ -55,9 +55,15 @@
                         </a>
                     </li>
 
-                    <li class="dropdown">
+                    <li class="action" ng-if="!$ctrl.pageService.isLoggedIn()">
+                        <a class="user" href="#!/login">
+                            Log In
+                        </a>
+                    </li>
+
+                    <li class="dropdown" ng-if="$ctrl.pageService.isLoggedIn()">
                         <a class="user dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
-                            John Doe <span class="caret"></span>
+                            {{ $ctrl.pageService.getUser().username }} <span class="caret"></span>
                         </a>
 
                         <ul class="dropdown-menu">
@@ -89,7 +95,7 @@
         <div class="container">
             <div class="row">
                 <div id="page-header-name">
-                    <h2>{{ $ctrl.pageName }}</h2>
+                    <h2>{{ $ctrl.pageService.getPageName() }}</h2>
                 </div>
 
                 <div id="page-header-custom">

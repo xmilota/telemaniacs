@@ -83,6 +83,22 @@ telemaniacsApp.factory('PageService', function($rootScope, $http, $location) {
 
             $rootScope.error = $rootScope.errorQueue;
             $rootScope.errorQueue = null;
+        },
+
+        getUser: function () {
+            return {
+                'id': 1,
+                'username': 'admin',
+                'isAdmin': true
+            };
+        },
+        
+        isLoggedIn: function () {
+            return typeof this.getUser() !== typeof undefined && this.getUser() !== null;
+        },
+
+        isAdministrator: function () {
+            return this.isLoggedIn() && this.getUser().isAdmin;
         }
     };
 });

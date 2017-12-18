@@ -296,6 +296,14 @@ main .btn.btn-primary:hover {
             color: #ffe57f;
         }
 
+        #schedule-layout main .transmission .heading .options a.unfollow {
+            color: #707070;
+        }
+
+        #schedule-layout main .transmission .heading .options a.unfollow:hover {
+            color: #ababab;
+        }
+
     #schedule-layout main .transmission h3 {
         margin: 8px 0 5px 0;
         font-size: 18px;
@@ -355,6 +363,11 @@ main .btn.btn-primary:hover {
     #schedule-layout main .group.channels .channel a.follow {
         float: right;
         color: #b71c1c;
+    }
+
+    #schedule-layout main .group.channels .channel a.unfollow {
+        float: right;
+        color: gray;
     }
 
 #schedule-layout main .group.now {

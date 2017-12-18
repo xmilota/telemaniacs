@@ -22,7 +22,7 @@ telemaniacsApp.controller('TransmissionOccurrencesListController', [
                 'otherwise': 'Occurrence cannot be deleted: {msg}'
             };
 
-            pageService.sendDataAsync('occurrence/' + occurrence.id, 'DELETE', occurrence, 'Occurrence was deleted.',
+            pageService.sendDataAsync('transmission/occurrence/' + occurrence.id, 'DELETE', occurrence, 'Occurrence was deleted.',
                 'admin/occurrences/', errorMessages);
         };
 

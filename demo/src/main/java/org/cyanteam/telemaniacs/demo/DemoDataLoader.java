@@ -3,11 +3,14 @@ package org.cyanteam.telemaniacs.demo;
 import org.cyanteam.telemaniacs.core.entities.Channel;
 import org.cyanteam.telemaniacs.core.entities.Transmission;
 import org.cyanteam.telemaniacs.core.entities.TransmissionOccurrence;
+import org.cyanteam.telemaniacs.core.entities.User;
 import org.cyanteam.telemaniacs.core.enums.AgeAvailability;
 import org.cyanteam.telemaniacs.core.enums.ChannelType;
+import org.cyanteam.telemaniacs.core.enums.Gender;
 import org.cyanteam.telemaniacs.core.enums.TransmissionType;
 import org.cyanteam.telemaniacs.core.services.ChannelService;
 import org.cyanteam.telemaniacs.core.services.TransmissionService;
+import org.cyanteam.telemaniacs.core.services.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -42,12 +45,18 @@ public class DemoDataLoader {
     private static int counter = 1;
 
     @Inject
+    private UserService userService;
+
+    @Inject
     private ChannelService channelService;
 
     @Inject
     private TransmissionService transmissionService;
 
     public void load() {
+        createUser("admin", "admin", true);
+        createUser("pepa", "novak", false);
+
         Channel hbo = createChannel("HBO", ChannelType.MOVIE, "EN");
         Channel cinestar = createChannel("Cinestar", ChannelType.MOVIE, "EN");
         Channel cn = createChannel("Cartoon Network", ChannelType.CHILDREN, "CZ");
@@ -88,6 +97,20 @@ public class DemoDataLoader {
             }
 
         }
+    }
+
+    private User createUser(String username, String password, boolean isAdmin) {
+        User user = new User();
+        user.setUsername(username);
+        user.setGender(Gender.MALE);
+        user.setAge(30);
+        user.setEmail(username + "@telemaniacs.com");
+        if (isAdmin) {
+            user.setAdminRights();
+        }
+
+        userService.create(user, password);
+        return user;
     }
 
     private Channel createChannel(String name, ChannelType channelType, String language) {

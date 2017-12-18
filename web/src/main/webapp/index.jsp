@@ -15,8 +15,8 @@
 </head>
 
 
-<body ng-attr-id="{{ pageService.isSchedulerLayoutUsed() ? 'schedule-layout' : '' }}">
-    <tm-header page-name="pageService.getPageName()"></tm-header>
+<body>
+    <tm-header page-service="pageService"></tm-header>
     <ng-view></ng-view>
 
 
