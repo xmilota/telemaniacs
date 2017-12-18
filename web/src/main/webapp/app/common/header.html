@@ -49,8 +49,8 @@
                         </ul>
                     </li>
 
-                    <li class="action notification">
-                        <a href="#" title="Notifications">
+                    <li class="action notification" ng-if="$ctrl.pageService.isLoggedIn()">
+                        <a href="#!/user-profile/upcomingTransmissions" title="Notifications">
                             <i class="fa fa-bell"></i> <span class="hidden">Notifications</span>
                         </a>
                     </li>

@@ -2,6 +2,7 @@ package org.cyanteam.telemaniacs.core.services;
 
 import org.cyanteam.telemaniacs.core.dao.UserDao;
 import org.cyanteam.telemaniacs.core.entities.Transmission;
+import org.cyanteam.telemaniacs.core.entities.TransmissionOccurrence;
 import org.cyanteam.telemaniacs.core.entities.User;
 import org.springframework.stereotype.Service;
 
@@ -80,10 +81,20 @@ public class FavoriteTransmissionsServiceImpl implements FavoriteTransmissionsSe
             return new ArrayList<>();
         }
 
-        return user.getFavoriteTransmissions().stream()
-                .filter(p -> p.getOccurrences().stream()
-                        .anyMatch(o ->
-                                Duration.between(LocalDateTime.now(), o.getStartDate()).getSeconds() <= maxTimeSpan.getSeconds()))
-                .collect(Collectors.toList());
+        List<Transmission> transmissions = user.getFavoriteTransmissions();
+        transmissions.stream()
+            .forEach(t -> t.setOccurrences(filterByTimeSpan(t.getOccurrences(), maxTimeSpan)));
+        return transmissions.stream()
+            .filter(t -> !t.getOccurrences().isEmpty())
+            .sorted((t1, t2) -> t1.getOccurrences().get(0).getStartDate().compareTo(t2.getOccurrences().get(0).getStartDate()))
+            .collect(Collectors.toList());
+    }
+
+    private List<TransmissionOccurrence> filterByTimeSpan(List<TransmissionOccurrence> src, Duration maxTimeSpan) {
+        LocalDateTime now = LocalDateTime.now();
+        return src.stream()
+            .filter(o -> o.getStartDate().isAfter(now) && o.getStartDate().isBefore(now.plus(maxTimeSpan)))
+            .sorted((o1, o2) -> o1.getStartDate().compareTo(o2.getStartDate()))
+            .collect(Collectors.toList());
     }
 }
