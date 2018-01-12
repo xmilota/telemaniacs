@@ -98,6 +98,7 @@ telemaniacsApp.controller('TransmissionsListController', [
         pageService.setPageName('Transmission Administration');
 
         pageService.getDataAsync('transmission').then(function (transmissions) {
+            $scope.telemaniacs = telemaniacs;
             $scope.transmissions = transmissions;
         });
 

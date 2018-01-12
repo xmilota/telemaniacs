@@ -10,6 +10,7 @@ telemaniacsApp.controller('ChannelsListController', [
         pageService.setPageName('Channel Administration');
 
         pageService.getDataAsync('/channel/').then(function (response) {
+            $scope.telemaniacs = telemaniacs;
             $scope.channels = response;
             console.log($scope.channels);
         });

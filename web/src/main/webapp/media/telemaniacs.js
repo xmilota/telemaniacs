@@ -99,6 +99,20 @@ var telemaniacs = {
     },
 
     /**
+     * Channel type name
+     */
+    channelTypeName: function(type) {
+        switch (type) {
+            case 'MOVIE': return 'Movie';
+            case 'DOCUMENTARY': return 'Documentary';
+            case 'COMMERCE': return 'Commerce';
+            case 'SPORT': return 'Sport';
+            case 'CHILDREN': return 'Children';
+            case 'MUSIC': return 'Music';
+        }
+    },
+
+    /**
      * Loads scripts
      */
     boot: function () {
